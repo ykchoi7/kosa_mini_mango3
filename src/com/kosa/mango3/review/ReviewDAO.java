@@ -8,14 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kosa.mango3.customer.CustomerDTO;
+import com.kosa.mango3.db.MySql;
 import com.kosa.mango3.store.StoreDTO;
 
-public class ReviewDAO implements ReviewInterface {
+import lombok.AllArgsConstructor;
 
-	private String url = "jdbc:mysql://localhost:3306/mango3?serverTimezone=UTC";
-	private String user = "root";
-	private String pwd = "root";
+@AllArgsConstructor
+public class ReviewDAO implements ReviewInterface {
+//	private Oracle db;
+	private MySql db;
 	
 	@Override
 	public List<ReviewDTO> selectByStore(Long storeId) {
@@ -40,42 +41,30 @@ public class ReviewDAO implements ReviewInterface {
 		Connection conn = null;
 		
 		try {
-			conn = DriverManager.getConnection(url, user, pwd);
+			conn = DriverManager.getConnection(db.getUrl(), db.getUser(), db.getPwd());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		String deleteMyReview = "DELETE Review WHERE review_id = ?";
+		PreparedStatement pstmt = null;		
+		String deleteMyReview = "DELETE review WHERE review_id = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(deleteMyReview);
 			pstmt.setLong(1, reviewId);
-			rs = pstmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-				}
-			}
-
 			if (pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 		}
 	}
@@ -87,7 +76,7 @@ public class ReviewDAO implements ReviewInterface {
 		Connection conn = null;
 		
 		try {
-			conn = DriverManager.getConnection(url, user, pwd);
+			conn = DriverManager.getConnection(db.getUrl(), db.getUser(), db.getPwd());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -95,33 +84,30 @@ public class ReviewDAO implements ReviewInterface {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String selectMyReview = "SELECT * s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate), r.review_id"
-				+ "FROM store s JOIN review r ON s.store_id = r.store_id"
-				+ "WHERE s.store_id IN "
-				+ "(SELECT store_id"
-				+ "FROM review"
-				+ "WHERE login_id = ?";
+		String selectMyReview = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate"
+							  + "FROM review r JOIN store s ON r.store_id = s.store_id"
+							  + "WHERE login_id = ?";
+		
+		String mySqlTest = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at\r\n"
+						 + "FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+						 + "WHERE r.login_id = ?";
 		
 		try {
-			pstmt = conn.prepareStatement(selectMyReview);
+			pstmt = conn.prepareStatement(mySqlTest);
 			pstmt.setString(1, loginId);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				CustomerDTO c = CustomerDTO.builder()
-							.loginId(rs.getString("loginId"))
-							.build();
-				
+	
 				StoreDTO s = StoreDTO.builder()			
-							.storeName(rs.getString("storeName"))
+							.storeName(rs.getString("store_name"))
 							.build();
 				
 				ReviewDTO r = ReviewDTO.builder()
-						.reviewId(rs.getLong("reviewId"))
+						.reviewId(rs.getLong("review_id"))
 						.grade(rs.getInt("grade"))
-						.comment(rs.getString("comment"))
-						.regdate(rs.getString("regdate"))
-						.customerDTO(c)
+						.comment(rs.getString("rw_content"))
+						.regdate(rs.getString("created_at"))
 						.storeDTO(s)
 						.build();
 

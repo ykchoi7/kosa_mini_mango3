@@ -7,7 +7,14 @@ public class start {
 		Mango3Config m3c = new Mango3Config();
 		m3c.dbConnect();
 
-		Mango3 m3 = new Mango3(m3c.customerDAO(), m3c.storeDAO(), m3c.reviewDAO(), m3c.scanner());
+		Mango3 m3 = new Mango3(
+				m3c.customerDAO(), 
+				m3c.storeDAO(), 
+				m3c.reviewDAO(), 
+				m3c.myReviewService(), 
+				m3c.adminStoreService()
+		);
+		
 		m3.start();
 	}
 }

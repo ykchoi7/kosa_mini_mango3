@@ -4,8 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Mysql implements DBManager {
+import lombok.Getter;
 
+@Getter
+public class MySql implements DBManager {
+	private final String url = "jdbc:mysql://localhost:3306/mango3?serverTimezone=UTC";
+	private final String user = "root";
+	private final String pwd = "root";
+	
 	@Override
 	public void DBConnect() {
 		
@@ -18,12 +24,9 @@ public class Mysql implements DBManager {
 		}
 
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306/mango3?serverTimezone=UTC";
-		String user = "root";
-		String password = "root";
 		
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(url, user, pwd);
 			System.out.println("Mysql DB 연결 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();

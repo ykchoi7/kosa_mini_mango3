@@ -3,7 +3,6 @@ package com.kosa.mango3.store;
 import java.util.List;
 
 public interface StoreInterface {
-
 	/**
 	 * 지역별 맛집 조회
 	 */

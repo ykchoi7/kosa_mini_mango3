@@ -5,13 +5,12 @@ import java.util.List;
 import com.kosa.mango3.review.ReviewDAO;
 import com.kosa.mango3.review.ReviewInterface;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class StoreDAO implements StoreInterface {
 	private ReviewInterface rd;
-	
-	public StoreDAO(ReviewInterface rd) {
-		this.rd = (ReviewDAO) rd;
-	}
-	
+		
 	@Override
 	public List<StoreDTO> findByName(String storeName) {
 		// TODO Auto-generated method stub
@@ -35,5 +34,4 @@ public class StoreDAO implements StoreInterface {
 		// TODO Auto-generated method stub
 		rd.create();
 	}
-
 }
