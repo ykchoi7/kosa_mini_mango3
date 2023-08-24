@@ -7,27 +7,26 @@ import java.sql.SQLException;
 public class Oracle implements DBManager {
 	
 	@Override
-	public void DBConnect() {
+	public Connection DBConnect() {
 		
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 			System.out.println("JDBC Oracle 드라이버 로드성공");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			return;
 		}
 		
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "hr";
-		String password = "hr";
+		String user = "mango3";
+		String password = "mango3";
 		
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			System.out.println("Oracle DB 연결 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return;
 		}
+		return conn;
 	}
 }

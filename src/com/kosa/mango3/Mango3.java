@@ -3,14 +3,19 @@ package com.kosa.mango3;
 import java.util.Scanner;
 
 import com.kosa.mango3.customer.CustomerDAO;
+import com.kosa.mango3.db.Oracle;
 import com.kosa.mango3.review.ReviewDAO;
 import com.kosa.mango3.store.StoreDAO;
+import com.kosa.mango3.store.StoreDTO;
 
 public class Mango3 {	
 	private CustomerDAO customerDAO;
 	private StoreDAO storeDAO;
 	private ReviewDAO reviewDAO;
+	private StoreDTO storeDTO;
 	private Scanner sc;
+	Oracle oc = new Oracle();
+
 	
 	public Mango3(CustomerDAO customerDAO, StoreDAO storeDAO, ReviewDAO reviewDAO, Scanner sc) {
 		this.customerDAO = customerDAO;
@@ -49,5 +54,6 @@ public class Mango3 {
 				System.out.println("[안내]잘못 누르셨습니다.");
 			} 
 		}
-	}	
+	}
+
 }
