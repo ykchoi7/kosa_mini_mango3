@@ -5,6 +5,7 @@ import java.sql.Date;
 import com.kosa.mango3.customer.CustomerDTO;
 import com.kosa.mango3.store.StoreDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReviewDTO {
-	private int reviewId;
+	private long reviewId;
 	private int grade;
 	private String comment;
 	private Date regdate;
 	private CustomerDTO customerDTO;
 	private StoreDTO storeDTO;
+
+	
 }
