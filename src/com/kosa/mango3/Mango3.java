@@ -41,7 +41,11 @@ public class Mango3 {
 			} else if (input.equals("2")) {
 				// 맛집 조회
 			} else if (input.equals("3")){
-				// 내 리뷰 보기
+				// String customerId = customerDAO.login();
+				// if (customerId.equals("-1")) break;
+				customerDAO.login();
+				
+				
 			} else if (input.equals("4")){
 				break;
 			} else if (input.equals("admin")){
@@ -49,5 +53,6 @@ public class Mango3 {
 				System.out.println("[안내]잘못 누르셨습니다.");
 			} 
 		}
+
 	}	
 }

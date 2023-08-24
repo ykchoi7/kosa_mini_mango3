@@ -7,7 +7,7 @@ public interface ReviewInterface {
 	/**
 	 * 가게별 리뷰 리스트 조회
 	 */
-	List<ReviewDTO> selectByStore(int storeId);
+	List<ReviewDTO> selectByStore(Long storeId);
 //		SELECT * FROM review WHERE storeId = ?
 	
 	/**
@@ -15,7 +15,7 @@ public interface ReviewInterface {
 	 * @param storeId
 	 * @param grade
 	 */
-	List<ReviewDTO> selectByGrade(int storeId, int grade);
+	List<ReviewDTO> selectByGrade(Long storeId, Integer grade);
 //	SELECT * FROM review WHERE storeId = ? AND grade = ?
 	
 	/**
@@ -26,7 +26,7 @@ public interface ReviewInterface {
 	/**
 	 * 리뷰 삭제
 	 */
-	void delete(int reviewId);
+	void delete(Long reviewId);
 	
 	/**
 	 * 내 리뷰 리스트 조회
