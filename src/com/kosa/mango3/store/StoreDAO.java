@@ -34,16 +34,23 @@ public class StoreDAO implements StoreInterface {
 		Connection conn = null;
 		ResultSet rs = null;
 		
-		String selectSQL = "select * from store";
+		String selectSQL = "SELECT s.store_id, s.store_name, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt, s.location, s.food_type \r\n"
+				+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
+				+ "WHERE INSTR(store_name, ?) > 0\r\n"
+				+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type";
 		try {
 			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, "미트");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				StoreDTO dto = new StoreDTO();
-				int sId = rs.getInt("storeId");
-				String sName = rs.getString("storeName");
+				dto.setStoreId(rs.getInt("store_id"));
+				dto.setStoreName(rs.getString("store_name"));
+				dto.setGrade(rs.getLong("grade"));
+				dto.setReviewId(rs.getLong(4));
+				dto.setLocation(rs.getString("location"));
+				dto.setFoodType(rs.getString("food_type"));
 				li.add(dto);
-//				System.out.println(sId + " / " + sName);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

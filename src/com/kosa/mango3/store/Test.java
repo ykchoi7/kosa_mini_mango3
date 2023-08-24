@@ -11,7 +11,6 @@ public class Test {
 		
 		dao.storeInfo();
 		
-		
 //		pt.next();
 //		System.out.println();
 //		pt.next();
@@ -35,8 +34,6 @@ public class Test {
 //			System.out.println("위치 : " + list.get(i).getLocation());
 //			System.out.println("음식 종류 : " + list.get(i).getFoodType());
 //		}
-		
-		
 		
 		
 		
