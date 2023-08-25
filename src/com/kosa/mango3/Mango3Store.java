@@ -63,7 +63,7 @@ public class Mango3Store {
 			lnum = sc.nextInt();			
 
 			String[] location = {"강남", "성수", "잠실", "마포"};
-			List<StoreDTO> list = dao.findByLocation(location[lnum+1]);
+			List<StoreDTO> list = dao.findByLocation(location[lnum-1]);
 			
 			//가게 리스트 정보 출력
 			for (int i = 0; i < list.size(); i++) {
@@ -110,7 +110,7 @@ public class Mango3Store {
 			tnum = sc.nextInt();
 			
 			String[] type = {"한식", "중식", "일식", "양식"};
-			List<StoreDTO> storeList = dao.findByType(type[tnum+1]);
+			List<StoreDTO> storeList = dao.findByType(type[tnum-1]);
 
 			//가게 리스트 정보 출력
 			for (int i = 0; i < list.size(); i++) {
