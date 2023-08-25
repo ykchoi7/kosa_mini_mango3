@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kosa.mango3.review.ReviewDTO;
+import com.kosa.mango3.store.dto.StoreDTO;
 
 public class PageTest {
 	   List<StoreDTO> sList;

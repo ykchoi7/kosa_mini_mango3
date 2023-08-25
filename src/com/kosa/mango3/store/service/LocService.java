@@ -1,13 +1,15 @@
-package com.kosa.mango3.store;
+package com.kosa.mango3.store.service;
 
 import java.util.List;
 import java.util.Scanner;
 
 import com.kosa.mango3.review.ReviewDAO;
+import com.kosa.mango3.store.dao.StoreDAOOracle;
+import com.kosa.mango3.store.dto.StoreDTO;
 
 public class LocService {
 	Scanner sc = new Scanner(System.in);
-	StoreDAO dao = new StoreDAO();
+	StoreDAOOracle dao = new StoreDAOOracle();
 	List<StoreDTO> list;
 	int end = 5;
 	

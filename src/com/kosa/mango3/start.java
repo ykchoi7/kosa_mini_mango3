@@ -8,6 +8,6 @@ public class start {
 		m3c.dbConnect();
 
 		Mango3 m3 = new Mango3(m3c.customerDAO(), m3c.storeDAO(), m3c.reviewDAO(), m3c.scanner());
-		m3.start();
+//		m3.start();
 	}
 }

@@ -1,11 +1,15 @@
-package com.kosa.mango3.store;
+package com.kosa.mango3.store.service;
 
 import java.util.List;
 import java.util.Scanner;
 
+import com.kosa.mango3.store.dao.StoreDAOOracle;
+import com.kosa.mango3.store.dto.StoreDTO;
+
 public class TypeService {
 	Scanner sc = new Scanner(System.in);
-	StoreDAO dao = new StoreDAO();
+	StoreDAOOracle dao = new StoreDAOOracle();
+	List<StoreDTO> storeList;
 //	ReviewService reviewService;
 	
 	public void serviceType(int typenum) {
@@ -22,19 +26,9 @@ public class TypeService {
 			typenum = sc.nextInt();
 			
 			//번호 입력받았을 때 이동
-			if (typenum == 1) {
-				storeListPrint("한식");
-			} else if (typenum == 2) {
-				storeListPrint("중식");
-			} else if (typenum == 3) {
-				storeListPrint("일식");
-			} else if (typenum == 4) {
-				storeListPrint("양식");
-			} else if (typenum == 0) {
-				return;
-			} else {
-				System.out.println("없는 번호입니다. 번호를 다시 입력해주세요");
-			}
+			String[] type = {"한식", "중식", "일식", "양식"};
+			List<StoreDTO> storeList = dao.findByType(type[typenum+1]);
+
 		}
 	}
 		

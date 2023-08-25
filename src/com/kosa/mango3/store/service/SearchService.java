@@ -1,12 +1,15 @@
-package com.kosa.mango3.store;
+package com.kosa.mango3.store.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.kosa.mango3.store.dao.StoreDAOOracle;
+import com.kosa.mango3.store.dto.StoreDTO;
+
 public class SearchService {
 	Scanner sc = new Scanner(System.in);
-	StoreDAO dao = new StoreDAO();
+	StoreDAOOracle dao = new StoreDAOOracle();
 	List<StoreDTO> list = new ArrayList<>();
 	
 	void serviceSearch() {

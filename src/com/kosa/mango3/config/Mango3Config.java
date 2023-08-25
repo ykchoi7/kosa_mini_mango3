@@ -9,14 +9,14 @@ import com.kosa.mango3.db.DBManager;
 import com.kosa.mango3.db.Oracle;
 import com.kosa.mango3.review.ReviewDAO;
 import com.kosa.mango3.review.ReviewInterface;
-import com.kosa.mango3.store.StoreDAO;
-import com.kosa.mango3.store.StoreInterface;
+import com.kosa.mango3.store.dao.StoreDAO;
+import com.kosa.mango3.store.dao.StoreDAOOracle;
 
 public class Mango3Config {
 	private final static DBManager db = new Oracle();
 	private final static CustomerInterface customerDAO = new CustomerDAO();
 	private final static ReviewInterface reviewDAO = new ReviewDAO();
-	private final static StoreInterface storeDAO = new StoreDAO(reviewDAO);
+	private final static StoreDAO storeDAO = new StoreDAOOracle(reviewDAO);
 	private final static Scanner scanner = new Scanner(System.in);
 	
 	public void dbConnect() {
@@ -31,8 +31,8 @@ public class Mango3Config {
 		return (ReviewDAO) this.reviewDAO;
 	}
 	
-	public StoreDAO storeDAO() {
-		return (StoreDAO) this.storeDAO;
+	public StoreDAOOracle storeDAO() {
+		return (StoreDAOOracle) this.storeDAO;
 	}
 	
 	public Scanner scanner() {

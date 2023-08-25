@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.kosa.mango3.Mango3Store;
+import com.kosa.mango3.store.dao.StoreDAOOracle;
+import com.kosa.mango3.store.dto.StoreDTO;
+
 public class Test {
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		StoreDAO dao = new StoreDAO();
+		StoreDAOOracle dao = new StoreDAOOracle();
 		StoreDTO dto = new StoreDTO();
 		List<StoreDTO> list = dao.findByLocation("강남");
 		PageTest pt = new PageTest(list);
@@ -49,8 +53,8 @@ public class Test {
 //			System.out.println("음식 종류 : " + list.get(i).getFoodType());
 //		}
 		
-		StoreService ss = new StoreService();
-		ss.serviceStore();
+		Mango3Store m3 = new Mango3Store();
+		m3.serviceStore();
 		
 	}
 
