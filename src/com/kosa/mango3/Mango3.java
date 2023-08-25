@@ -3,7 +3,7 @@ package com.kosa.mango3;
 import java.util.Scanner;
 
 import com.kosa.mango3.customer.CustomerDAO;
-import com.kosa.mango3.review.ReviewDAO;
+import com.kosa.mango3.review.dao.ReviewDAO;
 import com.kosa.mango3.store.StoreDAO;
 
 public class Mango3 {	

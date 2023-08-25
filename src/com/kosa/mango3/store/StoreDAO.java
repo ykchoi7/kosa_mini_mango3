@@ -2,8 +2,8 @@ package com.kosa.mango3.store;
 
 import java.util.List;
 
-import com.kosa.mango3.review.ReviewDAO;
-import com.kosa.mango3.review.ReviewInterface;
+import com.kosa.mango3.review.dao.ReviewDAO;
+import com.kosa.mango3.review.dto.ReviewInterface;
 
 public class StoreDAO implements StoreInterface {
 	private ReviewInterface rd;
@@ -33,7 +33,7 @@ public class StoreDAO implements StoreInterface {
 	@Override
 	public void storeInfo() {
 		// TODO Auto-generated method stub
-		rd.create();
+//		rd.create();
 	}
 
 }
