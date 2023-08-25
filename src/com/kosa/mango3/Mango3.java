@@ -3,21 +3,18 @@ package com.kosa.mango3;
 import java.util.Scanner;
 
 import com.kosa.mango3.customer.CustomerDAO;
+import com.kosa.mango3.db.DBManager;
 import com.kosa.mango3.review.ReviewDAO;
 import com.kosa.mango3.store.StoreDAO;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class Mango3 {	
 	private CustomerDAO customerDAO;
 	private StoreDAO storeDAO;
 	private ReviewDAO reviewDAO;
 	private Scanner sc;
-	
-	public Mango3(CustomerDAO customerDAO, StoreDAO storeDAO, ReviewDAO reviewDAO, Scanner sc) {
-		this.customerDAO = customerDAO;
-		this.storeDAO = storeDAO;
-		this.reviewDAO = reviewDAO;
-		this.sc = sc;
-	}
 	
 	public void start() {
 		System.out.println("=".repeat(30));
