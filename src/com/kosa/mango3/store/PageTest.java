@@ -8,10 +8,10 @@ public class PageTest {
 	   List<StoreDTO> list;
 	   int index;
 	   
-	   public PageTest() {
-	      list=dao.findByLocation();
-	      index=0;
-	   }
+//	   public PageTest() {
+//	      list=dao.findByLocation(int num);
+//	      index=0;
+//	   }
 	   
 //	   public void add(int a) {
 //	      list.add(a);

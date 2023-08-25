@@ -9,7 +9,7 @@ public class Test {
 		StoreDTO dto = new StoreDTO();
 		PageTest pt = new PageTest();
 		
-		dao.storeInfo();
+//		dao.storeInfo();
 		
 //		pt.next();
 //		System.out.println();
@@ -35,7 +35,8 @@ public class Test {
 //			System.out.println("음식 종류 : " + list.get(i).getFoodType());
 //		}
 		
-		
+		StoreService ss = new StoreService();
+//		ss.serviceStore(2);
 		
 	}
 

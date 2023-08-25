@@ -40,7 +40,7 @@ public class StoreDAO implements StoreInterface {
 				+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type";
 		try {
 			pstmt = conn.prepareStatement(selectSQL);
-			pstmt.setString(1, "미트");
+			pstmt.setString(1, storeName);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				StoreDTO dto = new StoreDTO();
@@ -81,7 +81,7 @@ public class StoreDAO implements StoreInterface {
 	}
 
 	@Override
-	public List<StoreDTO> findByLocation() {
+	public List<StoreDTO> findByLocation(String locName) {
 		List<StoreDTO> li = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -94,7 +94,7 @@ public class StoreDAO implements StoreInterface {
 					+ "GROUP BY store.store_id, store.store_name, store.location, store.food_type";
 			
 			pstmt = conn.prepareStatement(selectSQL);
-			pstmt.setString(1, "강남");
+			pstmt.setString(1, locName);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				StoreDTO dto = new StoreDTO();
@@ -133,7 +133,7 @@ public class StoreDAO implements StoreInterface {
 	}
 
 	@Override
-	public List<StoreDTO> findByType() {
+	public List<StoreDTO> findByType(String typeName) {
 		List<StoreDTO> li = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -146,7 +146,7 @@ public class StoreDAO implements StoreInterface {
 					+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type";
 			
 			pstmt = conn.prepareStatement(selectSQL);
-			pstmt.setString(1, "양식");
+			pstmt.setString(1, typeName);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				StoreDTO dto = new StoreDTO();

@@ -7,12 +7,12 @@ public interface StoreInterface {
 	/**
 	 * 지역별 맛집 조회
 	 */
-	List<StoreDTO> findByLocation();
+	List<StoreDTO> findByLocation(String locName);
 	
 	/**
 	 * 메뉴별 맛집 조회
 	 */
-	List<StoreDTO> findByType();
+	List<StoreDTO> findByType(String typeName);
 	
 	/**
 	 * 맛집 검색
