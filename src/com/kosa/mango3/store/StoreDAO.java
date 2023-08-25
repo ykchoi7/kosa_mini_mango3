@@ -1,5 +1,6 @@
 package com.kosa.mango3.store;
 
+import java.lang.module.FindException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +29,7 @@ public class StoreDAO implements StoreInterface {
 	}
 	
 	@Override
-	public List<StoreDTO> findByName(String storeName) {
+	public List<StoreDTO> findByName(String storeName) throws FindException {
 		List<StoreDTO> li = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		Connection conn = null;

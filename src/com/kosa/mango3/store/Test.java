@@ -1,5 +1,6 @@
 package com.kosa.mango3.store;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,7 +10,8 @@ public class Test {
 		Scanner sc = new Scanner(System.in);
 		StoreDAO dao = new StoreDAO();
 		StoreDTO dto = new StoreDTO();
-		PageTest pt = new PageTest();
+		List<StoreDTO> list = dao.findByLocation("강남");
+		PageTest pt = new PageTest(list);
 		
 //		dao.storeInfo();
 		
@@ -19,7 +21,7 @@ public class Test {
 //		System.out.println();
 //		pt.before();
 		
-//		List<StoreDTO> list = dao.findByLocation();
+//		List<StoreDTO> list = dao.findByLocation("강남");
 //		for (int i = 0; i < list.size(); i++) {
 //			System.out.println("---------------------------");
 //			System.out.print(list.get(i).getStoreName() + " - ");

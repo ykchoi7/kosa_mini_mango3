@@ -3,27 +3,28 @@ package com.kosa.mango3.store;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kosa.mango3.review.ReviewDTO;
+
 public class PageTest {
-	   StoreDAO dao = new StoreDAO();
-	   List<StoreDTO> list;
+	   List<StoreDTO> sList;
+	   List<ReviewDTO> rList;
+
 	   int index;
 	   
-//	   public PageTest() {
-//	      list=dao.findByLocation(int num);
-//	      index=0;
-//	   }
-	   
-//	   public void add(int a) {
-//	      list.add(a);
-//	   }
+	   public PageTest(List<StoreDTO> li) {
+	      sList=new ArrayList<StoreDTO>();
+	      index=0;
+	   }
+	  
+	   public PageTest(ArrayList<ReviewDTO> li, String m) {
+		   rList=new ArrayList<ReviewDTO>();
+		   index=0;
+	   }
 	   
 	   public void next() {
 	      for(int i=index;i<index+2;i++) {
 	    	  System.out.println("---------------------------");
-	    	  System.out.print(list.get(i).getStoreName() + " - ");
-			  System.out.println("★".repeat((int)list.get(i).getGrade()) + " (" + list.get(i).getReviewId() +")");
-			  System.out.println("위치 : " + list.get(i).getLocation());
-			  System.out.println("음식 종류 : " + list.get(i).getFoodType());
+	    	  System.out.print(sList.get(i).toString());
 	      }
 	      index+=2;
 	   }
@@ -32,11 +33,12 @@ public class PageTest {
 	      index-=2;
 	      for(int i=index-2;i<index;i++) {
 	    	  System.out.println("---------------------------");
-			  System.out.print(list.get(i).getStoreName() + " - ");
-			  System.out.println("★".repeat((int)list.get(i).getGrade()) + " (" + list.get(i).getReviewId() +")");
-			  System.out.println("위치 : " + list.get(i).getLocation());
-			  System.out.println("음식 종류 : " + list.get(i).getFoodType());
+			  System.out.print(sList.get(i).toString());
 	      }
+	   }
+	   
+	   private void print() {
+		   
 	   }
 
 }

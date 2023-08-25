@@ -10,21 +10,23 @@ import com.kosa.mango3.store.StoreDTO;
 
 public class Mango3 {	
 	private CustomerDAO customerDAO;
-	private StoreDAO storeDAO;
-	private ReviewDAO reviewDAO;
-	private StoreDTO storeDTO;
+//	private StoreDAO storeDAO;
+//	private ReviewDAO reviewDAO;
+//	private StoreDTO storeDTO;
+	private Mango3Store mango3Store;
 	private Scanner sc;
 	Oracle oc = new Oracle();
 
 	
 	public Mango3(CustomerDAO customerDAO, StoreDAO storeDAO, ReviewDAO reviewDAO, Scanner sc) {
 		this.customerDAO = customerDAO;
-		this.storeDAO = storeDAO;
-		this.reviewDAO = reviewDAO;
+//		this.storeDAO = storeDAO;
+//		this.reviewDAO = reviewDAO;
 		this.sc = sc;
 	}
 	
 	public Mango3() {
+		mango3Store = new Mango3Store();
 	}
 
 	public void start() {
@@ -49,8 +51,10 @@ public class Mango3 {
 				customerDAO.join();
 			} else if (input.equals("2")) {
 				// 맛집 조회
+//				mango3Store.~~~();
 			} else if (input.equals("3")){
 				// 내 리뷰 보기
+//				mango3Review.~~~();
 			} else if (input.equals("4")){
 				break;
 			} else if (input.equals("admin")){

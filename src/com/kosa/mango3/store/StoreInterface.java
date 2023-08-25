@@ -1,5 +1,6 @@
 package com.kosa.mango3.store;
 
+import java.lang.module.FindException;
 import java.util.List;
 
 public interface StoreInterface {
@@ -17,7 +18,7 @@ public interface StoreInterface {
 	/**
 	 * 맛집 검색
 	 */
-	List<StoreDTO> findByName(String storeName);
+	List<StoreDTO> findByName(String storeName) throws FindException;
 		
 	/**
 	 * 맛집 상세 조회
