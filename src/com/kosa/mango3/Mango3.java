@@ -24,6 +24,9 @@ public class Mango3 {
 		this.sc = sc;
 	}
 	
+	public Mango3() {
+	}
+
 	public void start() {
 		System.out.println("=".repeat(30));
 		System.out.println("KOSA Mini Project Mango3");
@@ -39,6 +42,7 @@ public class Mango3 {
 			
 			System.out.println("[안내]원하시는 서비스를 눌러주세요.");
 			System.out.print(">> ");
+			sc.nextLine();
 			input = sc.nextLine();
 			
 			if (input.equals("1")) {

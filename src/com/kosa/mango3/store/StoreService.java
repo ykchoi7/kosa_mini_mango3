@@ -2,12 +2,15 @@ package com.kosa.mango3.store;
 
 import java.util.Scanner;
 
+import com.kosa.mango3.Mango3;
+
 public class StoreService {
 	Scanner sc = new Scanner(System.in);
 	StoreDAO dao = new StoreDAO();
 	LocService ls = new LocService();
 	TypeService ts = new TypeService();
 	SearchService ss = new SearchService();
+	Mango3 m3 = new Mango3();
 
 	void serviceStore() {
 		int locnum = 0;
@@ -36,6 +39,7 @@ public class StoreService {
 				return;
 			} else {
 				System.out.println("없는 번호입니다. 번호를 다시 입력해주세요");
+				return;
 			}
 		}
 	}

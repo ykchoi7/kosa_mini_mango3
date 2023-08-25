@@ -34,11 +34,13 @@ public class StoreDAO implements StoreInterface {
 		Connection conn = null;
 		ResultSet rs = null;
 		
-		String selectSQL = "SELECT s.store_id, s.store_name, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt, s.location, s.food_type \r\n"
-				+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
-				+ "WHERE INSTR(store_name, ?) > 0\r\n"
-				+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type";
 		try {
+			conn = oc.DBConnect();
+			String selectSQL = "SELECT s.store_id, s.store_name, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt, s.location, s.food_type \r\n"
+					+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
+					+ "WHERE INSTR(store_name, ?) > 0\r\n"
+					+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type";
+
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, storeName);
 			rs = pstmt.executeQuery();
@@ -208,14 +210,6 @@ public class StoreDAO implements StoreInterface {
 				String food_type = rs.getString("food_type");
 				Long grade = rs.getLong("grade");
 				Long reviewcnt = rs.getLong("reviewcnt");
-				
-				System.out.println("------------------------------");
-				System.out.println(store_name + " - " + "★".repeat(grade.intValue()) + "(" + reviewcnt + ")");
-				System.out.println("주소    : " + address);
-				System.out.println("연락처   : " + tel);
-				System.out.println("음식종류 : " + food_type);
-				System.out.println("영업시간 : " + store_hour);
-				System.out.println("------------------------------");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
