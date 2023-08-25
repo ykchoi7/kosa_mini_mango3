@@ -28,7 +28,6 @@ public class SearchService {
 			System.out.println("음식 종류 : " + list.get(i).getFoodType());
 			System.out.println("영업시간 : " + list.get(i).getStoreHour());
 		}
-		
 		return;
 	}	
 }
