@@ -19,8 +19,7 @@ public class Mango3 {
 	private AdminStoreService adminStoreService;
 		
 	public void start() {
-		Scanner sc = new Scanner(System.in)
-				;
+		Scanner sc = new Scanner(System.in);
 		System.out.println("=".repeat(30));
 		System.out.println("KOSA Mini Project Mango3");
 		String input = "";
@@ -42,15 +41,14 @@ public class Mango3 {
 			} else if (input.equals("2")) {
 				// 맛집 조회
 			} else if (input.equals("3")){
-				// String customerId = customerDAO.login();
-				// if (customerId.equals("-1")) break;
-				customerDAO.login();
-				myReviewService.myReviewList("test1");
+				String customerId = customerDAO.login();
+				if (customerId.equals("-1")) break;
+				myReviewService.myReviewList(customerId);
 				
 			} else if (input.equals("4")){
 				break;
 			} else if (input.equals("admin")){
-				customerDAO.join();
+				//customerDAO.login();
 				adminStoreService.management();
 			} else {
 				System.out.println("[알림]잘못 누르셨습니다.");

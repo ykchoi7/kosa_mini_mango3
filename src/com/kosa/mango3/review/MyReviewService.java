@@ -19,7 +19,7 @@ public class MyReviewService {
 		
 		while (true) {
 			if (reviewList.size() == 0) {
-				System.out.println("[알림] 등록된 리뷰가 없습니다.");
+				System.out.println("[알림]등록된 리뷰가 없습니다.");
 				return;
 			}
 			
@@ -28,10 +28,10 @@ public class MyReviewService {
 				reviewPrint(reviewList, i);
 			}
 			
-			if (start != 0) System.out.println("p. 이전 리스트");
-			if (reviewList.size() > end) System.out.println("n. 다음 리스트");
-			System.out.println("0. 뒤로가기");
-			System.out.println("*. 리뷰 삭제하기");
+			if (start != 0) System.out.println("p.이전 리스트");
+			if (reviewList.size() > end) System.out.println("n.다음 리스트");
+			System.out.println("0.뒤로가기");
+			System.out.println("*.리뷰 삭제하기");
 			System.out.print(">> ");
 			String input = sc.nextLine();
 		
@@ -52,25 +52,25 @@ public class MyReviewService {
 					end--;
 				} 
 			} else {
-				System.out.println("[알림] 잘못 입력하였습니다, 다시 입력해 주세요.");
+				System.out.println("[알림]잘못 입력하였습니다, 다시 입력해 주세요.");
 			}
 		}
 	}
 	
 	private List<ReviewDTO> myReviewDelete(List<ReviewDTO> reviewList, Scanner sc) {
-		System.out.println("[알림] 몇 번 리뷰를 삭제하시겠습니까?");
+		System.out.println("[알림]몇 번 리뷰를 삭제하시겠습니까?");
 		System.out.print(">> ");
 		String input = sc.nextLine();
 		
 		for (char ch : input.toCharArray()) {
 			if (!Character.isDigit(ch)) {
-				System.out.println("[알림] 잘못 입력하였습니다.");
+				System.out.println("[알림]잘못 입력하였습니다.");
 				return reviewList;
 			}
 		}
 		
 		if (input.equals("0") || reviewList.size() < Integer.parseInt(input)) {
-			System.out.println("[알림] 입력한 번호의 리뷰를 조회할 수 없습니다.");
+			System.out.println("[알림]입력한 번호의 리뷰를 조회할 수 없습니다.");
 			return reviewList;
 		}
 				
@@ -79,7 +79,7 @@ public class MyReviewService {
 		System.out.println("-".repeat(30));
 		reviewPrint(reviewList, index);
 
-		System.out.println("[알림] 위 리뷰를 삭제 하시겠습니까?(y/n)");
+		System.out.println("[알림]위 리뷰를 삭제 하시겠습니까?(y/n)");
 		System.out.print(">> ");
 		input = sc.nextLine();
 		
@@ -88,9 +88,9 @@ public class MyReviewService {
 			reviewDAO.delete(reviewId);
 			reviewList.remove(index);
 			
-			System.out.println("[알림] 삭제가 완료되었습니다.");
+			System.out.println("[알림]삭제가 완료되었습니다.");
 		} else {
-			System.out.println("[알림] 잘못 입력하였습니다.");
+			System.out.println("[알림]잘못 입력하였습니다.");
 		}
 		
 		return reviewList;

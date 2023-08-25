@@ -16,7 +16,7 @@ import com.kosa.mango3.store.admin.AdminStoreService;
 public class Mango3Config {
 //	private final DBManager db = new Oracle();
 	private final DBManager db = new MySql();
-	private final CustomerInterface customerDAO = new CustomerDAO();
+	private final CustomerInterface customerDAO = new CustomerDAO((MySql) db);
 	private final ReviewInterface reviewDAO = new ReviewDAO((MySql) db);
 	private final StoreInterface storeDAO = new StoreDAO((ReviewDAO) reviewDAO);
 	private final MyReviewService myReviewService = new MyReviewService((ReviewDAO) reviewDAO);

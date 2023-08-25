@@ -10,5 +10,5 @@ public interface CustomerInterface {
 	/**
 	 * 로그인
 	 */
-	void login();
+	String login();
 }
