@@ -6,14 +6,15 @@ import java.util.List;
 import com.kosa.mango3.customer.CustomerDTO;
 import com.kosa.mango3.exception.FindException;
 import com.kosa.mango3.review.dao.ReviewDAO;
+import com.kosa.mango3.review.dao.ReviewDAOOracle;
 import com.kosa.mango3.review.dto.ReviewDTO;
 import com.kosa.mango3.store.StoreDTO;
 
 
 public class ReviewMain {	
 	java.util.Scanner sc = new java.util.Scanner(System.in);
-
-	ReviewDAO rDAO = new ReviewDAO();
+	ReviewDAOOracle rDAO = new ReviewDAOOracle();
+	
 	List<ReviewDTO> reviewList;
 	String loginId;
 	Long storeId;
@@ -50,7 +51,7 @@ public class ReviewMain {
 							.build();	
 		rDAO.create(reviewDTO);
 	}
-	private void showReviewsByGrade(int grade) {
+	private void showReviewsByGrade(long storeId, int grade) {
 		try {
 			reviewList = rDAO.selectByGrade(storeId, grade);
 			if(reviewList.size() == 0) {
@@ -62,7 +63,8 @@ public class ReviewMain {
 			printFail("리뷰 보기 실패");
 		}
 	}
-	public void showMenu(long storeId) {		
+	
+	public void showReivewsMenu(long storeId) {		
 		while(true) {
 			System.out.println();
 			System.out.println(">>리뷰 보기<<");
@@ -89,13 +91,13 @@ public class ReviewMain {
 				
 				break;
 			case 2 :
-				showReviewsByGrade(5);
+				showReviewsByGrade(storeId, 5);
 				break;
 			case 3:
-				showReviewsByGrade(3);
+				showReviewsByGrade(storeId, 3);
 				break;
 			case 4:
-				showReviewsByGrade(1);
+				showReviewsByGrade(storeId, 1);
 				break;
 			case 0 :
 				break;
@@ -136,7 +138,8 @@ public class ReviewMain {
 		}
 		return stringGrade;
 	}
-	public void reviewMenu(long storeId, String loginedId) {
+	
+	public void reviewMenu(Long storeId, String loginedId) {
 		while(true) {
 			System.out.println();
 			System.out.println("1. 리뷰보기");
@@ -148,7 +151,7 @@ public class ReviewMain {
 			
 			switch(Integer.parseInt(input)) {
 				case 1 :
-					showMenu(storeId);
+					showReivewsMenu(storeId);
 					break;
 				case 2 :
 					addMenu(storeId, loginedId);
