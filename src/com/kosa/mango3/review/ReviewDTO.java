@@ -2,7 +2,7 @@ package com.kosa.mango3.review;
 
 import java.sql.Date;
 
-import com.kosa.mango3.customer.CustomerDTO;
+import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.store.StoreDTO;
 
 import lombok.AllArgsConstructor;
