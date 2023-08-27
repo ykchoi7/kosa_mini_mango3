@@ -9,8 +9,8 @@ import lombok.Getter;
 @Getter
 public class Oracle implements DBManager {
 	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private final String user = "hr";
-	private final String password = "hr";
+	private final String user = "mango3";
+	private final String password = "mango3";
 	
 	@Override
 	public void DBLoad() {

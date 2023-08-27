@@ -20,8 +20,8 @@ public class Mango3 {
 
 	public Mango3() {
 		customerService = new CustomerService();
-		storeService = new StoreService() ;
-		reviewMain = new ReviewMain() ;
+		storeService = new StoreService();
+		reviewMain = new ReviewMain();
 	}
 
 	public boolean loginSession() {
@@ -114,9 +114,9 @@ public class Mango3 {
 					input = sc.nextLine();
 
 					if (input.equals("1")) {
-						//mango3.storeService
+						mango3.storeService.serviceStore();
 					} else if (input.equals("2")) {
-						//mango3.reviewService
+//						mango3.reviewMain.myReviewList(loginId, 0);
 					} else if (input.equals("3")){
 						mango3.logout();
 						break;

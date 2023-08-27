@@ -11,9 +11,9 @@ public class StoreService {
 	LocService ls = new LocService();
 	TypeService ts = new TypeService();
 	SearchService ss = new SearchService();
-	Mango3 m3 = new Mango3();
+//	Mango3 m3 = new Mango3();
 
-	void serviceStore() {
+	public void serviceStore() {
 		int locnum = 0;
 		int typenum = 0;
 		int num;
