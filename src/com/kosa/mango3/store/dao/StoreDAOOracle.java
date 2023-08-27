@@ -9,21 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kosa.mango3.config.Mango3Config;
-import com.kosa.mango3.db.DBManager;
 import com.kosa.mango3.db.Oracle;
-import com.kosa.mango3.review.ReviewDAO;
-import com.kosa.mango3.review.ReviewDTO;
-import com.kosa.mango3.review.ReviewInterface;
+import com.kosa.mango3.review.dao.ReviewDAO;
+import com.kosa.mango3.review.dao.ReviewDAOOracle;
 import com.kosa.mango3.store.dto.StoreDTO;
 
 public class StoreDAOOracle implements StoreDAO {
-	private ReviewInterface rd;
+	private ReviewDAOOracle rd;
 	private Mango3Config mc;
 	Oracle oc = new Oracle();
 	Connection conn = null;
 	
-	public StoreDAOOracle(ReviewInterface rd) {
-		this.rd = (ReviewDAO) rd;
+	public StoreDAOOracle(ReviewDAOOracle rd) {
+		this.rd = (ReviewDAOOracle) rd;
 	}
 	
 	public StoreDAOOracle() {

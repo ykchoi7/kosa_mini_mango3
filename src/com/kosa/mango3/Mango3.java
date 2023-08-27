@@ -1,24 +1,27 @@
 package com.kosa.mango3;
 
 import java.util.Scanner;
+
 import com.kosa.mango3.config.Mango3Config;
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.customer.service.CustomerService;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
-import com.kosa.mango3.review.ReviewService;
-import com.kosa.mango3.store.StoreService;
+import com.kosa.mango3.review.service.ReviewMain;
+import com.kosa.mango3.store.service.StoreService;
 
 public class Mango3 {	
 
 	private CustomerDTO loginedCustomer;
 	private CustomerService customerService;
 	private StoreService storeService;
-	private ReviewService reviewService;
+	private ReviewMain reviewMain;
 	private static Scanner sc = new Scanner(System.in);
 
 	public Mango3() {
 		customerService = new CustomerService();
+		storeService = new StoreService() ;
+		reviewMain = new ReviewMain() ;
 	}
 
 	public boolean loginSession() {

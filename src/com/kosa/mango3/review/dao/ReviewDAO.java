@@ -30,12 +30,12 @@ public interface ReviewDAO {
 	/**
 	 * 리뷰 삭제
 	 */
-	void delete(int reviewId);
+	void delete(long reviewId);
 	
 	/**
 	 * 내 리뷰 리스트 조회
 	 */
-	List<ReviewDTO> selectByCustomer(String loginId);
+	List<ReviewDTO> selectByCustomer(String loginId, int page);
 	
 //	SELECT * FROM review WHERE loginId = ? 
 }

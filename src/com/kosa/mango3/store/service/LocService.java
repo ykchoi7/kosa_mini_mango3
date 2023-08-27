@@ -3,7 +3,6 @@ package com.kosa.mango3.store.service;
 import java.util.List;
 import java.util.Scanner;
 
-import com.kosa.mango3.review.ReviewDAO;
 import com.kosa.mango3.store.dao.StoreDAOOracle;
 import com.kosa.mango3.store.dto.StoreDTO;
 

@@ -6,17 +6,17 @@ import com.kosa.mango3.customer.dao.CustomerDAO;
 import com.kosa.mango3.customer.dao.CustomerDAOOracle;
 import com.kosa.mango3.db.DBManager;
 import com.kosa.mango3.db.Oracle;
-import com.kosa.mango3.review.ReviewDAO;
-import com.kosa.mango3.review.ReviewInterface;
-import com.kosa.mango3.store.StoreDAO;
-import com.kosa.mango3.store.StoreInterface;
+import com.kosa.mango3.review.dao.ReviewDAO;
+import com.kosa.mango3.review.dao.ReviewDAOOracle;
+import com.kosa.mango3.store.dao.StoreDAO;
+import com.kosa.mango3.store.dao.StoreDAOOracle;
 
 public class Mango3Config {
 	private final static DBManager db = new Oracle();
 //	private final static DBManager db = new Mysql();
 	private final static CustomerDAO customerDAO = new CustomerDAOOracle();
-	private final static ReviewInterface reviewDAO = new ReviewDAO();
-	private final static StoreInterface storeDAO = new StoreDAO(reviewDAO);
+	private final static ReviewDAOOracle reviewDAO = new ReviewDAOOracle();
+	private final static StoreDAOOracle storeDAO = new StoreDAOOracle();
 	private final static Scanner scanner = new Scanner(System.in);
 	
 	public void dbConnect() {
