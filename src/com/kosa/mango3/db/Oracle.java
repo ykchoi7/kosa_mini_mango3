@@ -13,8 +13,7 @@ public class Oracle implements DBManager {
 	private final String password = "hr";
 	
 	@Override
-	public void DBConnect() {
-		
+	public void DBLoad() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 			System.out.println("JDBC Oracle 드라이버 로드성공");
@@ -22,7 +21,11 @@ public class Oracle implements DBManager {
 			e.printStackTrace();
 			return;
 		}
-		
+	}
+	
+	@Override
+	public Connection DBConnect() {
+	
 		Connection conn = null;
 				
 		try {
@@ -30,7 +33,18 @@ public class Oracle implements DBManager {
 			System.out.println("Oracle DB 연결 성공");
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return;
+			return null;
+		}
+		
+		return conn;
+	}
+	
+	@Override
+	public void DBClose(Connection conn) {
+		if(conn!=null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {}
 		}
 	}
 }

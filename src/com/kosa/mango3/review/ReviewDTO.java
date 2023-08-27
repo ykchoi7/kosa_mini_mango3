@@ -1,6 +1,8 @@
 package com.kosa.mango3.review;
 
-import com.kosa.mango3.customer.CustomerDTO;
+import java.sql.Date;
+
+import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.store.StoreDTO;
 
 import lombok.AllArgsConstructor;
@@ -15,10 +17,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewDTO {
-	private Long reviewId;
-	private Integer grade;
+	private int reviewId;
+	private int grade;
 	private String comment;
-	private String regdate;
+	private Date regdate;
 	private CustomerDTO customerDTO;
 	private StoreDTO storeDTO;
 }
