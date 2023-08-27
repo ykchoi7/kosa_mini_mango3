@@ -13,6 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CustomerDTO {
 	private String loginId;
-	
+
 	
 }

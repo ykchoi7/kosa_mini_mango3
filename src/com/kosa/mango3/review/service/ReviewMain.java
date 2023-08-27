@@ -26,18 +26,19 @@ public class ReviewMain {
 		System.out.println("2. 괜찮다");
 		System.out.println("3. 별로");
 		System.out.print(">입력:");
-		String grade = sc.nextLine();
+		String grade = sc.next();
+		
 		System.out.println("리뷰 입력하세요");
 		System.out.print(">내용 입력:");
-		String comment = sc.nextLine();			
+		String comment = sc.next();			
 		LocalDate today = LocalDate.now();
 		
 		System.out.println("'--------------------------------------------");	
-		System.out.println("1." + loginId + " - " + grade);
+		System.out.println("1." + loginedId + " - " + grade);
 		System.out.println("ㄴ " + comment);
 		System.out.println("                               " + today);
 		System.out.print("등록 하시겠습니까?(y/n)");
-		String yn = sc.nextLine();
+		String yn = sc.next();
 		
 		if(yn.equals("n")) {
 			return;
@@ -64,7 +65,7 @@ public class ReviewMain {
 		}
 	}
 	
-	public void showReivewsMenu(long storeId) {		
+	public void showReviewsMenu(long storeId, String loginedId) {		
 		while(true) {
 			System.out.println();
 			System.out.println(">>리뷰 보기<<");
@@ -100,6 +101,7 @@ public class ReviewMain {
 				showReviewsByGrade(storeId, 1);
 				break;
 			case 0 :
+				reviewMenu(storeId, loginedId);
 				break;
 			}
 		}
@@ -119,6 +121,7 @@ public class ReviewMain {
 			printSuccess(d);
 		}
 	}
+	
 	
 	void printFail(String msg) {
 		System.out.println(msg);
@@ -151,12 +154,13 @@ public class ReviewMain {
 			
 			switch(Integer.parseInt(input)) {
 				case 1 :
-					showReivewsMenu(storeId);
+					showReviewsMenu(storeId, loginedId);
 					break;
 				case 2 :
 					addMenu(storeId, loginedId);
 					break;
 				case 0 :
+					
 					break;
 				case '*' :
 					break;
