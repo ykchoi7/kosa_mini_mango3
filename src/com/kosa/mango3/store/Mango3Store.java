@@ -1,4 +1,4 @@
-package com.kosa.mango3;
+package com.kosa.mango3.store;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +62,13 @@ public class Mango3Store {
 			//지역번호 입력받기
 			lnum = sc.nextInt();			
 
-			String[] location = {"강남", "성수", "잠실", "마포"};
-			List<StoreDTO> list = dao.findByLocation(location[lnum-1]);
-			
+			if (lnum == 0) {
+				return;
+			} else {
+				String[] location = {"강남", "성수", "잠실", "마포"};
+				List<StoreDTO> list = dao.findByLocation(location[lnum-1]);				
+			}
+						
 			//가게 리스트 정보 출력
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println("---------------------------");
@@ -109,8 +113,12 @@ public class Mango3Store {
 			//지역번호 입력받기
 			tnum = sc.nextInt();
 			
-			String[] type = {"한식", "중식", "일식", "양식"};
-			List<StoreDTO> storeList = dao.findByType(type[tnum-1]);
+			if (tnum == 0) {
+				return;
+			} else {
+				String[] type = {"한식", "중식", "일식", "양식"};
+				List<StoreDTO> list = dao.findByLocation(type[tnum-1]);				
+			}
 
 			//가게 리스트 정보 출력
 			for (int i = 0; i < list.size(); i++) {

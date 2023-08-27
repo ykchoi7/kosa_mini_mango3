@@ -13,7 +13,7 @@ public class LocService {
 	List<StoreDTO> list;
 	int end = 5;
 	
-	void serviceLoc(int locnum) {
+	void serviceLoc(String locnum) {
 		while(true) {
 			System.out.println("=".repeat(30));
 			System.out.println("1.강남");
@@ -24,11 +24,24 @@ public class LocService {
 			System.out.println("-".repeat(30));
 			
 			//지역번호 입력받기
-			locnum = sc.nextInt();			
+			locnum = sc.nextLine();			
 
-			String[] location = {"강남", "성수", "잠실", "마포"};
-			//storePrint(location[locnum+1]);
-			List<StoreDTO> list = dao.findByLocation(location[locnum+1]);
+			switch (locnum) {
+			case ("1") :
+				storePrint("강남");
+			case ("2") :
+				storePrint("성수");
+			case ("3") :
+				storePrint("잠실");
+			case ("4") :
+				storePrint("마포");
+			case ("0") : 
+				return;
+			}
+			
+//			String[] location = {"강남", "성수", "잠실", "마포"};
+//			//storePrint(location[locnum+1]);
+//			List<StoreDTO> list = dao.findByLocation(location[locnum+1]);
 			
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println("---------------------------");

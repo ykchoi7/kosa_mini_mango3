@@ -6,6 +6,7 @@ import com.kosa.mango3.customer.CustomerDAO;
 import com.kosa.mango3.db.Oracle;
 import com.kosa.mango3.review.ReviewDAO;
 import com.kosa.mango3.store.dto.StoreDTO;
+import com.kosa.mango3.store.Mango3Store;
 import com.kosa.mango3.store.dao.StoreDAOOracle;
 
 public class Mango3 {	

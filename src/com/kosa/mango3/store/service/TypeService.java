@@ -12,7 +12,7 @@ public class TypeService {
 	List<StoreDTO> storeList;
 //	ReviewService reviewService;
 	
-	public void serviceType(int typenum) {
+	public void serviceType(String typenum) {
 		while(true) {
 			System.out.println("=".repeat(30));
 			System.out.println("1.한식");
@@ -23,11 +23,24 @@ public class TypeService {
 			System.out.println("-".repeat(30));
 			
 			//지역번호 입력받기
-			typenum = sc.nextInt();
+			typenum = sc.nextLine();
 			
 			//번호 입력받았을 때 이동
-			String[] type = {"한식", "중식", "일식", "양식"};
-			List<StoreDTO> storeList = dao.findByType(type[typenum+1]);
+			switch (typenum) {
+			case ("1") :
+				storeListPrint("한식");
+			case ("2") :
+				storeListPrint("중식");
+			case ("3") :
+				storeListPrint("일식");
+			case ("4") :
+				storeListPrint("양식");
+			case ("0") : 
+				return;
+			}
+			
+//			String[] type = {"한식", "중식", "일식", "양식"};
+//			List<StoreDTO> storeList = dao.findByType(type[typenum+1]);
 
 		}
 	}
