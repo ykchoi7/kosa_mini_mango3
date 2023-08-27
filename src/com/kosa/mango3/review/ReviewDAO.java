@@ -70,9 +70,10 @@ public class ReviewDAO implements ReviewInterface {
 	}
 
 	@Override
-	public List<ReviewDTO> selectByCustomer(String loginId) {
+	public List<ReviewDTO> selectByCustomer(String loginId, int page) {
 		
 		List<ReviewDTO> reviewList = new ArrayList<>();
+		int pageSize = 5;
 		Connection conn = null;
 		
 		try {
@@ -92,9 +93,27 @@ public class ReviewDAO implements ReviewInterface {
 						 + "FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
 						 + "WHERE r.login_id = ?";
 		
+		String oraclePaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+					  		+ "FROM (SELECT ROWNUM rn, a.*\r\n"
+					  		+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
+					  		+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+					  		+ "            WHERE login_id = ?) a\r\n"
+					  		+ "     )\r\n"
+					  		+ "WHERE rn BETWEEN ? AND ?";
+
+		String mySqlPaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+				  		   + "FROM (SELECT @ROWNUM := @ROWNUM + 1 AS rn, a.*\r\n"
+				  		   + "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at AS regdate\r\n"
+				  		   + "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+				  		   + "            WHERE r.login_id = ?) a\r\n"
+				  		   + "     )\r\n"
+				  		   + "WHERE rn BETWEEN ? AND ?";
+		
 		try {
-			pstmt = conn.prepareStatement(mySqlTest);
+			pstmt = conn.prepareStatement(mySqlPaging);
 			pstmt.setString(1, loginId);
+			pstmt.setInt(2, pageSize*(page-1)+1);
+			pstmt.setInt(3, pageSize*page);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -108,6 +127,7 @@ public class ReviewDAO implements ReviewInterface {
 						.grade(rs.getInt("grade"))
 						.comment(rs.getString("rw_content"))
 						.regdate(rs.getString("created_at"))
+//						.regdate(rs.getString("regdate"))
 						.storeDTO(s)
 						.build();
 

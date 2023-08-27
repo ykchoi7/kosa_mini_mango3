@@ -31,7 +31,7 @@ public interface ReviewInterface {
 	/**
 	 * 내 리뷰 리스트 조회
 	 */
-	List<ReviewDTO> selectByCustomer(String loginId);
+	List<ReviewDTO> selectByCustomer(String loginId, int page);
 	
 //	SELECT * FROM review WHERE loginId = ? 
 }
