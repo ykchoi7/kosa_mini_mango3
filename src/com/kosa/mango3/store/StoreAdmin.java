@@ -291,13 +291,18 @@ public class StoreAdmin {
 
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
+		int max=countStore();
+		int maxPage=0;
+		if(max%5==0) maxPage=max/5;
+		else maxPage=max/5+1;
+		pageStore(maxPage);
+		
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			//System.out.println("Oracle DB 연결 성공");
 			String selectSQL = "SELECT * FROM store";
 			pstmt = conn.prepareStatement(selectSQL);
 			rs = pstmt.executeQuery();
-//			int index=0; //페이징 -> rs.beforefirst 같은거 써서 .. 생각해보기
 			
 			while(rs.next()) {
 				System.out.print(rs.getString("store_id")+". ");
@@ -307,26 +312,6 @@ public class StoreAdmin {
 				System.out.print("영업시간 : "+rs.getString("store_hour")+" | ");
 				System.out.print("위치 : "+rs.getString("location")+" | ");
 				System.out.println("음식 종류 : "+rs.getString("food_type")+" | ");
-//				index++;
-//				
-//				if(index%10==0) {
-//					System.out.println("(0) 이전 페이지 <-- "+(index%10+1)+" --> 다음 페이지 (1)");
-//					System.out.println("선택할 항목이 있다면 0과 1 이외의 랜덤 값을 입력하세요.");
-//					System.out.print("입력 >> ");
-//					String page=sc.nextLine();
-//					
-//					if(page.equals("0")) {
-//						if(index<=10) System.out.println("첫 번째 페이지입니다.");
-//						else {
-//							
-//						}
-//					} else if(page.equals("1")) {
-//						if(!rs.next()) System.out.println("마지막 페이지입니다.");
-//						else {
-//							
-//						}
-//					} else break;
-//				}
 			}
 		} catch (SQLException e) {
 			throw new FindException("음식점 조회 실패");
@@ -346,6 +331,10 @@ public class StoreAdmin {
 				}
 			}			
 		}
+		
+	}
+	
+	private void pageStore(int maxPage) {
 		
 	}
 	

@@ -154,7 +154,7 @@ public class Mango3 {
 					if (input.equals("1")) {
 						mango3.storeService.serviceStore();
 					} else if (input.equals("2")) {
-						mango3.reviewService.myReviewList(mango3.loginedCustomer.getLoginId(), 0);
+						mango3.reviewService.myReviewList(mango3.loginedCustomer.getLoginId());
 					} else if (input.equals("3")){
 
 						System.out.print("기존 비밀번호 : ");
