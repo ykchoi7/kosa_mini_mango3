@@ -3,7 +3,6 @@ package com.kosa.mango3.db;
 import java.sql.Connection;
 
 public interface DBManager {
-	
 	/**
 	 * DB로드
 	 */
