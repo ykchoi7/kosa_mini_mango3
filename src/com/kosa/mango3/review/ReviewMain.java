@@ -1,33 +1,30 @@
-package com.kosa.mango3.review.service;
+package com.kosa.mango3.review;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 import com.kosa.mango3.customer.dto.CustomerDTO;
+import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
+import com.kosa.mango3.review.dao.ReviewDAO;
 import com.kosa.mango3.review.dao.ReviewDAOOracle;
 import com.kosa.mango3.review.dto.ReviewDTO;
-import com.kosa.mango3.store.Mango3Store;
 import com.kosa.mango3.store.dto.StoreDTO;
 
 public class ReviewMain {	
-	
-	java.util.Scanner sc = new java.util.Scanner(System.in);
-	ReviewDAOOracle reviewDAO = new ReviewDAOOracle();
-//	Mango3Store mango3store = new Mango3Store();
+
+	private ReviewDAO dao;
 	
 	List<ReviewDTO> reviewList;
 	
-//	public static void main(String[] args) {
-//		ReviewMain reviewMain = new ReviewMain();
-//		long storeId = 1;
-//		String loginedId = "test1";
-//		reviewMain.reviewMenu(storeId, loginedId);
-//	}
-
+	public ReviewMain() {
+		this.dao = new ReviewDAOOracle();
+	}
+	
 	public void addMenu(long storeId, String loginedId) {
-		
+		Scanner sc = new Scanner(System.in);
+				
 		System.out.println(">>리뷰 추가<<");
 		System.out.println("평점을 번호로 골라주세요");
 		System.out.println("1. 맛있다");
@@ -72,23 +69,16 @@ public class ReviewMain {
 							.customerDTO(CustomerDTO.builder().loginId(loginedId).build())
 							.storeDTO(StoreDTO.builder().storeId(storeId).build())
 							.build();	
-		reviewDAO.create(reviewDTO, loginedId);
+		try {
+			dao.create(reviewDTO, loginedId);
+		} catch (AddException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	private void showReviewsByGrade(long storeId, int grade) {
-		
-//		try {
-//			reviewList = reviewDAO.selectByGrade(storeId, grade);
-//			if(reviewList.size() == 0) {
-//				printFail("리뷰가 없습니다"); 
-//			} else {
-//				printSuccess(reviewList);
-//			}
-//		} catch (FindException e) {
-//			printFail("리뷰 보기 실패");
-//		}
-		
 		Scanner sc = new Scanner(System.in);
+		
 		int page = 1;
 
 		int max=0;
@@ -100,7 +90,7 @@ public class ReviewMain {
 
 			int tmp=-1;
 			try {
-				tmp = reviewDAO.countGradeReview(storeId, grade);
+				tmp = dao.countGradeReview(storeId, grade);
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -112,7 +102,7 @@ public class ReviewMain {
 
 			List<ReviewDTO> reviewList=null;
 			try {
-				reviewList = reviewDAO.selectByGrade(storeId, grade, page);
+				reviewList = dao.selectByGrade(storeId, grade, page);
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -154,6 +144,7 @@ public class ReviewMain {
 	}
 	
 	public void showReviewsMenu(long storeId, String loginedId) {
+		Scanner sc = new Scanner(System.in);
 		
 		while(true) {
 			System.out.println();
@@ -170,7 +161,7 @@ public class ReviewMain {
 			case 1 :
 				
 				try {
-					reviewList = reviewDAO.selectByStoreNo(storeId, 0);
+					reviewList = dao.selectByStoreNo(storeId, 0);
 					if(reviewList.size() == 0) {
 						printFail("리뷰가 없습니다"); 
 					} else {
@@ -235,9 +226,8 @@ public class ReviewMain {
 	}
 	
 	public void reviewMenu(Long storeId, String loginedId) {
-		Mango3Store mango3store = new Mango3Store();
-//		Mango3 mango3 = new Mango3();
-		
+		Scanner sc = new Scanner(System.in);
+				
 		while(true) {
 			System.out.println();
 			System.out.println("1. 리뷰보기");
@@ -263,46 +253,34 @@ public class ReviewMain {
 			}	
 		}
 	}
-
-	
-	/*
-	public void myReviewList(String loginId) {
-		Scanner sc = new Scanner(System.in);
-		List<ReviewDTO> reviewList = reviewDAO.selectByCustomer(loginId);
-		*/
 	
 	public void myReviewList(String loginId) {
 		Scanner sc = new Scanner(System.in);
+		
 		int page = 1;
-
 		int max=0;
 		int maxPage=0;
 		int finalSize = 5;
 		int size=5;
 
 		while (true) {
-
 			int tmp=-1;
 			try {
-				tmp = reviewDAO.countMyReview(loginId);
+				tmp = dao.countMyReview(loginId);
+				if (tmp == 0) {
+					System.out.println("[알림]등록된 리뷰가 없습니다.");
+					return;
+				}
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
 			if(max!=tmp) {
 				max=tmp;
-				if(max%5==0) maxPage=max/5;
-				else maxPage=max/5+1;
+				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-
-			List<ReviewDTO> reviewList = reviewDAO.selectByCustomer(loginId, page);
-
-			if (max==0) {
-				System.out.println("[알림]등록된 리뷰가 없습니다.");
-				return;
-			}
-
-			if(page==maxPage) size=max%size;
-			else size=finalSize;
+			
+			List<ReviewDTO> reviewList = dao.selectByCustomer(loginId, page);
+			size = (page == maxPage) ? max%size : finalSize; 
 			
 			System.out.println("-".repeat(30));
 			int idx=finalSize*(page-1)+1;
@@ -327,7 +305,7 @@ public class ReviewMain {
 			} else if (input.equals("0")) {
 				break;
 			} else if (input.equals("*")) {
-				myReviewDelete(reviewList, sc);
+				myReviewDelete(reviewList);
 
 			} else {
 				System.out.println("[알림]잘못 입력하였습니다, 다시 입력해 주세요.");
@@ -335,7 +313,9 @@ public class ReviewMain {
 		}
 	}
 	
-	private List<ReviewDTO> myReviewDelete(List<ReviewDTO> reviewList, Scanner sc) {
+	private List<ReviewDTO> myReviewDelete(List<ReviewDTO> reviewList) {
+		Scanner sc = new Scanner(System.in);
+		
 		System.out.println("[알림]몇 번 리뷰를 삭제하시겠습니까?");
 		System.out.print(">> ");
 		String input = sc.nextLine();
@@ -363,7 +343,7 @@ public class ReviewMain {
 
 		if (input.equals("y")) {
 			Long reviewId = reviewList.get(index).getReviewId();
-			reviewDAO.delete(reviewId);
+			dao.delete(reviewId);
 			reviewList.remove(index);
 
 			System.out.println("[알림]삭제가 완료되었습니다.");
@@ -387,7 +367,6 @@ public class ReviewMain {
 		}
 
 		String content = reviewList.get(i).getComment();
-		//		Date date = reviewList.get(i).getRegdate();
 		String date = reviewList.get(i).getRegdate();
 
 		System.out.printf("%d. " + storeName + "\t   " + grade + "\n", idx);
