@@ -34,7 +34,7 @@ public class StoreAdmin {
 			String type=sc.nextLine();
 			
 			System.out.println("음식점을 추가하시겠습니까?");
-			System.out.println("계속 하시려면 아무 값을 입력해주세요. (0. 취소)");
+			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
 			System.out.print("입력 >> ");
 			String fin=sc.nextLine();
 			if(fin.equals("0")) {
@@ -78,7 +78,7 @@ public class StoreAdmin {
 			String content=sc.nextLine();
 			
 			System.out.println("음식점을 수정하시겠습니까?");
-			System.out.println("계속 하시려면 아무 값을 입력해주세요. (0. 취소)");
+			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
 			System.out.print("입력 >> ");
 			String fin=sc.nextLine();
 			if(fin.equals("0")) {
@@ -105,7 +105,7 @@ public class StoreAdmin {
 			String row=sc.nextLine();
 			
 			System.out.println("음식점을 삭제하시겠습니까?");
-			System.out.println("계속 하시려면 아무 값을 입력해주세요. (0. 취소)");
+			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
 			System.out.print("입력 >> ");
 			String fin=sc.nextLine();
 			if(fin.equals("0")) {
