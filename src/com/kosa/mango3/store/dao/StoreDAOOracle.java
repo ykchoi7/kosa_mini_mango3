@@ -190,17 +190,19 @@ public class StoreDAOOracle implements StoreDAO {
 	}
 
 	@Override
-	public void storeInfo() throws FindException {
+	public List<StoreDTO> storeInfo(long storeId) throws FindException {
+		List<StoreDTO> li = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		conn = oc.DBConnect();
 		
 		String selectSQL = "SELECT s.*, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt\r\n"
 				+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
-				+ "WHERE s.store_id = 1\r\n"
+				+ "WHERE s.store_id = ?\r\n"
 				+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type, s.address, s.tel, s.store_hour";
 		try {
 			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setLong(1, storeId);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				StoreDTO dto = new StoreDTO();
@@ -241,6 +243,7 @@ public class StoreDAOOracle implements StoreDAO {
 			}
 		}
 //		rd.create();
+		return li;
 	}
 
 }
