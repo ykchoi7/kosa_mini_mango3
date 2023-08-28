@@ -2,12 +2,12 @@ package com.kosa.mango3.store.service;
 
 import java.util.Scanner;
 
-import com.kosa.mango3.Mango3;
+import com.kosa.mango3.store.dao.StoreDAO;
 import com.kosa.mango3.store.dao.StoreDAOOracle;
 
 public class StoreService {
 	Scanner sc = new Scanner(System.in);
-	StoreDAOOracle dao = new StoreDAOOracle();
+	StoreDAO dao = new StoreDAOOracle();
 	LocService ls = new LocService();
 	TypeService ts = new TypeService();
 	SearchService ss = new SearchService();

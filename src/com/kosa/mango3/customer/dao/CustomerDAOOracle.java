@@ -13,15 +13,15 @@ import com.kosa.mango3.exception.ModifyException;
 import com.kosa.mango3.exception.RemoveException;
 
 public class CustomerDAOOracle implements CustomerDAO {
-
+	
+	private Connection conn = null;
+	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String user = "mango3";
+	private final String password = "mango3";
+	
 	@Override
 	public void insert(String id, String pw) throws AddException{
-
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
+		
 		PreparedStatement pstmt=null;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
@@ -57,11 +57,6 @@ public class CustomerDAOOracle implements CustomerDAO {
 	@Override
 	public CustomerDTO selectById(String id) throws FindException {
 		
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
 		try {
@@ -100,11 +95,6 @@ public class CustomerDAOOracle implements CustomerDAO {
 	
 	public void updatePwd(String id, String newPwd) throws ModifyException {
 		
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
 		PreparedStatement pstmt=null;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
@@ -135,11 +125,6 @@ public class CustomerDAOOracle implements CustomerDAO {
 	}
 	
 	public void delete(String id) throws RemoveException {
-		
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
 
 		PreparedStatement pstmt=null;
 		try {

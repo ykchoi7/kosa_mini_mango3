@@ -7,7 +7,7 @@ import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.customer.service.CustomerService;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
-import com.kosa.mango3.review.service.ReviewService;
+import com.kosa.mango3.review.service.ReviewMain;
 import com.kosa.mango3.store.StoreAdmin;
 import com.kosa.mango3.store.service.StoreService;
 
@@ -16,11 +16,13 @@ public class Mango3 {
 	private CustomerDTO loginedCustomer;
 	private CustomerService customerService;
 	private StoreService storeService;
-	private ReviewService reviewService;
+	private ReviewMain reviewService;
 	private static Scanner sc = new Scanner(System.in);
 
 	public Mango3() {
 		customerService = new CustomerService();
+		storeService=new StoreService();
+		reviewService=new ReviewMain();
 	}
 
 	public boolean loginSession() {
@@ -150,9 +152,9 @@ public class Mango3 {
 					input = sc.nextLine();
 
 					if (input.equals("1")) {
-						//mango3.storeService
+						mango3.storeService.serviceStore();
 					} else if (input.equals("2")) {
-						//mango3.reviewService
+						mango3.reviewService.myReviewList(mango3.loginedCustomer.getLoginId(), 0);
 					} else if (input.equals("3")){
 
 						System.out.print("기존 비밀번호 : ");

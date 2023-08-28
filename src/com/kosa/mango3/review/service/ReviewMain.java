@@ -124,7 +124,7 @@ public class ReviewMain {
 	}
 	
 	private void printSuccess(List<ReviewDTO> reviewList) {
-		for(int i = 0; i<reviewList.size(); i++) {
+		for(int i = 0; i<reviewList.size();i++) {
 			ReviewDTO d = reviewList.get(i);
 			printSuccess(d);
 		}

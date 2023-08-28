@@ -239,14 +239,14 @@ public class ReviewDAOOracle implements ReviewDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String selectMyReview = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate"
-							  + "FROM review r JOIN store s ON r.store_id = s.store_id"
-							  + "WHERE login_id = ?";
-		
-		String mySqlTest = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at\r\n"
-						 + "FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-						 + "WHERE r.login_id = ?";
-		
+//		String selectMyReview = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate"
+//							  + "FROM review r JOIN store s ON r.store_id = s.store_id"
+//							  + "WHERE login_id = ?";
+//		
+//		String mySqlTest = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at\r\n"
+//						 + "FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+//						 + "WHERE r.login_id = ?";
+//		
 		String oraclePaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
 					  		+ "FROM (SELECT ROWNUM rn, a.*\r\n"
 					  		+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
@@ -255,16 +255,16 @@ public class ReviewDAOOracle implements ReviewDAO {
 					  		+ "     )\r\n"
 					  		+ "WHERE rn BETWEEN ? AND ?";
 
-		String mySqlPaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
-				  		   + "FROM (SELECT @ROWNUM := @ROWNUM + 1 AS rn, a.*\r\n"
-				  		   + "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at AS regdate\r\n"
-				  		   + "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-				  		   + "            WHERE r.login_id = ?) a\r\n"
-				  		   + "     )\r\n"
-				  		   + "WHERE rn BETWEEN ? AND ?";
-		
+//		String mySqlPaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+//				  		   + "FROM (SELECT @ROWNUM := @ROWNUM + 1 AS rn, a.*\r\n"
+//				  		   + "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at AS regdate\r\n"
+//				  		   + "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+//				  		   + "            WHERE r.login_id = ?) a\r\n"
+//				  		   + "     )\r\n"
+//				  		   + "WHERE rn BETWEEN ? AND ?";
+//		
 		try {
-			pstmt = conn.prepareStatement(mySqlPaging);
+			pstmt = conn.prepareStatement(oraclePaging);
 			pstmt.setString(1, loginId);
 			pstmt.setInt(2, pageSize*(page-1)+1);
 			pstmt.setInt(3, pageSize*page);
