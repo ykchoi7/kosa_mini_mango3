@@ -8,6 +8,7 @@ import com.kosa.mango3.customer.service.CustomerService;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
 import com.kosa.mango3.review.service.ReviewMain;
+import com.kosa.mango3.store.Mango3Store;
 import com.kosa.mango3.store.service.StoreService;
 
 public class Mango3 {	
@@ -16,12 +17,14 @@ public class Mango3 {
 	private CustomerService customerService;
 	private StoreService storeService;
 	private ReviewMain reviewMain;
+	private Mango3Store mango3store;
 	private static Scanner sc = new Scanner(System.in);
 
 	public Mango3() {
 		customerService = new CustomerService();
 		storeService = new StoreService();
 		reviewMain = new ReviewMain();
+		mango3store = new Mango3Store();
 	}
 
 	public boolean loginSession() {
@@ -75,6 +78,7 @@ public class Mango3 {
 		Mango3 mango3 = new Mango3();
 		System.out.println("=".repeat(30));
 		System.out.println("KOSA Mini Project Mango3");
+	
 		String input = "";
 
 		while(true) {
@@ -114,9 +118,9 @@ public class Mango3 {
 					input = sc.nextLine();
 
 					if (input.equals("1")) {
-						mango3.storeService.serviceStore();
+						mango3.mango3store.serviceStore(mango3.loginedCustomer.getLoginId());
 					} else if (input.equals("2")) {
-//						mango3.reviewMain.myReviewList(loginId, 0);
+						mango3.reviewMain.myReviewList(mango3.loginedCustomer.getLoginId(), 0);
 					} else if (input.equals("3")){
 						mango3.logout();
 						break;

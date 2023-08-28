@@ -11,9 +11,8 @@ public class StoreService {
 	LocService ls = new LocService();
 	TypeService ts = new TypeService();
 	SearchService ss = new SearchService();
-	Mango3 m3 = new Mango3();
 
-	void serviceStore() {
+	public void serviceStore() {
 		String locnum = "";
 		String typenum = "";
 		String num = "";

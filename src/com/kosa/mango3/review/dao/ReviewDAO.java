@@ -25,7 +25,7 @@ public interface ReviewDAO {
 	/**
 	 * 리뷰 쓰기
 	 */
-	void create(ReviewDTO reviewDTO)  throws AddException;
+	void create(ReviewDTO reviewDTO, String id)  throws AddException;
 	
 	/**
 	 * 리뷰 삭제

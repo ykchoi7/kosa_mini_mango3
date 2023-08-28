@@ -52,9 +52,9 @@ public class Test {
 //			System.out.println("음식 종류 : " + list.get(i).getFoodType());
 //		}
 		
-		Mango3Store m3 = new Mango3Store();
-		m3.serviceStore();
-		
+//		Mango3Store m3 = new Mango3Store();
+//		m3.serviceStore();
+//		
 	}
 
 }

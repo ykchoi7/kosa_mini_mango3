@@ -5,28 +5,31 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import com.kosa.mango3.Mango3;
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.exception.FindException;
 import com.kosa.mango3.review.dao.ReviewDAOOracle;
 import com.kosa.mango3.review.dto.ReviewDTO;
+import com.kosa.mango3.store.Mango3Store;
 import com.kosa.mango3.store.dto.StoreDTO;
 
 public class ReviewMain {	
 	
-	public static void main(String[] args) {
-		ReviewMain reviewMain = new ReviewMain();
-		long storeId = 1;
-		String loginedId = "test1";
-		reviewMain.reviewMenu(storeId, loginedId);
-		
-	}
-	
 	java.util.Scanner sc = new java.util.Scanner(System.in);
 	ReviewDAOOracle reviewDAO = new ReviewDAOOracle();
+//	Mango3Store mango3store = new Mango3Store();
 	
 	List<ReviewDTO> reviewList;
+	
+//	public static void main(String[] args) {
+//		ReviewMain reviewMain = new ReviewMain();
+//		long storeId = 1;
+//		String loginedId = "test1";
+//		reviewMain.reviewMenu(storeId, loginedId);
+//	}
 
 	public void addMenu(long storeId, String loginedId) {
+		
 		System.out.println(">>리뷰 추가<<");
 		System.out.println("평점을 번호로 골라주세요");
 		System.out.println("1. 맛있다");
@@ -57,7 +60,7 @@ public class ReviewMain {
 							.customerDTO(CustomerDTO.builder().loginId(loginedId).build())
 							.storeDTO(StoreDTO.builder().storeId(storeId).build())
 							.build();	
-		reviewDAO.create(reviewDTO);
+		reviewDAO.create(reviewDTO, loginedId);
 	}
 	
 	private void showReviewsByGrade(long storeId, int grade) {
@@ -73,7 +76,8 @@ public class ReviewMain {
 		}
 	}
 	
-	public void showReviewsMenu(long storeId, String loginedId) {		
+	public void showReviewsMenu(long storeId, String loginedId) {
+		
 		while(true) {
 			System.out.println();
 			System.out.println(">>리뷰 보기<<");
@@ -116,8 +120,8 @@ public class ReviewMain {
 	}
 	private void printSuccess(ReviewDTO reviewDTO) {
 		String stringGrade = stringGrade(reviewDTO.getGrade());
-		System.out.println("'--------------------------------------------");	
-		System.out.println("1. " + reviewDTO.getCustomerDTO().getLoginId() + " - " + stringGrade);
+			
+		System.out.println(reviewDTO.getCustomerDTO().getLoginId() + " - " + stringGrade);
 		System.out.println("ㄴ " + reviewDTO.getComment());
 		System.out.println("                               " + reviewDTO.getRegdate());
 		
@@ -125,6 +129,7 @@ public class ReviewMain {
 	
 	private void printSuccess(List<ReviewDTO> reviewList) {
 		for(int i = 0; i<reviewList.size(); i++) {
+			System.out.print("'--------------------------------------------\n"+(i+1)+". ");
 			ReviewDTO d = reviewList.get(i);
 			printSuccess(d);
 		}
@@ -151,27 +156,31 @@ public class ReviewMain {
 	}
 	
 	public void reviewMenu(Long storeId, String loginedId) {
+		Mango3Store mango3store = new Mango3Store();
+//		Mango3 mango3 = new Mango3();
+		
 		while(true) {
 			System.out.println();
 			System.out.println("1. 리뷰보기");
 			System.out.println("2. 리뷰작성");
 			System.out.println("0. 뒤로가기");
-			System.out.println("*. 홈");
+//			System.out.println("*. 홈");
 			System.out.print(">입력:");
 			String input = sc.next();		
 			
-			switch(Integer.parseInt(input)) {
-				case 1 :
+			switch(input) {
+				case "1" :
 					showReviewsMenu(storeId, loginedId);
 					break;
-				case 2 :
+				case "2" :
 					addMenu(storeId, loginedId);
 					break;
-				case 0 :
-					
-					break;
-				case '*' :
-					break;
+				case "0" :
+					mango3store.serviceLoc("input", loginedId);
+					return;
+//				case "*" :
+//					mango3.home();
+//					break;
 			}	
 		}
 	}

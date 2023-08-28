@@ -6,17 +6,22 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.kosa.mango3.store.dto.StoreDTO;
+import com.kosa.mango3.customer.dto.CustomerDTO;
+import com.kosa.mango3.review.dao.ReviewDAOOracle;
+import com.kosa.mango3.review.dto.ReviewDTO;
+import com.kosa.mango3.review.service.ReviewMain;
 import com.kosa.mango3.store.dao.StoreDAOOracle;
 
 public class Mango3Store {
 	Scanner sc = new Scanner(System.in);
 	StoreDAOOracle dao = new StoreDAOOracle();
-	//private StoreService serivce;
+	ReviewMain reviewMain = new ReviewMain();
+	ReviewDTO reviewDto = new ReviewDTO();
 	List<StoreDTO> list = new ArrayList<>();
 	int end = 5; //리뷰 별 갯수 크기 지정
 
 	//음식조회 카테고리
-	public void serviceStore() {
+	public void serviceStore(String loginedId) {
 		String lnum = "";
 		String tnum = "";
 		String num = "";
@@ -36,11 +41,11 @@ public class Mango3Store {
 			
 			//번호 입력받았을 때 이동
 			if (num.equals("1")) {
-				serviceLoc(lnum);
+				serviceLoc(lnum, loginedId);
 			} else if (num.equals("2")) {
-				serviceType(tnum);
+				serviceType(tnum, loginedId);
 			} else if (num.equals("3")) {
-				serviceSearch();
+				serviceSearch(loginedId);
 			} else if (num.equals("0")) {
 				return;
 			} else {
@@ -51,7 +56,7 @@ public class Mango3Store {
 	}
 	
 	//위치에 따른 가게 정보 조회
-	public void serviceLoc(String lnum) {
+	public void serviceLoc(String lnum, String loginedId) {
 		
 		while(true) {
 			System.out.println("=".repeat(30));
@@ -68,6 +73,7 @@ public class Mango3Store {
 			lnum = sc.nextLine();
 
 			if (lnum.equals("0")) {
+				serviceStore(loginedId);
 				return;
 			} else {
 				String[] location = {"강남", "성수", "잠실", "마포"};
@@ -77,7 +83,7 @@ public class Mango3Store {
 			//가게 리스트 정보 출력
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println("---------------------------");
-				System.out.print(i+1 +". ");
+				System.out.print((i+1) +". ");
 				System.out.print(list.get(i).getStoreName() + " - ");
 				System.out.print("★".repeat((int)list.get(i).getGrade()) + "☆".repeat(end - (int)list.get(i).getGrade()));
 				System.out.println(" (" + list.get(i).getReviewId() +")");
@@ -85,7 +91,7 @@ public class Mango3Store {
 				System.out.println("음식 종류 : " + list.get(i).getFoodType());
 			}
 			
-			
+			//가게 상세 정보
 			System.out.println();
 			System.out.println("상세정보를 보고 싶은 가게번호를 입력해주세요");
 			System.out.print("입력>> ");
@@ -103,12 +109,13 @@ public class Mango3Store {
 			System.out.println("음식 종류 : " + list.get(num).getFoodType());
 			System.out.println("영업시간 : " + list.get(num).getStoreHour());
 			
+			reviewMain.reviewMenu(list.get(num).getStoreId(), loginedId);
 		}
 	}
 	
 
 	//음식종류별 가게 조회
-	public void serviceType(String tnum) {
+	public void serviceType(String tnum, String loginedId) {
 		
 		while(true) {
 			System.out.println("=".repeat(30));
@@ -125,6 +132,7 @@ public class Mango3Store {
 			tnum = sc.nextLine();
 			
 			if (tnum.equals("0")) {
+				serviceStore(loginedId);
 				return;
 			} else {
 				String[] type = {"한식", "중식", "일식", "양식"};
@@ -160,11 +168,12 @@ public class Mango3Store {
 			System.out.println("음식 종류 : " + list.get(num).getFoodType());
 			System.out.println("영업시간 : " + list.get(num).getStoreHour());
 		
+			reviewMain.reviewMenu(list.get(num).getStoreId(), loginedId);
 		}
 	}
 	
 	//가게명으로 검색
-	public void serviceSearch(){
+	public void serviceSearch(String loginedId){
 		String storeName;
 		int end = 5;
 		
@@ -180,16 +189,34 @@ public class Mango3Store {
 			}else {
 				for (int i = 0; i < list.size(); i++) {
 					System.out.println("---------------------------");
+					System.out.print(i+1 + ". ");
 					System.out.print(list.get(i).getStoreName() + " - ");
-					System.out.print(
-							"★".repeat((int) list.get(i).getGrade()) + "☆".repeat(end - (int) list.get(i).getGrade()));
-					System.out.println(" (" + list.get(i).getReviewId() + ")");
-					System.out.println("주소 : " + list.get(i).getAddress());
-					System.out.println("연락처   : " + list.get(i).getTel());
-					System.out.println("음식 종류 : " + list.get(i).getFoodType());
-					System.out.println("영업시간 : " + list.get(i).getStoreHour());
+					System.out.print("★".repeat((int)list.get(i).getGrade()) + "☆".repeat(end - (int)list.get(i).getGrade()));
+					System.out.println(" (" + list.get(i).getReviewId() +")");
+					System.out.println("위치 : " + list.get(i).getLocation());
+					System.out.println("음식 종류 : " + list.get(i).getFoodType());					
 				}
 			}	
+			
+			
+			//번호입력받아서 가게 상세정보 출력하기
+			System.out.println();
+			System.out.println("상세정보를 보고 싶은 가게번호를 입력해주세요");
+			System.out.print("입력>> ");
+			
+			String detail = sc.nextLine();
+			int num = (Integer.parseInt(detail))-1;
+			
+			System.out.println("---------------------------");
+			System.out.print(list.get(num).getStoreName() + " - ");
+			System.out.print(
+					"★".repeat((int) list.get(num).getGrade()) + "☆".repeat(end - (int) list.get(num).getGrade()));
+			System.out.println(" (" + list.get(num).getReviewId() + ")");
+			System.out.println("주소 : " + list.get(num).getAddress());
+			System.out.println("연락처   : " + list.get(num).getTel());
+			System.out.println("음식 종류 : " + list.get(num).getFoodType());
+			System.out.println("영업시간 : " + list.get(num).getStoreHour());
 		
+			reviewMain.reviewMenu(list.get(num).getStoreId(), loginedId);	
 	}
 }

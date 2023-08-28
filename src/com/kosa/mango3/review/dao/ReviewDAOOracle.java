@@ -83,6 +83,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 	@Override
 	public List<ReviewDTO> selectByGrade(long storeId, int grade) throws FindException {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
+		
 		conn = oc.DBConnect();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -140,7 +141,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 		return reviewList;
 	}
 
-	public void create(ReviewDTO reviewDTO) {
+	public void create(ReviewDTO reviewDTO, String loginId) {
 		conn = oc.DBConnect();
 		
 //		CustomerDAO cd = new CustomerDAO();
@@ -148,7 +149,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 //			ReviewService.reviewMenu();
 //			return;
 //		}
-
+		
 		PreparedStatement pstmt = null;
 		String insertSQL = "INSERT INTO \"MANGO3\".\"REVIEW\" (REVIEW_ID, GRADE, RW_CONTENT, STORE_ID, LOGIN_ID) "
 							+ "VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?)";
