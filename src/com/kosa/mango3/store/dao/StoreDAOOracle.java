@@ -59,7 +59,7 @@ public class StoreDAOOracle implements StoreDAO {
 			}
 		} catch (SQLException e) {
 			//			e.printStackTrace();
-			throw new FindException("맛집리스트를 조회할 수 없습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ 음식점을 조회할 수 없습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -125,7 +125,7 @@ public class StoreDAOOracle implements StoreDAO {
 
 		} catch (SQLException e) {
 			//			System.out.println(e.getMessage());
-			throw new FindException("맛집리스트를 조회할 수 없습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ 음식점을 조회할 수 없습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -189,7 +189,7 @@ public class StoreDAOOracle implements StoreDAO {
 				storeList.add(dto);
 			}
 		} catch (SQLException e) {
-			throw new FindException("맛집리스트를 조회할 수 없습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ 음식점을 조회할 수 없습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -225,7 +225,6 @@ public class StoreDAOOracle implements StoreDAO {
 
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			System.out.println("Oracle DB 연결 성공");
 
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, loc);
@@ -233,10 +232,10 @@ public class StoreDAOOracle implements StoreDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("맛집 개수 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ 음식점을 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -263,7 +262,6 @@ public class StoreDAOOracle implements StoreDAO {
 
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			System.out.println("Oracle DB 연결 성공");
 			String selectSQL = "SELECT COUNT(*) FROM store WHERE food_type=?";
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, type);
@@ -271,10 +269,10 @@ public class StoreDAOOracle implements StoreDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("맛집 개수 조회 실패");
+				throw new FindException("");
 			}
 		} catch (Exception e) {
-			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ 음식점을 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -302,7 +300,6 @@ public class StoreDAOOracle implements StoreDAO {
 
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			//System.out.println("Oracle DB 연결 성공");
 			String selectSQL = "SELECT COUNT(*) FROM store WHERE INSTR(store_name, ?) > 0";
 
 			pstmt = conn.prepareStatement(selectSQL);
@@ -312,10 +309,10 @@ public class StoreDAOOracle implements StoreDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("맛집 개수 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ 음식점을 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {

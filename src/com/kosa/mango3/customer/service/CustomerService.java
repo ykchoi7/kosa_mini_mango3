@@ -21,7 +21,7 @@ public class CustomerService {
 			dao.insert(loginId, pwd);
 		} catch (AddException e) {
 			//e.printStackTrace();
-			throw new AddException("ID가 중복됩니다.");
+			throw new AddException("( つ｡>﹏<｡)つ ID가 중복됩니다.");
 		}
 	}
 	
@@ -33,14 +33,14 @@ public class CustomerService {
 			return c;
 		} catch (FindException e) {
 			//e.printStackTrace();
-			throw new FindException("ID가 존재하지 않거나 비밀번호가 올바르지 않습니다.");
+			throw new FindException("( つ｡>﹏<｡)つ ID가 존재하지 않거나 PW가 올바르지 않습니다.");
 		}
 	}
 	
 	public void changePwd(String id, String newPwd) {
 		try {
 			dao.updatePwd(id, newPwd);
-			System.out.println("비밀번호 변경이 완료되었습니다.");
+			System.out.println("༼ つ ◕_◕ ༽つ PW 변경이 완료되었습니다.");
 		} catch (ModifyException e) {
 			System.out.println(e.getMessage());
 		}
@@ -49,7 +49,7 @@ public class CustomerService {
 	public void removeCustomer(String id) {
 		try {
 			dao.updateStatus(id);
-			System.out.println("회원 탈퇴가 완료되었습니다.");
+			System.out.println("༼ つ ◕_◕ ༽つ 회원 탈퇴가 완료되었습니다.");
 		} catch (RemoveException e) {
 			System.out.println(e.getMessage());
 		}

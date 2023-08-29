@@ -39,11 +39,9 @@ public class ReviewDAOOracle implements ReviewDAO {
 			pstmt.setLong(3, reviewDTO.getStoreDTO().getStoreId());
 			pstmt.setString(4, reviewDTO.getCustomerDTO().getLoginId());
 
-			int rowcnt = pstmt.executeUpdate();	// 반환값이 int 타입,
-			System.out.println(rowcnt + "건 추가 성공");
-			//conn.commit(); auto commit 끄는법
+			pstmt.executeUpdate();	
 		} catch (SQLException e) {
-			throw new AddException("리뷰 쓰기 실패");
+			throw new AddException("( つ｡>﹏<｡)つ 리뷰 등록에 실패하였습니다.");
 		} finally {
 			if(pstmt != null) {
 				try {
@@ -65,13 +63,13 @@ public class ReviewDAOOracle implements ReviewDAO {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
 		int pageSize=5;
 		
-		String selectSQL = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+		String selectSQL = "SELECT rn, review_id, grade, rw_content, TO_CHAR(regdate, 'yy/mm/dd') regdate, login_id\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
-				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
-				+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-				+ "            WHERE s.store_id = ?) a\r\n"
-				+ "     )\r\n"
-				+ "WHERE rn BETWEEN 1 AND 2";
+				+ "FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
+				+ "FROM review\r\n"
+				+ "WHERE store_id = ? and grade=1\r\n"
+				+ "ORDER BY regdate DESC) a )\r\n"
+				+ "WHERE rn BETWEEN ? AND ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -81,15 +79,16 @@ public class ReviewDAOOracle implements ReviewDAO {
 			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
-//			pstmt.setInt(2, pageSize*(page-1)+1);
-//			pstmt.setInt(3, pageSize*page);
+			pstmt.setInt(2, pageSize*(page-1)+1);
+			pstmt.setInt(3, pageSize*page);
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
 				Integer grade = rs.getInt("grade");
 				String comment = rs.getString("rw_content");
 				String loginId = rs.getString("login_id");
-				String regdate = rs.getString("regdate");		
+				String regdate = rs.getString("regdate");
+				
 				
 				CustomerDTO customerDTO = CustomerDTO.builder().loginId(loginId).build();			
 				ReviewDTO rwDTO = ReviewDTO.builder()
@@ -103,8 +102,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				}
 			
 		} catch (SQLException e) {
-			
-			throw new FindException(e.getMessage());
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰 조회에 실패하였습니다.");
 		} finally {
 			if(rs != null) {
 				try {
@@ -134,7 +132,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
 		int pageSize=5;
 		
-		String selectSQL = "SELECT rn, review_id, grade, rw_content, regdate, login_id\r\n"
+		String selectSQL = "SELECT rn, review_id, grade, rw_content,  TO_CHAR(regdate, 'yy/mm/dd') regdate, login_id\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "      FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
 				+ "            FROM review\r\n"
@@ -174,8 +172,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰 조회에 실패하였습니다.");
 		} finally {
 			if(rs != null) {
 				try {
@@ -242,7 +239,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				reviewList.add(r);
 			}
 		} catch (SQLException e) {
-			//
+			throw new FindException("( つ｡>﹏<｡)つ 내 리뷰 조회에 실패하였습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -282,7 +279,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 			pstmt.setLong(1, reviewId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RemoveException("( つ｡>﹏<｡)つ 리뷰 삭제에 실패하였습니다.");
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -316,10 +313,10 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("리뷰 개수 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("리뷰 개수 조회 실패");
+			throw new FindException("");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -358,10 +355,10 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("리뷰 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("리뷰 조회 실패");
+			throw new FindException("");
 		} finally {
 			if(pstmt!=null) {
 				try {

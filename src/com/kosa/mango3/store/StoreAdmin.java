@@ -35,7 +35,7 @@ public class StoreAdmin {
 			
 			System.out.println("음식점을 추가하시겠습니까?");
 			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
-			System.out.print("입력 >> ");
+			System.out.print("✔️ ");
 			String fin=sc.nextLine();
 			if(fin.equals("0")) {
 				System.out.println("실행이 취소되었습니다.");
@@ -88,7 +88,7 @@ public class StoreAdmin {
 			
 			System.out.println("음식점을 수정하시겠습니까?");
 			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
-			System.out.print("입력 >> ");
+			System.out.print("✔️ ");
 			String fin=sc.nextLine();
 			if(fin.equals("0")) {
 				System.out.println("실행이 취소되었습니다.");
@@ -115,7 +115,7 @@ public class StoreAdmin {
 			
 			System.out.println("음식점을 삭제하시겠습니까?");
 			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
-			System.out.print("입력 >> ");
+			System.out.print("✔️ ");
 			String fin=sc.nextLine();
 			if(fin.equals("0")) {
 				System.out.println("실행이 취소되었습니다.");
@@ -156,7 +156,7 @@ public class StoreAdmin {
 			pstmt.setString(7, storeDTO.getFoodType());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new AddException("음식점 추가 실패");
+			throw new AddException("음식점 추가에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -192,7 +192,7 @@ public class StoreAdmin {
 			pstmt = conn.prepareStatement(updateSQL);
 			pstmt.executeQuery();
 		} catch (SQLException e) {
-			throw new ModifyException("음식점 수정 실패");
+			throw new ModifyException("음식점 수정에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -228,7 +228,7 @@ public class StoreAdmin {
 			pstmt = conn.prepareStatement(deleteSQL);
 			pstmt.executeQuery();
 		} catch (SQLException e) {
-			throw new RemoveException("음식점 삭제 실패");
+			throw new RemoveException("음식점 삭제에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -267,10 +267,10 @@ public class StoreAdmin {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("음식점 개수 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("음식점 개수 조회 실패");
+			throw new FindException("음식점 개수 조회에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -323,7 +323,7 @@ public class StoreAdmin {
 				System.out.println("음식 종류 : "+rs.getString("food_type")+" | ");
 			}
 		} catch (SQLException e) {
-			throw new FindException("음식점 조회 실패");
+			throw new FindException("음식점 조회에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
