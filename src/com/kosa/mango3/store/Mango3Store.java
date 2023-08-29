@@ -21,7 +21,7 @@ public class Mango3Store {
 	int end = 5; //리뷰 별 갯수 크기 지정
 
 	//음식조회 카테고리
-	public void serviceStore(String loginedId) {
+	public void serviceStore(String loginedId) throws Exception {
 		String lnum = "";
 		String tnum = "";
 		String num = "";
@@ -56,7 +56,7 @@ public class Mango3Store {
 	}
 	
 	//위치에 따른 가게 정보 조회
-	public void serviceLoc(String lnum, String loginedId) {
+	public void serviceLoc(String lnum, String loginedId) throws Exception {
 		
 		while(true) {
 			System.out.println("=".repeat(30));
@@ -99,6 +99,7 @@ public class Mango3Store {
 			String sdetail = sc.nextLine();
 			int num = (Integer.parseInt(sdetail))-1;
 			
+			if(!(list.contains(num))) throw new Exception("조회되는 가게 정보가 없습니다");
 			System.out.println("---------------------------");
 			System.out.print(list.get(num).getStoreName() + " - ");
 			System.out.print(
@@ -115,7 +116,7 @@ public class Mango3Store {
 	
 
 	//음식종류별 가게 조회
-	public void serviceType(String tnum, String loginedId) {
+	public void serviceType(String tnum, String loginedId) throws Exception {
 		
 		while(true) {
 			System.out.println("=".repeat(30));
