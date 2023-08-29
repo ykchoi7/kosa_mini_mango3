@@ -9,24 +9,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kosa.mango3.customer.dto.CustomerDTO;
-import com.kosa.mango3.db.Oracle;
+import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
+import com.kosa.mango3.exception.RemoveException;
 import com.kosa.mango3.review.dto.ReviewDTO;
 import com.kosa.mango3.store.dto.StoreDTO;
 
 public class ReviewDAOOracle implements ReviewDAO {
-//	private List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();	
-
-	Oracle oc = new Oracle();
-	Connection conn = null;
 	
+	private final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String USER = "mango3";
+	private final String PASSWD = "mango3";
+	private Connection conn = null;
+	
+	@Override
+	public void create(ReviewDTO reviewDTO, String loginId) throws AddException {
+		
+		String insertSQL = "INSERT INTO \"MANGO3\".\"REVIEW\" (REVIEW_ID, GRADE, RW_CONTENT, STORE_ID, LOGIN_ID) "
+				+ "VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?)";
+		
+		PreparedStatement pstmt = null;
+					
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
+		 	pstmt = conn.prepareStatement(insertSQL);
+			pstmt.setInt(1, reviewDTO.getGrade());
+			pstmt.setString(2, reviewDTO.getComment());
+			pstmt.setLong(3, reviewDTO.getStoreDTO().getStoreId());
+			pstmt.setString(4, reviewDTO.getCustomerDTO().getLoginId());
+
+			int rowcnt = pstmt.executeUpdate();	// 반환값이 int 타입,
+			System.out.println(rowcnt + "건 추가 성공");
+			//conn.commit(); auto commit 끄는법
+		} catch (SQLException e) {
+			throw new AddException("리뷰 쓰기 실패");
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}			
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+
 	@Override
 	public List<ReviewDTO> selectByStoreNo(long storeId, int page) throws FindException {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
-		conn = oc.DBConnect();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		int pageSize=5;
+		
 		String selectSQL = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
@@ -34,7 +72,13 @@ public class ReviewDAOOracle implements ReviewDAO {
 				+ "            WHERE login_id = ?) a\r\n"
 				+ "     )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
 			pstmt.setInt(2, pageSize*(page-1)+1);
@@ -87,11 +131,8 @@ public class ReviewDAOOracle implements ReviewDAO {
 	@Override
 	public List<ReviewDTO> selectByGrade(long storeId, int grade, int page) throws FindException {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
-		
-		conn = oc.DBConnect();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		int pageSize=5;
+		
 		String selectSQL = "SELECT rn, review_id, grade, rw_content, regdate, login_id\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "      FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
@@ -100,7 +141,13 @@ public class ReviewDAOOracle implements ReviewDAO {
 				+ "            ORDER BY regdate DESC) a\r\n"
 				+ "     )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+				
 		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
 			pstmt.setInt(2, grade);
@@ -152,97 +199,11 @@ public class ReviewDAOOracle implements ReviewDAO {
 		return reviewList;
 	}
 
-	public void create(ReviewDTO reviewDTO, String loginId) {
-		conn = oc.DBConnect();
-		
-//		CustomerDAO cd = new CustomerDAO();
-//		if(cd.login() == -1) {
-//			ReviewService.reviewMenu();
-//			return;
-//		}
-		
-		PreparedStatement pstmt = null;
-		String insertSQL = "INSERT INTO \"MANGO3\".\"REVIEW\" (REVIEW_ID, GRADE, RW_CONTENT, STORE_ID, LOGIN_ID) "
-							+ "VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?)";
-			
-			try {
-				 	pstmt = conn.prepareStatement(insertSQL);
-					pstmt.setInt(1, reviewDTO.getGrade());
-					pstmt.setString(2, reviewDTO.getComment());
-					pstmt.setLong(3, reviewDTO.getStoreDTO().getStoreId());
-					pstmt.setString(4, reviewDTO.getCustomerDTO().getLoginId());
-
-					int rowcnt = pstmt.executeUpdate();	// 반환값이 int 타입,
-					System.out.println(rowcnt + "건 추가 성공");
-					//conn.commit(); auto commit 끄는법
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				if(pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException e) {
-					}
-				}			
-				if(conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-					}
-				}
-			}
-		}
-		
 	@Override
-	public void delete(long reviewId) {
-		conn = oc.DBConnect();
-		
-		/*
-		Connection conn = null;
-		
-		try {
-			conn = DriverManager.getConnection(db.getUrl(), db.getUser(), db.getPwd());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		*/
-
-		PreparedStatement pstmt = null;		
-		String deleteMyReview = "DELETE review WHERE review_id = ?";
-		
-		try {
-			pstmt = conn.prepareStatement(deleteMyReview);
-			pstmt.setLong(1, reviewId);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {}
-			}
-
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {}
-			}
-		}
-	}
-
-	@Override
-	public List<ReviewDTO> selectByCustomer(String loginId, int page) {
-
+	public List<ReviewDTO> selectByCustomer(String loginId, int page) throws FindException {
 		List<ReviewDTO> reviewList = new ArrayList<>();
 		int pageSize = 5;
 
-		conn = oc.DBConnect();
-
-		
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		String oraclePaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.*\r\n"
 				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
@@ -250,8 +211,13 @@ public class ReviewDAOOracle implements ReviewDAO {
 				+ "            WHERE login_id = ?) a\r\n"
 				+ "     )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
 		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
 			pstmt = conn.prepareStatement(oraclePaging);
 			pstmt.setString(1, loginId);
 			pstmt.setInt(2, pageSize*(page-1)+1);
@@ -301,21 +267,50 @@ public class ReviewDAOOracle implements ReviewDAO {
 
 		return reviewList;
 	}
+	
+	@Override
+	public void delete(long reviewId) throws RemoveException {
+		
+		String deleteMyReview = "DELETE review WHERE review_id = ?";
+		PreparedStatement pstmt = null;		
+				
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
+			pstmt = conn.prepareStatement(deleteMyReview);
+			pstmt.setLong(1, reviewId);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {}
+			}
 
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+	}
+
+	@Override
 	public int countMyReview(String id) throws FindException {
 
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
+		String selectSQL = "SELECT COUNT(*) FROM review WHERE login_id=?";
+		
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
+		
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
 			//System.out.println("Oracle DB 연결 성공");
-			String selectSQL = "SELECT COUNT(*) FROM review WHERE login_id='"+id+"'";
+			
 			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
@@ -343,21 +338,21 @@ public class ReviewDAOOracle implements ReviewDAO {
 
 	}
 	
+	@Override
 	public int countGradeReview(long id, int grade) throws FindException {
 
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
+		String selectSQL = "SELECT COUNT(*) FROM review WHERE store_id=? AND grade=?";
+		
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
+		
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
 			//System.out.println("Oracle DB 연결 성공");
-			String selectSQL = "SELECT COUNT(*) FROM review WHERE store_id="+id
-					+ " AND grade="+grade;
+			
 			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setLong(1, id);
+			pstmt.setInt(2, grade);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");

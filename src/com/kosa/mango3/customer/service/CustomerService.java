@@ -13,7 +13,7 @@ public class CustomerService {
 	private CustomerDAO dao; 
 
 	public CustomerService() {
-		dao = new CustomerDAOOracle();
+		this.dao = new CustomerDAOOracle();
 	}
 
 	public void join(String loginId, String pwd) throws AddException {
