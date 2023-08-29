@@ -30,12 +30,7 @@ public interface StoreDAO {
 	 * @throws FindException
 	 */
 	List<StoreDTO> findByName(String storeName, int page) throws FindException;
-		
-	/**
-	 * 맛집 상세 조회
-	 * @throws FindException
-	 */
-	StoreDTO storeInfo(long storeId) throws FindException;
+
 	
 	int countStoreLoc(String loc) throws FindException;
 	int countStoreType(String type) throws FindException;
