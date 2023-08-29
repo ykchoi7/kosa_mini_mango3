@@ -7,19 +7,20 @@ import java.util.Scanner;
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
+import com.kosa.mango3.exception.RemoveException;
 import com.kosa.mango3.review.dao.ReviewDAO;
 import com.kosa.mango3.review.dao.ReviewDAOOracle;
 import com.kosa.mango3.review.dto.ReviewDTO;
+import com.kosa.mango3.review.service.ReviewService;
 import com.kosa.mango3.store.dto.StoreDTO;
 
 public class ReviewMain {	
-
-	private ReviewDAO dao;
+	private ReviewService reviewService;
 	
 	List<ReviewDTO> reviewList;
 	
 	public ReviewMain() {
-		this.dao = new ReviewDAOOracle();
+		this.reviewService = new ReviewService();
 	}
 	
 	public void addMenu(long storeId, String loginedId) {
@@ -69,8 +70,9 @@ public class ReviewMain {
 							.customerDTO(CustomerDTO.builder().loginId(loginedId).build())
 							.storeDTO(StoreDTO.builder().storeId(storeId).build())
 							.build();	
+		
 		try {
-			dao.create(reviewDTO, loginedId);
+			reviewService.create(reviewDTO, loginedId);
 		} catch (AddException e) {
 			System.out.println(e.getMessage());
 		}
@@ -80,7 +82,6 @@ public class ReviewMain {
 		Scanner sc = new Scanner(System.in);
 		
 		int page = 1;
-
 		int max=0;
 		int maxPage=0;
 		int finalSize = 5;
@@ -90,7 +91,7 @@ public class ReviewMain {
 
 			int tmp=-1;
 			try {
-				tmp = dao.countGradeReview(storeId, grade);
+				tmp = reviewService.countGradeReview(storeId, grade);
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -102,7 +103,7 @@ public class ReviewMain {
 
 			List<ReviewDTO> reviewList=null;
 			try {
-				reviewList = dao.selectByGrade(storeId, grade, page);
+				reviewList = reviewService.selectByGrade(storeId, grade, page);
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -161,7 +162,7 @@ public class ReviewMain {
 			case 1 :
 				
 				try {
-					reviewList = dao.selectByStoreNo(storeId, 0);
+					reviewList = reviewService.selectByStoreNo(storeId, 0);
 					if(reviewList.size() == 0) {
 						printFail("리뷰가 없습니다"); 
 					} else {
@@ -205,10 +206,10 @@ public class ReviewMain {
 		}
 	}
 	
-	
 	void printFail(String msg) {
 		System.out.println(msg);
 	}
+	
 	String stringGrade(int grade) {
 		String stringGrade = null;
 		switch(grade) {
@@ -245,11 +246,10 @@ public class ReviewMain {
 					addMenu(storeId, loginedId);
 					break;
 				case "0" :
-//					mango3store.serviceLoc("input", loginedId);
 					return;
-//				case "*" :
-//					mango3.home();
-//					break;
+				default :
+					System.out.println("[알림] 잘못 입력하였습니다.");
+					break;
 			}	
 		}
 	}
@@ -266,7 +266,7 @@ public class ReviewMain {
 		while (true) {
 			int tmp=-1;
 			try {
-				tmp = dao.countMyReview(loginId);
+				tmp = reviewService.countMyReview(loginId);
 				if (tmp == 0) {
 					System.out.println("[알림]등록된 리뷰가 없습니다.");
 					return;
@@ -279,37 +279,42 @@ public class ReviewMain {
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
 			
-			List<ReviewDTO> reviewList = dao.selectByCustomer(loginId, page);
-			size = (page == maxPage) ? max%size : finalSize; 
+			List<ReviewDTO> reviewList;
+			try {
+				reviewList = reviewService.selectByCustomer(loginId, page);
+				size = (page == maxPage) ? max%size : finalSize; 
+				
+				System.out.println("-".repeat(30));
+				int idx=finalSize*(page-1)+1;
+				for (int i = 0; i<size; i++) {
+					reviewPrint(reviewList, i, idx+i);
+				}
+				if (page!=1) System.out.println("p.이전 리스트 <-----");
+				if (page<maxPage) System.out.println("-----> n.다음 리스트");
+
+				System.out.println("0.뒤로가기");
+				System.out.println("*.리뷰 삭제하기");
+				System.out.print(">> ");
+				String input = sc.nextLine();
+
+				if (input.equals("p")) {
+					if(page>1) page--;
+					else System.out.println("첫번째 페이지입니다.");
+				} else if (input.equals("n")) {
+					if(page<max) page++;
+					else System.out.println("마지막 페이지입니다.");
+				} else if (input.equals("0")) {
+					break;
+				} else if (input.equals("*")) {
+					myReviewDelete(reviewList);
+
+				} else {
+					System.out.println("[알림]잘못 입력하였습니다, 다시 입력해 주세요.");
+				}
+			} catch (FindException e) {
+				System.out.println(e.getMessage());
+			}
 			
-			System.out.println("-".repeat(30));
-			int idx=finalSize*(page-1)+1;
-			for (int i = 0; i<size; i++) {
-				reviewPrint(reviewList, i, idx+i);
-			}
-
-			if (page!=1) System.out.println("p.이전 리스트 <-----");
-			if (page<maxPage) System.out.println("-----> n.다음 리스트");
-
-			System.out.println("0.뒤로가기");
-			System.out.println("*.리뷰 삭제하기");
-			System.out.print(">> ");
-			String input = sc.nextLine();
-
-			if (input.equals("p")) {
-				if(page>1) page--;
-				else System.out.println("첫번째 페이지입니다.");
-			} else if (input.equals("n")) {
-				if(page<max) page++;
-				else System.out.println("마지막 페이지입니다.");
-			} else if (input.equals("0")) {
-				break;
-			} else if (input.equals("*")) {
-				myReviewDelete(reviewList);
-
-			} else {
-				System.out.println("[알림]잘못 입력하였습니다, 다시 입력해 주세요.");
-			}
 		}
 	}
 	
@@ -343,7 +348,11 @@ public class ReviewMain {
 
 		if (input.equals("y")) {
 			Long reviewId = reviewList.get(index).getReviewId();
-			dao.delete(reviewId);
+			try {
+				reviewService.delete(reviewId);
+			} catch (RemoveException e) {
+				System.out.println(e.getMessage());
+			}
 			reviewList.remove(index);
 
 			System.out.println("[알림]삭제가 완료되었습니다.");
