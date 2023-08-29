@@ -39,11 +39,9 @@ public class ReviewDAOOracle implements ReviewDAO {
 			pstmt.setLong(3, reviewDTO.getStoreDTO().getStoreId());
 			pstmt.setString(4, reviewDTO.getCustomerDTO().getLoginId());
 
-			int rowcnt = pstmt.executeUpdate();	// 반환값이 int 타입,
-			System.out.println(rowcnt + "건 추가 성공");
-			//conn.commit(); auto commit 끄는법
+			pstmt.executeUpdate();	
 		} catch (SQLException e) {
-			throw new AddException("리뷰 쓰기 실패");
+			throw new AddException("( つ｡>﹏<｡)つ 리뷰 등록에 실패하였습니다.");
 		} finally {
 			if(pstmt != null) {
 				try {
@@ -104,8 +102,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				}
 			
 		} catch (SQLException e) {
-			
-			throw new FindException(e.getMessage());
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰 조회에 실패하였습니다.");
 		} finally {
 			if(rs != null) {
 				try {
@@ -175,8 +172,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰 조회에 실패하였습니다.");
 		} finally {
 			if(rs != null) {
 				try {
@@ -243,7 +239,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				reviewList.add(r);
 			}
 		} catch (SQLException e) {
-			//
+			throw new FindException("( つ｡>﹏<｡)つ 내 리뷰 조회에 실패하였습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -283,7 +279,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 			pstmt.setLong(1, reviewId);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RemoveException("( つ｡>﹏<｡)つ 리뷰 삭제에 실패하였습니다.");
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -317,10 +313,10 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("리뷰 개수 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("리뷰 개수 조회 실패");
+			throw new FindException("");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -359,10 +355,10 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
 			}else {
-				throw new FindException("리뷰 조회 실패");
+				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("리뷰 조회 실패");
+			throw new FindException("");
 		} finally {
 			if(pstmt!=null) {
 				try {

@@ -25,30 +25,30 @@ public class ReviewMain {
 	public void addMenu(long storeId, String loginedId) {
 		Scanner sc = new Scanner(System.in);
 				
-		System.out.println(">>리뷰 추가<<");
-		System.out.println("평점을 번호로 골라주세요");
-		System.out.println("1. 맛있다");
-		System.out.println("2. 괜찮다");
-		System.out.println("3. 별로");
-		System.out.print(">입력:");
+		System.out.println("༼ つ ◕_◕ ༽つ 리뷰를 등록합니다.");
+		System.out.println("음식 후기를 골라주세요.");
+		System.out.println("1. 맛있다(^_^)b");
+		System.out.println("2. 괜찮다(^^);");
+		System.out.println("3. 별로(-_-);");
+		System.out.print("✔️ ");
 		String input = sc.next();
 		int grade=0;
 		if(input.equals("1")) {
 			grade=5;
-			input="맛있다";
+			input="맛있다(^_^)b";
 		} else if(input.equals("2")) {
 			grade=3;
-			input="괜찮다";
+			input="괜찮다(^^);";
 		} else if(input.equals("3")) {
 			grade=1;
-			input="별로";
+			input="별로(-_-);";
 		} else {
-			System.out.println("잘못 입력하셨습니다.");
+			System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 			return;
 		}
 		
-		System.out.println("리뷰 입력하세요");
-		System.out.print(">내용 입력:");
+		System.out.println("༼ つ ◕_◕ ༽つ 리뷰 내용을 입력하세요");
+		System.out.print("✔️ ");
 		String comment = sc.next();			
 		LocalDate today = LocalDate.now();
 		
@@ -56,10 +56,11 @@ public class ReviewMain {
 		System.out.println("1." + loginedId + " - " + input);
 		System.out.println("ㄴ " + comment);
 		System.out.println("                               " + today);
-		System.out.print("등록 하시겠습니까?(y/n)");
+		System.out.println("༼ つ ◕_◕ ༽つ 리뷰를 등록하시겠습니까? (0 입력 시 리뷰 등록 취소)");
+		System.out.print("✔️ ");
 		String yn = sc.next();
 		
-		if(yn.equals("n")) {
+		if(yn.equals("0")) {
 			return;
 		}
 		
@@ -108,7 +109,7 @@ public class ReviewMain {
 			}
 
 			if (max==0) {
-				System.out.println("[알림]등록된 리뷰가 없습니다.");
+				System.out.println("༼ つ ◕_◕ ༽つ 등록된 리뷰가 없습니다.");
 				return;
 			}
 
@@ -121,23 +122,24 @@ public class ReviewMain {
 				storeReviewPrint(reviewList, i, idx+i);
 			}
 
-			if (page!=1) System.out.println("p.이전 리스트 <-----");
-			if (page<maxPage) System.out.println("-----> n.다음 리스트");
+			if (page!=1) System.out.print("(p) 이전 리스트 <-- ");
+			if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
+			if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
 
-			System.out.println("0.뒤로가기");
-			System.out.print(">> ");
+			System.out.println("0. 뒤로가기");
+			System.out.print("✔️ ");
 			String input = sc.nextLine();
 
 			if (input.equals("p")) {
 				if(page>1) page--;
-				else System.out.println("첫번째 페이지입니다.");
+				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
 				if(page<max) page++;
-				else System.out.println("마지막 페이지입니다.");
+				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
 			} else {
-				System.out.println("[알림]잘못 입력하였습니다, 다시 입력해 주세요.");
+				System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다. 다시 입력해 주세요.");
 			}
 		}
 		
@@ -148,13 +150,13 @@ public class ReviewMain {
 		
 		while(true) {
 			System.out.println();
-			System.out.println(">>리뷰 보기<<");
-			System.out.println("1. 전체 리뷰 보기");
-			System.out.println("2. 평점이 '맛있다'인 리뷰만 보기");
-			System.out.println("3. 평점이 '괜찮다'인 리뷰만 보기");
-			System.out.println("4. 평점이 '별로'인 리뷰만 보기");
+			System.out.println("༼ つ ◕_◕ ༽つ 원하시는 서비스를 입력하세요.");
+			System.out.println("1. 전체 리뷰");
+			System.out.println("2. '맛있다' 리뷰");
+			System.out.println("3. '괜찮다' 리뷰");
+			System.out.println("4. '별로' 리뷰");
 			System.out.println("0. 뒤로 가기");
-			System.out.print(">입력:");
+			System.out.print("✔️ ");
 			String input = sc.next();
 			
 			switch(Integer.parseInt(input)) {
@@ -163,13 +165,13 @@ public class ReviewMain {
 				try {
 					reviewList = reviewService.selectByStoreNo(storeId, 1);
 					if(reviewList.size() == 0) {
-						printFail("리뷰가 없습니다"); 
+						printFail("( つ｡>﹏<｡)つ 리뷰가 존재하지 않습니다"); 
 					} else {
 						printSuccess(reviewList);
 					}
 				} catch (FindException e) {		
 //					e.printStackTrace();
-					printFail("전체 리뷰 보기 실패");
+					printFail("( つ｡>﹏<｡)つ 전체 리뷰 조회에 실패하였습니다.");
 				}
 				
 				break;
@@ -212,13 +214,13 @@ public class ReviewMain {
 		String stringGrade = null;
 		switch(grade) {
 			case 5 :
-				stringGrade = "맛있다";
+				stringGrade = "맛있다(^_^)b";
 				break;
 			case 3 :
-				stringGrade = "괜찮다";
+				stringGrade = "괜찮다(^^);";
 				break;
 			case 1 :
-				stringGrade = "별로";
+				stringGrade = "별로(-_-);";
 				break;
 		}
 		return stringGrade;
@@ -228,12 +230,11 @@ public class ReviewMain {
 		Scanner sc = new Scanner(System.in);
 				
 		while(true) {
-			System.out.println();
-			System.out.println("1. 리뷰보기");
-			System.out.println("2. 리뷰작성");
+			System.out.println("༼ つ ◕_◕ ༽つ 원하시는 서비스를 입력하세요.");
+			System.out.println("1. 리뷰 조회");
+			System.out.println("2. 리뷰 등록");
 			System.out.println("0. 뒤로가기");
-//			System.out.println("*. 홈");
-			System.out.print(">입력:");
+			System.out.print("✔️ ");
 			String input = sc.next();		
 			
 			switch(input) {
@@ -246,7 +247,7 @@ public class ReviewMain {
 				case "0" :
 					return;
 				default :
-					System.out.println("[알림] 잘못 입력하였습니다.");
+					System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 					break;
 			}	
 		}
@@ -266,7 +267,7 @@ public class ReviewMain {
 			try {
 				tmp = reviewService.countMyReview(loginId);
 				if (tmp == 0) {
-					System.out.println("[알림]등록된 리뷰가 없습니다.");
+					System.out.println("༼ つ ◕_◕ ༽つ 등록된 리뷰가 없습니다.");
 					return;
 				}
 			} catch (FindException e) {
@@ -287,27 +288,30 @@ public class ReviewMain {
 				for (int i = 0; i<size; i++) {
 					myReviewPrint(reviewList, i, idx+i);
 				}
-				if (page!=1) System.out.println("p.이전 리스트 <-----");
-				if (page<maxPage) System.out.println("-----> n.다음 리스트");
-
-				System.out.println("0.뒤로가기");
-				System.out.println("*.리뷰 삭제하기");
-				System.out.print(">> ");
+				if (page!=1) System.out.print("(p) 이전 리스트 <-- ");
+				if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
+				if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
+				else System.out.println();
+				System.out.println("0. 뒤로가기");
+				System.out.println("*. 리뷰 삭제");
+				System.out.print("✔️ ");
 				String input = sc.nextLine();
+
+				
 
 				if (input.equals("p")) {
 					if(page>1) page--;
-					else System.out.println("첫번째 페이지입니다.");
+					else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 				} else if (input.equals("n")) {
 					if(page<max) page++;
-					else System.out.println("마지막 페이지입니다.");
+					else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 				} else if (input.equals("0")) {
 					break;
 				} else if (input.equals("*")) {
 					myReviewDelete(reviewList);
 
 				} else {
-					System.out.println("[알림]잘못 입력하였습니다, 다시 입력해 주세요.");
+					System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다. 다시 입력해 주세요.");
 				}
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
@@ -319,19 +323,19 @@ public class ReviewMain {
 	private List<ReviewDTO> myReviewDelete(List<ReviewDTO> reviewList) {
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("[알림]몇 번 리뷰를 삭제하시겠습니까?");
-		System.out.print(">> ");
+		System.out.println("༼ つ ◕_◕ ༽つ 몇 번 리뷰를 삭제하시겠습니까?");
+		System.out.print("✔️ ");
 		String input = sc.nextLine();
 
 		for (char ch : input.toCharArray()) {
 			if (!Character.isDigit(ch)) {
-				System.out.println("[알림]잘못 입력하였습니다.");
+				System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 				return reviewList;
 			}
 		}
 
 		if (input.equals("0") || reviewList.size() < Integer.parseInt(input)) {
-			System.out.println("[알림]입력한 번호의 리뷰를 조회할 수 없습니다.");
+			System.out.println("( つ｡>﹏<｡)つ 입력한 번호의 리뷰를 조회할 수 없습니다.");
 			return reviewList;
 		}
 
@@ -340,11 +344,11 @@ public class ReviewMain {
 		System.out.println("-".repeat(30));
 		myReviewPrint(reviewList, Integer.parseInt(input)-1, Integer.parseInt(input)-1);
 
-		System.out.println("[알림]위 리뷰를 삭제 하시겠습니까?(y/n)");
-		System.out.print(">> ");
+		System.out.println("༼ つ ◕_◕ ༽つ 위 리뷰를 삭제 하시겠습니까? (0 입력 시 리뷰 삭제 취소)");
+		System.out.print("✔️ ");
 		input = sc.nextLine();
 
-		if (input.equals("y")) {
+		if (!input.equals("0")) {
 			Long reviewId = reviewList.get(index).getReviewId();
 			try {
 				reviewService.delete(reviewId);
@@ -353,9 +357,9 @@ public class ReviewMain {
 			}
 			reviewList.remove(index);
 
-			System.out.println("[알림]삭제가 완료되었습니다.");
+			System.out.println("༼ つ ◕_◕ ༽つ 리뷰 삭제가 완료되었습니다.");
 		} else {
-			System.out.println("[알림]잘못 입력하였습니다.");
+			System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 		}
 
 		return reviewList;

@@ -35,7 +35,7 @@ public class CustomerDAOOracle implements CustomerDAO {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new AddException("고객 추가 실패");
+			throw new AddException("( つ｡>﹏<｡)つ 회원가입에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -70,11 +70,11 @@ public class CustomerDAOOracle implements CustomerDAO {
 			if(rs.next()) {
 				return new CustomerDTO(rs.getString("login_id"), rs.getString("pwd"), rs.getInt("status"));
 			}else {
-				throw new FindException("고객이 없습니다");
+				throw new FindException("( つ｡>﹏<｡)つ ID가 존재하지 않습니다.");
 			}
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new FindException("고객 조회 실패");
+			throw new FindException("( つ｡>﹏<｡)つ ID가 존재하지 않습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -107,7 +107,7 @@ public class CustomerDAOOracle implements CustomerDAO {
 			pstmt.executeQuery();
 		} catch (SQLException e) {
 			//e.printStackTrace();
-			throw new ModifyException("비밀번호 변경 실패");
+			throw new ModifyException("( つ｡>﹏<｡)つ PW 변경에 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -138,7 +138,7 @@ public class CustomerDAOOracle implements CustomerDAO {
 			pstmt.setString(1, id);
 			pstmt.executeQuery();
 		} catch (SQLException e) {
-			throw new RemoveException("회원 상태 업데이트 실패");
+			throw new RemoveException("( つ｡>﹏<｡)つ 회원 탈퇴를 실패하였습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
