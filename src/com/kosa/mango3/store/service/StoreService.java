@@ -56,7 +56,7 @@ public class StoreService {
 		try {
 			cnt = dao.countStoreLoc(loc);
 		} catch (Exception e) {
-			throw new FindException("맛집리스트를 조회할 수 없습니다.");
+			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
 		}
 		
 		return cnt; 
@@ -68,7 +68,7 @@ public class StoreService {
 		try {
 			cnt = dao.countStoreType(type);
 		} catch (Exception e) {
-			throw new FindException("맛집리스트를 조회할 수 없습니다.");
+			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
 		}
 		
 		return cnt;
@@ -80,7 +80,7 @@ public class StoreService {
 		try {
 			cnt = dao.countStoreSearch(name);
 		} catch (Exception e) {
-			throw new FindException("맛집리스트를 조회할 수 없습니다.");
+			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
 		}
 		
 		return cnt;

@@ -12,12 +12,10 @@ import com.kosa.mango3.store.dto.StoreDTO;
 import com.kosa.mango3.store.service.StoreService;
 
 public class StoreMain {
-	private StoreDAO dao; 
 	private StoreService storeService;
 	private ReviewMain reviewMain;
 
 	public StoreMain() {
-		this.dao = new StoreDAOOracle();
 		this.storeService = new StoreService();
 		this.reviewMain = new ReviewMain();
 	}
@@ -148,7 +146,6 @@ public class StoreMain {
 		}
 	}
 
-
 	//음식종류별 가게 조회
 	public void serviceType(String loginedId) {
 		List<StoreDTO> storeList = new ArrayList<>();
@@ -182,6 +179,7 @@ public class StoreMain {
 				int tmp=-1;
 				try {
 					tmp = storeService.cntStoreType(type[(Integer.parseInt(tnum))-1]);
+				
 					if (tmp == 0) {
 						System.out.println("[알림]등록된 리뷰가 없습니다.");
 						return;
@@ -326,7 +324,7 @@ public class StoreMain {
 			System.out.println("---------------------------");
 			System.out.print(idx+i + ". " + name + " - ");
 			System.out.print("★".repeat(star) + "☆".repeat(end - star));
-			System.out.println(" (" + storeList.get(i).getReviewId() +")");
+			System.out.println(" (" + storeList.get(i).getReviewCnt() +")");
 			System.out.println("위치 : " + storeList.get(i).getLocation());
 			System.out.println("음식 종류 : " + storeList.get(i).getFoodType());					
 		}
@@ -339,7 +337,7 @@ public class StoreMain {
 		System.out.println("---------------------------");
 		System.out.print(storeList.get(num).getStoreName() + " - ");
 		System.out.print("★".repeat(star) + "☆".repeat(end - star));
-		System.out.println(" (" + storeList.get(num).getReviewId() + ")");
+		System.out.println(" (" + storeList.get(num).getReviewCnt() + ")");
 		System.out.println("주소 : " + storeList.get(num).getAddress());
 		System.out.println("연락처   : " + storeList.get(num).getTel());
 		System.out.println("음식 종류 : " + storeList.get(num).getFoodType());

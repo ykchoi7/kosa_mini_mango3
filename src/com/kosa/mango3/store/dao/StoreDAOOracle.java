@@ -23,13 +23,13 @@ public class StoreDAOOracle implements StoreDAO {
 		List<StoreDTO> storeList = new ArrayList<>();
 		int pageSize = 5;
 		
-		String selectSQL = "SELECT rn, * \r\n"
+		String selectSQL = "SELECT *\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.*\r\n"
 				+ "      FROM (SELECT store.store_id, store.store_name, NVL(AVG(review.grade), 0) as grade, NVL(COUNT(review.review_id),0) as reviewcnt, store.location, store.food_type\r\n"
 				+ "            FROM store FULL OUTER JOIN review ON store.store_id = review.store_id\r\n"
 				+ "            WHERE store.location = ?\r\n"
 				+ "            GROUP BY store.store_id, store.store_name, store.location, store.food_type) a\r\n"
-				+ "      )\r\n"
+				+ "     )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
 		
 		PreparedStatement pstmt = null;
@@ -48,7 +48,7 @@ public class StoreDAOOracle implements StoreDAO {
 				dto.setStoreId(rs.getInt("store_id"));
 				dto.setStoreName(rs.getString("store_name"));
 				dto.setGrade(rs.getLong("grade"));
-				dto.setReviewId(rs.getLong(4));
+				dto.setReviewCnt(rs.getLong("reviewcnt"));
 				dto.setLocation(rs.getString("location"));
 				dto.setFoodType(rs.getString("food_type"));
 				storeList.add(dto);
@@ -84,12 +84,12 @@ public class StoreDAOOracle implements StoreDAO {
 		List<StoreDTO> storeList = new ArrayList<>();
 		int pageSize = 5;
 		
-		String selectSQL = "SELECT rn, * \r\n"
+		String selectSQL = "SELECT *\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.*\r\n"
 				+ "      FROM (SELECT s.store_id, s.store_name, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt, s.location, s.food_type\r\n"
-				+ "				FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
-				+ "				WHERE s.food_type = ?\r\n"
-				+ "				GROUP BY s.store_id, s.store_name, s.location, s.food_type) a\r\n"
+				+ "            FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
+				+ "            WHERE s.food_type = ?\r\n"
+				+ "            GROUP BY s.store_id, s.store_name, s.location, s.food_type) a\r\n"
 				+ "      )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
 		
@@ -98,7 +98,7 @@ public class StoreDAOOracle implements StoreDAO {
 
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			
+
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, typeName);
 			pstmt.setInt(2, pageSize*(page-1)+1);
@@ -107,15 +107,15 @@ public class StoreDAOOracle implements StoreDAO {
 			while (rs.next()) {
 				StoreDTO dto = new StoreDTO();
 				dto.setStoreId(rs.getInt("store_id"));
-				dto.setStoreName(rs.getString("store_name"));
+				dto.setStoreName(rs.getString("store_name"));				
 				dto.setGrade(rs.getLong("grade"));
-				dto.setReviewId(rs.getLong("reviewcnt"));
+				dto.setReviewCnt(rs.getLong("reviewcnt"));
 				dto.setLocation(rs.getString("location"));
 				dto.setFoodType(rs.getString("food_type"));
 				storeList.add(dto);
 			}
 		} catch (SQLException e) {
-//			e.printStackTrace();
+//			System.out.println(e.getMessage());
 			throw new FindException("가게 조회 실패");
 		} finally {
 			if (rs != null) {
@@ -145,12 +145,12 @@ public class StoreDAOOracle implements StoreDAO {
 		List<StoreDTO> storeList = new ArrayList<>();
 		int pageSize = 5;
 		
-		String selectSQL = "SELECT rn, * \r\n"
+		String selectSQL = "SELECT *\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.*\r\n"
 				+ "      FROM (SELECT s.store_id, s.store_name, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt, s.location, s.food_type\r\n"
-				+ "				FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
-				+ "				WHERE INSTR(store_name, ?) > 0\r\n"
-				+ "				GROUP BY s.store_id, s.store_name, s.location, s.food_type) a\r\n"
+				+ "            FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
+				+ "            WHERE INSTR(store_name, ?) > 0\r\n"
+				+ "            GROUP BY s.store_id, s.store_name, s.location, s.food_type) a\r\n"
 				+ "      )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
 		
@@ -170,7 +170,7 @@ public class StoreDAOOracle implements StoreDAO {
 				dto.setStoreId(rs.getInt("store_id"));
 				dto.setStoreName(rs.getString("store_name"));
 				dto.setGrade(rs.getLong("grade"));
-				dto.setReviewId(rs.getLong(4));
+				dto.setReviewCnt(rs.getLong("reviewcnt"));
 				dto.setLocation(rs.getString("location"));
 				dto.setFoodType(rs.getString("food_type"));
 				storeList.add(dto);
@@ -300,7 +300,7 @@ public class StoreDAOOracle implements StoreDAO {
 	
 	public int countStoreType(String type) throws FindException {
 
-		String selectSQL = "SELECT COUNT(*) FROM store WHERE foodType=?";
+		String selectSQL = "SELECT COUNT(*) FROM store WHERE food_type=?";
 		
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
