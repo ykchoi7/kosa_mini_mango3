@@ -126,9 +126,10 @@ public class Mango3 {
 			System.out.println("3. 종료");
 			System.out.println("-".repeat(30));
 
-			System.out.println("원하시는 서비스를 입력하세요 : ");
-			System.out.print(">> ");
+			System.out.println("༼ つ ◕_◕ ༽つ 원하시는 서비스를 입력하세요.");
+			System.out.print("입력 >> ");
 			input = sc.nextLine();
+			System.out.println();
 
 			if (input.equals("1")) {
 				mango3.join();
