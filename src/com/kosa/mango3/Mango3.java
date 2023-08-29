@@ -109,12 +109,18 @@ public class Mango3 {
 		Mango3 mango3 = new Mango3();
 		mango3.db.DBLoad();
 		
-		System.out.println("=".repeat(30));
-		System.out.println("KOSA Mini Project Mango3");
+		System.out.println("=".repeat(40));
+		System.out.println("    __  ___                       _____\r\n"
+				+ "   /  |/  /___ _____  ____ _____ |__  /\r\n"
+				+ "  / /|_/ / __ `/ __ \\/ __ `/ __ \\ /_ < \r\n"
+				+ " / /  / / /_/ / / / / /_/ / /_/ /__/ / \r\n"
+				+ "/_/  /_/\\__,_/_/ /_/\\__, /\\____/____/  \r\n"
+				+ "                   /____/           "
+				+"\n\t\t\t\tby 3조");
 		String input = "";
 
 		while(true) {
-			System.out.println("=".repeat(30));
+			System.out.println("=".repeat(40));
 			System.out.println("1. 회원 가입");
 			System.out.println("2. 로그인");
 			System.out.println("3. 종료");
