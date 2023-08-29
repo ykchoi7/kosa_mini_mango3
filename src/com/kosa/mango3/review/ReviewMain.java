@@ -1,6 +1,7 @@
 package com.kosa.mango3.review;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,8 +9,6 @@ import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
 import com.kosa.mango3.exception.RemoveException;
-import com.kosa.mango3.review.dao.ReviewDAO;
-import com.kosa.mango3.review.dao.ReviewDAOOracle;
 import com.kosa.mango3.review.dto.ReviewDTO;
 import com.kosa.mango3.review.service.ReviewService;
 import com.kosa.mango3.store.dto.StoreDTO;
@@ -101,7 +100,7 @@ public class ReviewMain {
 				else maxPage=max/5+1;
 			}
 
-			List<ReviewDTO> reviewList=null;
+			List<ReviewDTO> reviewList=new ArrayList<ReviewDTO>();
 			try {
 				reviewList = reviewService.selectByGrade(storeId, grade, page);
 			} catch (FindException e) {
@@ -160,7 +159,7 @@ public class ReviewMain {
 			
 			switch(Integer.parseInt(input)) {
 			case 1 :
-				
+				List<ReviewDTO> reviewList=new ArrayList<ReviewDTO>();
 				try {
 					reviewList = reviewService.selectByStoreNo(storeId, 1);
 					if(reviewList.size() == 0) {
