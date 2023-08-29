@@ -55,7 +55,7 @@ public class StoreDAOOracle implements StoreDAO {
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
-			throw new FindException("가게 조회 실패");
+			throw new FindException("맛집리스트를 조회할 수 없습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -116,7 +116,7 @@ public class StoreDAOOracle implements StoreDAO {
 			}
 		} catch (SQLException e) {
 //			System.out.println(e.getMessage());
-			throw new FindException("가게 조회 실패");
+			throw new FindException("맛집리스트를 조회할 수 없습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -176,7 +176,7 @@ public class StoreDAOOracle implements StoreDAO {
 				storeList.add(dto);
 			}
 		} catch (SQLException e) {
-			throw new FindException("가게 조회 실패");
+			throw new FindException("맛집리스트를 조회할 수 없습니다.");
 		} finally {
 			if (rs != null) {
 				try {
@@ -204,63 +204,6 @@ public class StoreDAOOracle implements StoreDAO {
 	}
 	
 	@Override
-	public StoreDTO storeInfo(long storeId) throws FindException {
-		StoreDTO dto = new StoreDTO();
-		
-		String selectSQL = "SELECT s.store_id, s.store_name, s.location, s.food_type\r\n"
-				+ ", NVL(s.address, '-') as address, NVL(s.tel, '-') as tel, NVL(s.store_hour,'-') as store_hour\r\n"
-				+ ", NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt"
-				+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
-				+ "WHERE s.store_id = ?\r\n"
-				+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type, s.address, s.tel, s.store_hour";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			pstmt = conn.prepareStatement(selectSQL);
-			pstmt.setLong(1, storeId);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				dto.setStoreId(rs.getLong("store_id"));
-				dto.setStoreName(rs.getString("store_name"));
-				dto.setAddress(rs.getString("address"));
-				dto.setTel(rs.getString("tel"));
-				dto.setStoreHour(rs.getString("store_hour"));
-				dto.setLocation(rs.getString("location"));
-				dto.setFoodType(rs.getString("food_type"));
-				dto.setGrade(rs.getLong("grade"));
-				dto.setReviewCnt(rs.getLong("reviewcnt"));
-			}
-		} catch (SQLException e) {
-			throw new FindException("가게 조회 실패");
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (pstmt != null)  {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return dto;
-	}
-	
 	public int countStoreLoc(String loc) throws FindException {
 
 		String selectSQL = "SELECT COUNT(*) FROM store WHERE location=?";
@@ -275,13 +218,10 @@ public class StoreDAOOracle implements StoreDAO {
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, loc);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return rs.getInt("COUNT(*)");
-			}else {
-				throw new FindException("리뷰 개수 조회 실패");
-			}
-		} catch (SQLException e) {
-			throw new FindException("리뷰 개수 조회 실패");
+			
+			return rs.getInt("COUNT(*)");
+		} catch (Exception e) {
+			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -300,6 +240,7 @@ public class StoreDAOOracle implements StoreDAO {
 		}	
 	}
 	
+	@Override
 	public int countStoreType(String type) throws FindException {
 
 		String selectSQL = "SELECT COUNT(*) FROM store WHERE food_type=?";
@@ -314,13 +255,10 @@ public class StoreDAOOracle implements StoreDAO {
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, type);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return rs.getInt("COUNT(*)");
-			}else {
-				throw new FindException("리뷰 개수 조회 실패");
-			}
-		} catch (SQLException e) {
-			throw new FindException("리뷰 개수 조회 실패");
+			
+			return rs.getInt("COUNT(*)");
+		} catch (Exception e) {
+			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -339,6 +277,7 @@ public class StoreDAOOracle implements StoreDAO {
 		}	
 	}
 	
+	@Override
 	public int countStoreSearch(String name) throws FindException {
 
 		String selectSQL = "SELECT COUNT(*) FROM store WHERE INSTR(store_name, ?) > 0";
@@ -353,13 +292,10 @@ public class StoreDAOOracle implements StoreDAO {
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, name);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return rs.getInt("COUNT(*)");
-			}else {
-				throw new FindException("리뷰 개수 조회 실패");
-			}
+			
+			return rs.getInt("COUNT(*)");
 		} catch (SQLException e) {
-			throw new FindException("리뷰 개수 조회 실패");
+			throw new FindException("맛집리스트 전체 갯수를 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {

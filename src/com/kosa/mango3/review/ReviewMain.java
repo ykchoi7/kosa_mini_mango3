@@ -183,8 +183,6 @@ public class ReviewMain {
 				showReviewsByGrade(storeId, 1);
 				break;
 			case 0 :
-				//reviewMenu(storeId, loginedId);
-				//break;
 				return;
 			}
 		}

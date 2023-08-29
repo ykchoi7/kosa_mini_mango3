@@ -6,8 +6,6 @@ import java.util.Scanner;
 
 import com.kosa.mango3.exception.FindException;
 import com.kosa.mango3.review.ReviewMain;
-import com.kosa.mango3.store.dao.StoreDAO;
-import com.kosa.mango3.store.dao.StoreDAOOracle;
 import com.kosa.mango3.store.dto.StoreDTO;
 import com.kosa.mango3.store.service.StoreService;
 
