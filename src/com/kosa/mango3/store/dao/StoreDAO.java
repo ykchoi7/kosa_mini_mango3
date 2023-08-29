@@ -9,7 +9,8 @@ public interface StoreDAO {
 
 	/**
 	 * 지역별 맛집 조회
-	 * @param locName 지역명
+	 * @param locName
+	 * @param page
 	 * @return
 	 * @throws FindException
 	 */
@@ -17,7 +18,8 @@ public interface StoreDAO {
 	
 	/**
 	 * 메뉴별 맛집 조회
-	 * @param typeName 음식종류
+	 * @param typeName
+	 * @param page
 	 * @return
 	 * @throws FindException
 	 */
@@ -25,15 +27,35 @@ public interface StoreDAO {
 	
 	/**
 	 * 맛집 검색
-	 * @param storeName 가게명
+	 * @param storeName
+	 * @param page
 	 * @return
 	 * @throws FindException
 	 */
 	List<StoreDTO> findByName(String storeName, int page) throws FindException;
 
-	
+	/**
+	 * 지역별 맛집 총 갯수
+	 * @param loc
+	 * @return
+	 * @throws FindException
+	 */
 	int countStoreLoc(String loc) throws FindException;
+	
+	/**
+	 * 메뉴별 맛집 총 갯수
+	 * @param type
+	 * @return
+	 * @throws FindException
+	 */
 	int countStoreType(String type) throws FindException;
+	
+	/**
+	 * 검색된 맛집 총 갯수 
+	 * @param name
+	 * @return
+	 * @throws FindException
+	 */
 	int countStoreSearch(String name) throws FindException;
 	
 }

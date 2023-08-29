@@ -23,7 +23,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 	private Connection conn = null;
 	
 	@Override
-	public void create(ReviewDTO reviewDTO, String loginId) throws AddException {
+	public void create(ReviewDTO reviewDTO) throws AddException {
 		
 		String insertSQL = "INSERT INTO \"MANGO3\".\"REVIEW\" (REVIEW_ID, GRADE, RW_CONTENT, STORE_ID, LOGIN_ID) "
 				+ "VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?)";
@@ -46,14 +46,12 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}			
 			if(conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 		}
 	}
@@ -107,21 +105,18 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(rs != null) {
 				try {
 					rs.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			} 
 			if(pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 			
 			if(conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return reviewList;
@@ -177,21 +172,18 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(rs != null) {
 				try {
 					rs.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			} 
 			if(pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 			
 			if(conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 		}
 		return reviewList;
@@ -244,22 +236,19 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if (rs != null) {
 				try {
 					rs.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 
 			if (pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 
 			if (conn != null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-				}
+				} catch (SQLException e) {}
 			}
 		}
 
@@ -296,19 +285,18 @@ public class ReviewDAOOracle implements ReviewDAO {
 	}
 
 	@Override
-	public int countMyReview(String id) throws FindException {
+	public int countStoreReview(long id) throws FindException {
 
-		String selectSQL = "SELECT COUNT(*) FROM review WHERE login_id=?";
+		String selectSQL = "SELECT COUNT(*) FROM review WHERE store_id=?";
 		
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
 		
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			//System.out.println("Oracle DB 연결 성공");
 			
 			pstmt = conn.prepareStatement(selectSQL);
-			pstmt.setString(1, id);
+			pstmt.setLong(1, id);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getInt("COUNT(*)");
@@ -321,19 +309,14 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(pstmt!=null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if(conn !=null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}			
 		}	
-
 	}
 	
 	@Override
@@ -346,7 +329,6 @@ public class ReviewDAOOracle implements ReviewDAO {
 		
 		try {
 			conn = DriverManager.getConnection(URL, USER, PASSWD);
-			//System.out.println("Oracle DB 연결 성공");
 			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, id);
@@ -363,18 +345,49 @@ public class ReviewDAOOracle implements ReviewDAO {
 			if(pstmt!=null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}
 			if(conn !=null) {
 				try {
 					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				} catch (SQLException e) {}
 			}			
 		}	
-
 	}
+	
+	@Override
+	public int countMyReview(String loginId) throws FindException {
+
+		String selectSQL = "SELECT COUNT(*) FROM review WHERE login_id=?";
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, loginId);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt("COUNT(*)");
+			}else {
+				throw new FindException("");
+			}
+		} catch (SQLException e) {
+			throw new FindException("");
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {}
+			}
+			if(conn !=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {}
+			}			
+		}	
+	}
+	
 }
