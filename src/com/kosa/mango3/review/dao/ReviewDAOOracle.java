@@ -69,9 +69,9 @@ public class ReviewDAOOracle implements ReviewDAO {
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
 				+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-				+ "            WHERE login_id = ?) a\r\n"
+				+ "            WHERE s.store_id = ?) a\r\n"
 				+ "     )\r\n"
-				+ "WHERE rn BETWEEN ? AND ?";
+				+ "WHERE rn BETWEEN 1 AND 2";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -81,8 +81,8 @@ public class ReviewDAOOracle implements ReviewDAO {
 			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
-			pstmt.setInt(2, pageSize*(page-1)+1);
-			pstmt.setInt(3, pageSize*page);
+//			pstmt.setInt(2, pageSize*(page-1)+1);
+//			pstmt.setInt(3, pageSize*page);
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
@@ -103,6 +103,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				}
 			
 		} catch (SQLException e) {
+			
 			throw new FindException(e.getMessage());
 		} finally {
 			if(rs != null) {

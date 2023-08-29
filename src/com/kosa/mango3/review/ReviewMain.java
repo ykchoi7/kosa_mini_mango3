@@ -162,13 +162,14 @@ public class ReviewMain {
 			case 1 :
 				
 				try {
-					reviewList = reviewService.selectByStoreNo(storeId, 0);
+					reviewList = reviewService.selectByStoreNo(storeId, 1);
 					if(reviewList.size() == 0) {
 						printFail("리뷰가 없습니다"); 
 					} else {
 						printSuccess(reviewList);
 					}
-				} catch (FindException e) {					
+				} catch (FindException e) {		
+//					e.printStackTrace();
 					printFail("전체 리뷰 보기 실패");
 				}
 				
