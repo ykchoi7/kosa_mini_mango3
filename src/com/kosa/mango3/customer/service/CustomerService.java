@@ -28,9 +28,8 @@ public class CustomerService {
 	public CustomerDTO login(String loginId, String pwd) throws FindException {
 		try {
 			CustomerDTO c=dao.selectById(loginId);
-			if( !c.getPwd().equals(pwd) ) {
-				throw new FindException();
-			}
+			if(!c.getPwd().equals(pwd)) throw new FindException();
+			if(c.getStatus()==0) throw new FindException();
 			return c;
 		} catch (FindException e) {
 			//e.printStackTrace();
@@ -49,7 +48,7 @@ public class CustomerService {
 	
 	public void removeCustomer(String id) {
 		try {
-			dao.delete(id);
+			dao.updateStatus(id);
 			System.out.println("회원 탈퇴가 완료되었습니다.");
 		} catch (RemoveException e) {
 			System.out.println(e.getMessage());

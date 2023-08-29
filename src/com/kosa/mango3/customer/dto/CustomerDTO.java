@@ -15,5 +15,6 @@ public class CustomerDTO {
 	
 	private String loginId; //유저 ID
 	private String pwd; //유저 PW
+	private int status; //유저 상태
 	
 }

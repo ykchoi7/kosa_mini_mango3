@@ -32,9 +32,9 @@ public interface CustomerDAO {
 	void updatePwd(String id, String newPwd) throws ModifyException;
 	
 	/**
-	 * 아이디에 해당하는 회원의 정보 삭제
+	 * 아이디에 해당하는 회원의 상태 탈퇴로 변경
 	 * @param id 아이디
 	 * @throws RemoveException 아이디가 없거나 DB연결에 실패한 경우 발생
 	 */
-	void delete(String id) throws RemoveException;
+	void updateStatus(String id) throws RemoveException;
 }

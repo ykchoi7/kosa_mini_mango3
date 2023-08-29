@@ -221,8 +221,7 @@ public class Mango3Store {
 		int num=0;
 		
 		try {
-			num = (Integer.parseInt(detail))-1;
-			if(!(num==1 || num==2 || num==3 || num==4)) throw new Exception("오류");
+			num = (Integer.parseInt(detail));
 			System.out.println("---------------------------");
 			System.out.print(list.get(num).getStoreName() + " - ");
 			System.out.print(
