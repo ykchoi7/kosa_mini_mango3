@@ -65,7 +65,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
 		int pageSize=5;
 		
-		String selectSQL = "SELECT rn, review_id, grade, rw_content, regdate, login_id\r\n"
+		String selectSQL = "SELECT rn, review_id, grade, rw_content, TO_CHAR(regdate, 'yy/mm/dd') regdate, login_id\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
 				+ "FROM review\r\n"
@@ -89,7 +89,8 @@ public class ReviewDAOOracle implements ReviewDAO {
 				Integer grade = rs.getInt("grade");
 				String comment = rs.getString("rw_content");
 				String loginId = rs.getString("login_id");
-				String regdate = rs.getString("regdate");		
+				String regdate = rs.getString("regdate");
+				
 				
 				CustomerDTO customerDTO = CustomerDTO.builder().loginId(loginId).build();			
 				ReviewDTO rwDTO = ReviewDTO.builder()
@@ -134,7 +135,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
 		int pageSize=5;
 		
-		String selectSQL = "SELECT rn, review_id, grade, rw_content, regdate, login_id\r\n"
+		String selectSQL = "SELECT rn, review_id, grade, rw_content,  TO_CHAR(regdate, 'yy/mm/dd') regdate, login_id\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "      FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
 				+ "            FROM review\r\n"
