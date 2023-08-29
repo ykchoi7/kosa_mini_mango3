@@ -9,21 +9,23 @@ import java.sql.SQLException;
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
+import com.kosa.mango3.exception.ModifyException;
+import com.kosa.mango3.exception.RemoveException;
 
 public class CustomerDAOOracle implements CustomerDAO {
-
+	
+	private Connection conn = null;
+	private final String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String user = "mango3";
+	private final String password = "mango3";
+	
 	@Override
 	public void insert(String id, String pw) throws AddException{
-
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
+		
 		PreparedStatement pstmt=null;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("Oracle DB 연결 성공");
+			//System.out.println("Oracle DB 연결 성공");
 			String insertSQL="INSERT INTO customer (login_id, pwd)\r\n"
 					+ "VALUES (?,?)";
 			pstmt=conn.prepareStatement(insertSQL);
@@ -55,16 +57,11 @@ public class CustomerDAOOracle implements CustomerDAO {
 	@Override
 	public CustomerDTO selectById(String id) throws FindException {
 		
-		Connection conn = null;
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "mango3";
-		String password = "mango3";
-
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			System.out.println("Oracle DB 연결 성공");
+			//System.out.println("Oracle DB 연결 성공");
 			String selectSQL = "SELECT * FROM customer WHERE login_id=?";
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, id);
@@ -94,6 +91,67 @@ public class CustomerDAOOracle implements CustomerDAO {
 			}			
 		}	
 
+	}
+	
+	public void updatePwd(String id, String newPwd) throws ModifyException {
+		
+		PreparedStatement pstmt=null;
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			//System.out.println("Oracle DB 연결 성공");
+			String updateSQL = "UPDATE customer SET pwd='"+newPwd+"' WHERE login_id='"+id+"'";
+			pstmt = conn.prepareStatement(updateSQL);
+			pstmt.executeQuery();
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			throw new ModifyException("비밀번호 변경 실패");
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn !=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}			
+		}	
+		
+	}
+	
+	public void delete(String id) throws RemoveException {
+
+		PreparedStatement pstmt=null;
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			//System.out.println("Oracle DB 연결 성공");
+			String deleteSQL = "DELETE FROM customer WHERE login_id='"+id+"'";
+			pstmt = conn.prepareStatement(deleteSQL);
+			pstmt.executeQuery();
+		} catch (SQLException e) {
+			throw new RemoveException("회원 삭제 실패");
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn !=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}			
+		}	
+		
 	}
 
 }

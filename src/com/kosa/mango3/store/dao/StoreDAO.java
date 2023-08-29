@@ -35,5 +35,5 @@ public interface StoreDAO {
 	 * 맛집 상세 조회
 	 * @throws FindException
 	 */
-	void storeInfo() throws FindException;
+	List<StoreDTO> storeInfo(long storeId) throws FindException;
 }
