@@ -207,7 +207,9 @@ public class StoreDAOOracle implements StoreDAO {
 	public StoreDTO storeInfo(long storeId) throws FindException {
 		StoreDTO dto = new StoreDTO();
 		
-		String selectSQL = "SELECT s.*, NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt\r\n"
+		String selectSQL = "SELECT s.store_id, s.store_name, s.location, s.food_type\r\n"
+				+ ", NVL(s.address, '-') as address, NVL(s.tel, '-') as tel, NVL(s.store_hour,'-') as store_hour\r\n"
+				+ ", NVL(AVG(r.grade), 0) as grade, NVL(COUNT(r.review_id),0) as reviewcnt"
 				+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
 				+ "WHERE s.store_id = ?\r\n"
 				+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type, s.address, s.tel, s.store_hour";

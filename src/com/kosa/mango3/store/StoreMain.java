@@ -338,11 +338,23 @@ public class StoreMain {
 		System.out.print(storeList.get(num).getStoreName() + " - ");
 		System.out.print("★".repeat(star) + "☆".repeat(end - star));
 		System.out.println(" (" + storeList.get(num).getReviewCnt() + ")");
-		System.out.println("주소 : " + storeList.get(num).getAddress());
-		System.out.println("연락처   : " + storeList.get(num).getTel());
 		System.out.println("음식 종류 : " + storeList.get(num).getFoodType());
-		System.out.println("영업시간 : " + storeList.get(num).getStoreHour());
-
+		if (storeList.get(num).getAddress() == null) {
+			System.out.println("주소 : - ");
+		} else {
+			System.out.println("주소 : " + storeList.get(num).getAddress());			
+		}
+		if (storeList.get(num).getTel() == null) {
+			System.out.println("연락처 : - ");
+		} else {
+			System.out.println("연락처   : " + storeList.get(num).getTel());			
+		}
+		if (storeList.get(num).getStoreHour() == null) {
+			System.out.println("영업시간 : - ");
+		} else {
+			System.out.println("영업시간 : " + storeList.get(num).getStoreHour());
+		}
+		
 		reviewMain.reviewMenu(storeList.get(num).getStoreId(), loginedId);
 	}
 }
