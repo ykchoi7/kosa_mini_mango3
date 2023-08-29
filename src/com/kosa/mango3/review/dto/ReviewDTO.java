@@ -1,7 +1,5 @@
 package com.kosa.mango3.review.dto;
 
-import java.sql.Date;
-
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.store.dto.StoreDTO;
 
@@ -20,7 +18,7 @@ public class ReviewDTO {
 	private Long reviewId;
 	private Integer grade;
 	private String comment;
-	private Date regdate;
+	private String regdate;
 	private CustomerDTO customerDTO;
 	private StoreDTO storeDTO;
 

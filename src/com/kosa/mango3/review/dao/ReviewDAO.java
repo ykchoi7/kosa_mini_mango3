@@ -11,7 +11,7 @@ public interface ReviewDAO {
 	/**
 	 * 가게 상세정보 안의 해당 가게 리뷰 전체 조회
 	 */
-	List<ReviewDTO> selectByStoreNo(long storeIdO) throws FindException;
+	List<ReviewDTO> selectByStoreNo(long storeIdO, int page) throws FindException;
 //	SELECT * FROM review WHERE storeId = ?
 	
 	/**
@@ -19,13 +19,13 @@ public interface ReviewDAO {
 	 * @return 상품목록
 	 * @throws FindException; 저장소에 저장된 상품이 한개도 없으면 예외발생한다.
 	 */
-	List<ReviewDTO> selectByGrade(long storeId, int grade) throws FindException;
+	List<ReviewDTO> selectByGrade(long storeId, int grade, int page) throws FindException;
 //	SELECT * FROM review WHERE storeId = ? AND grade = ?
 	
 	/**
 	 * 리뷰 쓰기
 	 */
-	void create(ReviewDTO reviewDTO, String id)  throws AddException;
+	void create(ReviewDTO reviewDTO, String id) throws AddException;
 	
 	/**
 	 * 리뷰 삭제
@@ -37,5 +37,7 @@ public interface ReviewDAO {
 	 */
 	List<ReviewDTO> selectByCustomer(String loginId, int page);
 	
-//	SELECT * FROM review WHERE loginId = ? 
+	
+	int countMyReview(String id) throws FindException;
+	int countGradeReview(long id, int grade) throws FindException;
 }

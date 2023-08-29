@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-j-8.1.0.jar"/>
-	<classpathentry kind="lib" path="D:/KOSA202307/Lib/ojdbc11-23.2.0.0.jar"/>
-	<classpathentry kind="lib" path="D:/KOSA202307/SW/eclipse-jee-2023-06-R-win32-x86_64/eclipse/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/dozy/kosa_mini_mango3/lib/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/dozy/kosa_mini_mango3/lib/ojdbc11-23.2.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

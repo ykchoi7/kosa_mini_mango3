@@ -1,7 +1,6 @@
 package com.kosa.mango3.review.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,36 +10,48 @@ import java.util.List;
 
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.db.Oracle;
+import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
 import com.kosa.mango3.review.dto.ReviewDTO;
 import com.kosa.mango3.store.dto.StoreDTO;
 
 public class ReviewDAOOracle implements ReviewDAO {
-//	private List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();	
-
-	Oracle oc = new Oracle();
-	Connection conn = null;
+	
+	private final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+	private final String USER = "mango3";
+	private final String PASSWD = "mango3";
+	private Connection conn = null;
 	
 	@Override
-	public List<ReviewDTO> selectByStoreNo(long storeId) throws FindException {
+	public List<ReviewDTO> selectByStoreNo(long storeId, int page) throws FindException {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
-		conn = oc.DBConnect();
+		int pageSize=5;
+		
+		String selectSQL = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
+				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
+				+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+				+ "            WHERE login_id = ?) a\r\n"
+				+ "     )\r\n"
+				+ "WHERE rn BETWEEN ? AND ?";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String selectSQL = "SELECT rownum, grade, rw_content, login_id, regdate" 
-				+ " FROM review"
-				+ " WHERE store_id =?"
-				+ " ORDER BY regdate DESC";
+		
 		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
+			pstmt.setInt(2, pageSize*(page-1)+1);
+			pstmt.setInt(3, pageSize*page);
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
 				Integer grade = rs.getInt("grade");
 				String comment = rs.getString("rw_content");
 				String loginId = rs.getString("login_id");
-				Date regdate = rs.getDate("regdate");		
+				String regdate = rs.getString("regdate");		
 				
 				CustomerDTO customerDTO = CustomerDTO.builder().loginId(loginId).build();			
 				ReviewDTO rwDTO = ReviewDTO.builder()
@@ -54,7 +65,6 @@ public class ReviewDAOOracle implements ReviewDAO {
 				}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		} finally {
 			if(rs != null) {
@@ -81,27 +91,37 @@ public class ReviewDAOOracle implements ReviewDAO {
 	}
 		
 	@Override
-	public List<ReviewDTO> selectByGrade(long storeId, int grade) throws FindException {
+	public List<ReviewDTO> selectByGrade(long storeId, int grade, int page) throws FindException {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
+		int pageSize=5;
 		
-		conn = oc.DBConnect();
+		String selectSQL = "SELECT rn, review_id, grade, rw_content, regdate, login_id\r\n"
+				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
+				+ "      FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
+				+ "            FROM review\r\n"
+				+ "            WHERE store_id = ? and grade=?\r\n"
+				+ "            ORDER BY regdate DESC) a\r\n"
+				+ "     )\r\n"
+				+ "WHERE rn BETWEEN ? AND ?";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String selectSQL = "SELECT rownum, grade, rw_content, login_id, regdate" 
-				+ " FROM review"
-				+ " WHERE store_id =? and grade=?"
-				+ " ORDER BY regdate DESC";
+				
 		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
 			pstmt.setInt(2, grade);
+			pstmt.setInt(3, pageSize*(page-1)+1);
+			pstmt.setInt(4, pageSize*page);
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {
 				Integer grades = rs.getInt("grade");
 				String comment = rs.getString("rw_content");
 				String loginId = rs.getString("login_id");
-				Date regdate = rs.getDate("regdate");		
+				String regdate = rs.getString("regdate");		
 				
 				CustomerDTO customerDTO = CustomerDTO.builder().loginId(loginId).build();			
 				ReviewDTO rwDTO = ReviewDTO.builder()
@@ -141,67 +161,55 @@ public class ReviewDAOOracle implements ReviewDAO {
 		return reviewList;
 	}
 
-	public void create(ReviewDTO reviewDTO, String loginId) {
-		conn = oc.DBConnect();
+	public void create(ReviewDTO reviewDTO, String loginId) throws AddException {
 		
-//		CustomerDAO cd = new CustomerDAO();
-//		if(cd.login() == -1) {
-//			ReviewService.reviewMenu();
-//			return;
-//		}
+		String insertSQL = "INSERT INTO \"MANGO3\".\"REVIEW\" (REVIEW_ID, GRADE, RW_CONTENT, STORE_ID, LOGIN_ID) "
+				+ "VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
-		String insertSQL = "INSERT INTO \"MANGO3\".\"REVIEW\" (REVIEW_ID, GRADE, RW_CONTENT, STORE_ID, LOGIN_ID) "
-							+ "VALUES (REVIEW_SEQ.NEXTVAL, ?, ?, ?, ?)";
+					
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
 			
-			try {
-				 	pstmt = conn.prepareStatement(insertSQL);
-					pstmt.setInt(1, reviewDTO.getGrade());
-					pstmt.setString(2, reviewDTO.getComment());
-					pstmt.setLong(3, reviewDTO.getStoreDTO().getStoreId());
-					pstmt.setString(4, reviewDTO.getCustomerDTO().getLoginId());
+		 	pstmt = conn.prepareStatement(insertSQL);
+			pstmt.setInt(1, reviewDTO.getGrade());
+			pstmt.setString(2, reviewDTO.getComment());
+			pstmt.setLong(3, reviewDTO.getStoreDTO().getStoreId());
+			pstmt.setString(4, reviewDTO.getCustomerDTO().getLoginId());
 
-					int rowcnt = pstmt.executeUpdate();	// 반환값이 int 타입,
-					System.out.println(rowcnt + "건 추가 성공");
-					//conn.commit(); auto commit 끄는법
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				if(pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException e) {
-					}
-				}			
-				if(conn != null) {
-					try {
-						conn.close();
-					} catch (SQLException e) {
-					}
+			int rowcnt = pstmt.executeUpdate();	// 반환값이 int 타입,
+			System.out.println(rowcnt + "건 추가 성공");
+			//conn.commit(); auto commit 끄는법
+		} catch (SQLException e) {
+			throw new AddException("리뷰 쓰기 실패");
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}			
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
 				}
 			}
 		}
+	}
 		
 	@Override
 	public void delete(long reviewId) {
-		conn = oc.DBConnect();
 		
-		/*
-		Connection conn = null;
-		
-		try {
-			conn = DriverManager.getConnection(db.getUrl(), db.getUser(), db.getPwd());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		*/
-
-		PreparedStatement pstmt = null;		
 		String deleteMyReview = "DELETE review WHERE review_id = ?";
-		
+		PreparedStatement pstmt = null;		
+				
 		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
 			pstmt = conn.prepareStatement(deleteMyReview);
 			pstmt.setLong(1, reviewId);
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -221,76 +229,47 @@ public class ReviewDAOOracle implements ReviewDAO {
 
 	@Override
 	public List<ReviewDTO> selectByCustomer(String loginId, int page) {
-		
 		List<ReviewDTO> reviewList = new ArrayList<>();
 		int pageSize = 5;
-		
-		conn = oc.DBConnect();
 
-		/*
-		Connection conn = null;
+		String oraclePaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+				+ "FROM (SELECT ROWNUM rn, a.*\r\n"
+				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
+				+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
+				+ "            WHERE login_id = ?) a\r\n"
+				+ "     )\r\n"
+				+ "WHERE rn BETWEEN ? AND ?";
 		
-		try {
-			conn = DriverManager.getConnection(db.getUrl(), db.getUser(), db.getPwd());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		*/
-
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String selectMyReview = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate"
-							  + "FROM review r JOIN store s ON r.store_id = s.store_id"
-							  + "WHERE login_id = ?";
-		
-		String mySqlTest = "SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at\r\n"
-						 + "FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-						 + "WHERE r.login_id = ?";
-		
-		String oraclePaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
-					  		+ "FROM (SELECT ROWNUM rn, a.*\r\n"
-					  		+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
-					  		+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-					  		+ "            WHERE login_id = ?) a\r\n"
-					  		+ "     )\r\n"
-					  		+ "WHERE rn BETWEEN ? AND ?";
-
-		String mySqlPaging = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
-				  		   + "FROM (SELECT @ROWNUM := @ROWNUM + 1 AS rn, a.*\r\n"
-				  		   + "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, created_at AS regdate\r\n"
-				  		   + "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-				  		   + "            WHERE r.login_id = ?) a\r\n"
-				  		   + "     )\r\n"
-				  		   + "WHERE rn BETWEEN ? AND ?";
-		
 		try {
-			pstmt = conn.prepareStatement(mySqlPaging);
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			
+			pstmt = conn.prepareStatement(oraclePaging);
 			pstmt.setString(1, loginId);
 			pstmt.setInt(2, pageSize*(page-1)+1);
 			pstmt.setInt(3, pageSize*page);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-	
+
 				StoreDTO s = StoreDTO.builder()			
-							.storeName(rs.getString("store_name"))
-							.build();
-				
+						.storeName(rs.getString("store_name"))
+						.build();
+
 				ReviewDTO r = ReviewDTO.builder()
 						.reviewId(rs.getLong("review_id"))
 						.grade(rs.getInt("grade"))
 						.comment(rs.getString("rw_content"))
-						.regdate(rs.getDate("created_at"))
-//						.regdate(rs.getString("created_at"))
-//						.regdate(rs.getString("regdate"))
+						.regdate(rs.getString("regdate"))
 						.storeDTO(s)
 						.build();
 
 				reviewList.add(r);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//
 		} finally {
 			if (rs != null) {
 				try {
@@ -317,8 +296,84 @@ public class ReviewDAOOracle implements ReviewDAO {
 		return reviewList;
 	}
 
+	public int countMyReview(String id) throws FindException {
 
+		String selectSQL = "SELECT COUNT(*) FROM review WHERE login_id=?";
 		
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			//System.out.println("Oracle DB 연결 성공");
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt("COUNT(*)");
+			}else {
+				throw new FindException("리뷰 개수 조회 실패");
+			}
+		} catch (SQLException e) {
+			throw new FindException("리뷰 개수 조회 실패");
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn !=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}			
+		}	
 
- 	
+	}
+	
+	public int countGradeReview(long id, int grade) throws FindException {
+
+		String selectSQL = "SELECT COUNT(*) FROM review WHERE store_id=? AND grade=?";
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER, PASSWD);
+			//System.out.println("Oracle DB 연결 성공");
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setLong(1, id);
+			pstmt.setInt(2, grade);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt("COUNT(*)");
+			}else {
+				throw new FindException("리뷰 조회 실패");
+			}
+		} catch (SQLException e) {
+			throw new FindException("리뷰 조회 실패");
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(conn !=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}			
+		}	
+
+	}
 }
