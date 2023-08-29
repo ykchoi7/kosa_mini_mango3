@@ -26,11 +26,12 @@ public class CustomerDAOOracle implements CustomerDAO {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			//System.out.println("Oracle DB 연결 성공");
-			String insertSQL="INSERT INTO customer (login_id, pwd)\r\n"
-					+ "VALUES (?,?)";
+			String insertSQL="INSERT INTO customer (login_id, pwd, status)\r\n"
+					+ "VALUES (?,?,?)";
 			pstmt=conn.prepareStatement(insertSQL);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
+			pstmt.setInt(3, 1);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -67,7 +68,7 @@ public class CustomerDAOOracle implements CustomerDAO {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				return new CustomerDTO(rs.getString("login_id"), rs.getString("pwd"));
+				return new CustomerDTO(rs.getString("login_id"), rs.getString("pwd"), rs.getInt("status"));
 			}else {
 				throw new FindException("고객이 없습니다");
 			}
@@ -99,8 +100,10 @@ public class CustomerDAOOracle implements CustomerDAO {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			//System.out.println("Oracle DB 연결 성공");
-			String updateSQL = "UPDATE customer SET pwd='"+newPwd+"' WHERE login_id='"+id+"'";
+			String updateSQL = "UPDATE customer SET pwd=? WHERE login_id=?";
 			pstmt = conn.prepareStatement(updateSQL);
+			pstmt.setString(1, newPwd);
+			pstmt.setString(2, id);
 			pstmt.executeQuery();
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -124,17 +127,18 @@ public class CustomerDAOOracle implements CustomerDAO {
 		
 	}
 	
-	public void delete(String id) throws RemoveException {
+	public void updateStatus(String id) throws RemoveException {
 
 		PreparedStatement pstmt=null;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			//System.out.println("Oracle DB 연결 성공");
-			String deleteSQL = "DELETE FROM customer WHERE login_id='"+id+"'";
-			pstmt = conn.prepareStatement(deleteSQL);
+			String updateSQL = "UPDATE customer SET status=0 WHERE login_id=?";
+			pstmt = conn.prepareStatement(updateSQL);
+			pstmt.setString(1, id);
 			pstmt.executeQuery();
 		} catch (SQLException e) {
-			throw new RemoveException("회원 삭제 실패");
+			throw new RemoveException("회원 상태 업데이트 실패");
 		} finally {
 			if(pstmt!=null) {
 				try {

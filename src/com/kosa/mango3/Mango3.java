@@ -2,27 +2,29 @@ package com.kosa.mango3;
 
 import java.util.Scanner;
 
-import com.kosa.mango3.config.Mango3Config;
 import com.kosa.mango3.customer.dto.CustomerDTO;
 import com.kosa.mango3.customer.service.CustomerService;
+import com.kosa.mango3.db.DBManager;
+import com.kosa.mango3.db.Oracle;
 import com.kosa.mango3.exception.AddException;
 import com.kosa.mango3.exception.FindException;
-import com.kosa.mango3.review.service.ReviewMain;
-import com.kosa.mango3.store.Mango3Store;
+import com.kosa.mango3.review.ReviewMain;
 import com.kosa.mango3.store.StoreAdmin;
+import com.kosa.mango3.store.StoreMain;
 
 public class Mango3 {	
-
+	private DBManager db;
 	private CustomerDTO loginedCustomer;
 	private CustomerService customerService;
-	private Mango3Store mango3Store;
+	private StoreMain storeMain;
 	private ReviewMain reviewMain;
 	private static Scanner sc = new Scanner(System.in);
 
 	public Mango3() {
-		customerService = new CustomerService();
-		mango3Store=new Mango3Store();
-		reviewMain=new ReviewMain();
+		this.db = new Oracle();
+		this.customerService = new CustomerService();
+		this.storeMain=new StoreMain();
+		this.reviewMain=new ReviewMain();
 	}
 
 	public boolean loginSession() {
@@ -104,10 +106,9 @@ public class Mango3 {
 	}
 
 	public static void main(String[] args) {
-		Mango3Config m3c = new Mango3Config();
-		m3c.dbConnect();
-
 		Mango3 mango3 = new Mango3();
+		mango3.db.DBLoad();
+		
 		System.out.println("=".repeat(30));
 		System.out.println("KOSA Mini Project Mango3");
 		String input = "";
@@ -152,7 +153,7 @@ public class Mango3 {
 					input = sc.nextLine();
 
 					if (input.equals("1")) {
-						mango3.mango3Store.serviceStore(mango3.loginedCustomer.getLoginId());
+						mango3.storeMain.serviceStore(mango3.loginedCustomer.getLoginId());
 					} else if (input.equals("2")) {
 						mango3.reviewMain.myReviewList(mango3.loginedCustomer.getLoginId());
 					} else if (input.equals("3")){

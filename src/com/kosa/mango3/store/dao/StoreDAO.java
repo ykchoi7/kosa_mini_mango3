@@ -13,7 +13,7 @@ public interface StoreDAO {
 	 * @return
 	 * @throws FindException
 	 */
-	List<StoreDTO> findByLocation(String locName) throws FindException;
+	List<StoreDTO> findByLocation(String locName, int page) throws FindException;
 	
 	/**
 	 * 메뉴별 맛집 조회
@@ -21,7 +21,7 @@ public interface StoreDAO {
 	 * @return
 	 * @throws FindException
 	 */
-	List<StoreDTO> findByType(String typeName) throws FindException;
+	List<StoreDTO> findByType(String typeName, int page) throws FindException;
 	
 	/**
 	 * 맛집 검색
@@ -29,11 +29,11 @@ public interface StoreDAO {
 	 * @return
 	 * @throws FindException
 	 */
-	List<StoreDTO> findByName(String storeName) throws FindException;
-		
-	/**
-	 * 맛집 상세 조회
-	 * @throws FindException
-	 */
-	List<StoreDTO> storeInfo(long storeId) throws FindException;
+	List<StoreDTO> findByName(String storeName, int page) throws FindException;
+
+	
+	int countStoreLoc(String loc) throws FindException;
+	int countStoreType(String type) throws FindException;
+	int countStoreSearch(String name) throws FindException;
+	
 }

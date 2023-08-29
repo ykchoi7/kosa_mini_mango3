@@ -44,7 +44,16 @@ public class StoreAdmin {
 			
 			StoreDTO newSDTO;
 			try {
-				newSDTO = new StoreDTO((long)(countStore()+1), name, address, tel, hour, loc, type, 0, 0, null);
+				newSDTO = StoreDTO.builder()
+						.storeId((long)(countStore()+1))
+						.storeName(name)
+						.address(address)
+						.tel(tel)
+						.storeHour(hour)
+						.location(loc)
+						.foodType(type)
+						.build();
+						
 				createStore(newSDTO);
 				System.out.println("음식점이 추가되었습니다.");
 			} catch (FindException e) {
