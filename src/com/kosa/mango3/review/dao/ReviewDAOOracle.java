@@ -65,13 +65,13 @@ public class ReviewDAOOracle implements ReviewDAO {
 		List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
 		int pageSize=5;
 		
-		String selectSQL = "SELECT rn, review_id, store_name, grade, rw_content, regdate\r\n"
+		String selectSQL = "SELECT rn, review_id, grade, rw_content, regdate, login_id\r\n"
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
-				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
-				+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-				+ "            WHERE s.store_id = ?) a\r\n"
-				+ "     )\r\n"
-				+ "WHERE rn BETWEEN 1 AND 2";
+				+ "FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
+				+ "FROM review\r\n"
+				+ "WHERE store_id = ? and grade=1\r\n"
+				+ "ORDER BY regdate DESC) a )\r\n"
+				+ "WHERE rn BETWEEN ? AND ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -81,8 +81,8 @@ public class ReviewDAOOracle implements ReviewDAO {
 			
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setLong(1, storeId);
-//			pstmt.setInt(2, pageSize*(page-1)+1);
-//			pstmt.setInt(3, pageSize*page);
+			pstmt.setInt(2, pageSize*(page-1)+1);
+			pstmt.setInt(3, pageSize*page);
 			rs = pstmt.executeQuery(); 
 			
 			while(rs.next()) {

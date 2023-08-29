@@ -118,7 +118,7 @@ public class ReviewMain {
 			System.out.println("-".repeat(30));
 			int idx=finalSize*(page-1)+1;
 			for (int i = 0; i<size; i++) {
-				reviewPrint(reviewList, i, idx+i);
+				storeReviewPrint(reviewList, i, idx+i);
 			}
 
 			if (page!=1) System.out.println("p.이전 리스트 <-----");
@@ -285,7 +285,7 @@ public class ReviewMain {
 				System.out.println("-".repeat(30));
 				int idx=finalSize*(page-1)+1;
 				for (int i = 0; i<size; i++) {
-					reviewPrint(reviewList, i, idx+i);
+					myReviewPrint(reviewList, i, idx+i);
 				}
 				if (page!=1) System.out.println("p.이전 리스트 <-----");
 				if (page<maxPage) System.out.println("-----> n.다음 리스트");
@@ -338,7 +338,7 @@ public class ReviewMain {
 		int index = Integer.parseInt(input)%5-1;
 
 		System.out.println("-".repeat(30));
-		reviewPrint(reviewList, Integer.parseInt(input)-1, Integer.parseInt(input)-1);
+		myReviewPrint(reviewList, Integer.parseInt(input)-1, Integer.parseInt(input)-1);
 
 		System.out.println("[알림]위 리뷰를 삭제 하시겠습니까?(y/n)");
 		System.out.print(">> ");
@@ -361,7 +361,7 @@ public class ReviewMain {
 		return reviewList;
 	}
 	
-	private void reviewPrint(List<ReviewDTO> reviewList, int i, int idx) {
+	private void myReviewPrint(List<ReviewDTO> reviewList, int i, int idx) {
 		String storeName = reviewList.get(i).getStoreDTO().getStoreName();
 		String grade;
 
@@ -377,6 +377,27 @@ public class ReviewMain {
 		String date = reviewList.get(i).getRegdate();
 
 		System.out.printf("%d. " + storeName + "\t   " + grade + "\n", idx);
+		System.out.println("ㄴ" + content);
+		System.out.println("\t\t   " + date);
+		System.out.println("-".repeat(30));
+	}
+	
+	private void storeReviewPrint(List<ReviewDTO> reviewList, int i, int idx) {
+		String loginid = reviewList.get(i).getCustomerDTO().getLoginId();
+		String grade;
+
+		if (reviewList.get(i).getGrade() == 5) {
+			grade = "맛있다(^_^)b";
+		} else if (reviewList.get(i).getGrade() == 3) {
+			grade = "괜찮다(^^);";
+		} else {
+			grade = "별로(-_-);";
+		}
+
+		String content = reviewList.get(i).getComment();
+		String date = reviewList.get(i).getRegdate();
+
+		System.out.printf("%d. " + loginid + "\t   " + grade + "\n", idx);
 		System.out.println("ㄴ" + content);
 		System.out.println("\t\t   " + date);
 		System.out.println("-".repeat(30));
