@@ -86,19 +86,16 @@ public class ReviewMain {
 		int max = 0;
 		int maxPage = 0;
 		int finalSize = 5;
-		int size = 5;
 
 		while (true) {
 			int tmp = -1;
 			
 			try {
 				tmp = reviewService.countStoreReview(storeId);
-				System.out.println(tmp);
 				if (tmp == 0) {
 					System.out.println("༼ つ ◕_◕ ༽つ 등록된 리뷰가 없습니다.");
 					return;
 				}
-//				else System.out.println("성공1");
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -107,7 +104,6 @@ public class ReviewMain {
 			
 			try {
 				reviewList = reviewService.selectByStoreNo(storeId, page);
-//				System.out.println("성공2");
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -116,13 +112,11 @@ public class ReviewMain {
 				max = tmp;
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-			size = (page == maxPage) ? max%size : finalSize; 
 			
 			System.out.println("-".repeat(30));
 			int idx = finalSize*(page-1)+1;
 			
-			System.out.println(idx+", "+ reviewList.size());
-			for (int i = 0; i<size; i++) {
+			for (int i = 0; i<reviewList.size(); i++) {
 				storeReviewPrint(reviewList.get(i), idx+i);
 			}
 
@@ -130,7 +124,7 @@ public class ReviewMain {
 			if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
 
 			if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
-			//else System.out.println();
+			else System.out.println();
 			
 
 			System.out.println("0. 뒤로가기");
@@ -141,7 +135,7 @@ public class ReviewMain {
 				if(page > 1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
-				if(page < max) page++;
+				if(page < maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
@@ -158,7 +152,6 @@ public class ReviewMain {
 		int max = 0;
 		int maxPage = 0;
 		int finalSize = 5;
-		int size = 5;
 
 		while (true) {
 			int tmp = -1;
@@ -175,23 +168,24 @@ public class ReviewMain {
 			
 			List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
 			
-			try {
-				reviewList = reviewService.selectByGrade(storeId, grade, page);
-			} catch (FindException e) {
-				System.out.println(e.getMessage());
-			}
-
 			if(max != tmp) {
 				max = tmp;
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-			size = (page == maxPage) ? max%size : finalSize; 
 			
-			System.out.println("-".repeat(30));
-			int idx = finalSize*(page-1)+1;
-			
-			for (int i = 0; i<size; i++) {
-				storeReviewPrint(reviewList.get(i), idx+i);
+			try {
+				reviewList = reviewService.selectByGrade(storeId, grade, page);
+
+				
+			} catch (FindException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				System.out.println("-".repeat(30));
+				int idx = finalSize*(page-1)+1;
+				
+				for (int i = 0; i<reviewList.size(); i++) {
+					storeReviewPrint(reviewList.get(i), idx+i);
+				}
 			}
 
 			if (page != 1) System.out.print("(p) 이전 리스트 <-- ");
@@ -207,7 +201,7 @@ public class ReviewMain {
 				if(page > 1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
-				if(page < max) page++;
+				if(page < maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
@@ -284,7 +278,6 @@ public class ReviewMain {
 		int max = 0;
 		int maxPage = 0;
 		int finalSize = 5;
-		int size = 5;
 
 		while (true) {
 			int tmp = -1;
@@ -311,12 +304,11 @@ public class ReviewMain {
 				max = tmp;
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-			size = (page == maxPage) ? max%size : finalSize; 
 				
 			System.out.println("-".repeat(30));
 			int idx = finalSize*(page-1)+1;
 			
-			for (int i = 0; i<size; i++) {
+			for (int i = 0; i<reviewList.size(); i++) {
 				myReviewPrint(reviewList.get(i), idx+i);
 			}
 			
@@ -334,7 +326,7 @@ public class ReviewMain {
 				if(page>1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
-				if(page<max) page++;
+				if(page<maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
@@ -364,7 +356,7 @@ public class ReviewMain {
 		System.out.println("-".repeat(30));
 		
 		try {
-			myReviewPrint(reviewList.get(index), Integer.parseInt(input)-1);
+			myReviewPrint(reviewList.get(index), Integer.parseInt(input));
 		} catch (Exception e) {
 			System.out.println("( つ｡>﹏<｡)つ 입력한 번호의 리뷰를 조회할 수 없습니다.");
 			return ;
