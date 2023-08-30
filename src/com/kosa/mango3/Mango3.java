@@ -45,7 +45,6 @@ public class Mango3 {
 		String checkPwd=sc.nextLine();
 		if(!pwd.equals(checkPwd)) {
 			System.out.println("( つ｡>﹏<｡)つ PW가 일치하지 않습니다.");
-			join();
 			return;
 		}
 
@@ -55,7 +54,7 @@ public class Mango3 {
 		} catch (AddException e) {
 			//e.printStackTrace();
 			System.out.println(e.getMessage());
-			join();
+			return;
 		}
 	}
 
