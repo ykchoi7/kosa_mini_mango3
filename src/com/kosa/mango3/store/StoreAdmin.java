@@ -15,11 +15,17 @@ import com.kosa.mango3.store.dto.StoreDTO;
 
 public class StoreAdmin {
 	Scanner sc=new Scanner(System.in);
-	
+
 	// 관리자 페이지 메인
-	public void adminPage(String num) {
-		if(num.equals("1")) {
-			
+	public void adminPage(String num) throws FindException {
+		if(num.equals("0")) {
+			try {
+				allStore();
+			} catch (FindException e) {
+				throw new FindException("음식점 조회에 실패하였습니다.");
+			}
+		} else if(num.equals("1")) {
+
 			System.out.print("음식점명 : ");
 			String name=sc.nextLine();
 			System.out.print("음식점 주소 : ");
@@ -32,7 +38,7 @@ public class StoreAdmin {
 			String loc=sc.nextLine();
 			System.out.print("음식점 종류 : ");
 			String type=sc.nextLine();
-			
+
 			System.out.println("음식점을 추가하시겠습니까?");
 			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
 			System.out.print("✔️ ");
@@ -41,7 +47,7 @@ public class StoreAdmin {
 				System.out.println("실행이 취소되었습니다.");
 				return;
 			}
-			
+
 			StoreDTO newSDTO;
 			try {
 				newSDTO = StoreDTO.builder()
@@ -53,7 +59,7 @@ public class StoreAdmin {
 						.location(loc)
 						.foodType(type)
 						.build();
-						
+
 				createStore(newSDTO);
 				System.out.println("음식점이 추가되었습니다.");
 			} catch (FindException e) {
@@ -61,18 +67,18 @@ public class StoreAdmin {
 			} catch (AddException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 		} else if(num.equals("2")) {
-			
+
 			try {
 				allStore();
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 			System.out.print("수정할 음식점의 인덱스 : ");
 			String row=sc.nextLine();
-			
+
 			System.out.println("1. 음식점명");
 			System.out.println("2. 주소");
 			System.out.println("3. 연락처");
@@ -81,11 +87,11 @@ public class StoreAdmin {
 			System.out.println("6. 음식 종류");
 			System.out.print("수정할 항목 : ");
 			String update=sc.nextLine();
-			
+
 			String[] cal= {"store_name", "address", "tel", "store_hour", "location", "food_type"};
 			System.out.print("수정된 내용 : ");
 			String content=sc.nextLine();
-			
+
 			System.out.println("음식점을 수정하시겠습니까?");
 			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
 			System.out.print("✔️ ");
@@ -94,25 +100,25 @@ public class StoreAdmin {
 				System.out.println("실행이 취소되었습니다.");
 				return;
 			}
-			
+
 			try {
 				replaceStore(row, cal[Integer.parseInt(update)-1], content);
 				System.out.println("음식점이 수정되었습니다.");
 			} catch (ModifyException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 		} else if(num.equals("3")) {
-			
+
 			try {
 				allStore();
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 			System.out.print("삭제할 음식점의 인덱스 : ");
 			String row=sc.nextLine();
-			
+
 			System.out.println("음식점을 삭제하시겠습니까?");
 			System.out.println("계속 하시려면 아무 키나 눌러주세요. (0. 취소)");
 			System.out.print("✔️ ");
@@ -121,20 +127,20 @@ public class StoreAdmin {
 				System.out.println("실행이 취소되었습니다.");
 				return;
 			}
-			
+
 			try {
 				deleteStore(row);
 				System.out.println("음식점이 삭제되었습니다.");
 			} catch (RemoveException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 		} else System.out.println("다시 입력해주세요.");
 	}
 
 	// 음식점 추가
 	private void createStore(StoreDTO storeDTO) throws AddException {
-		
+
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "mango3";
@@ -173,12 +179,12 @@ public class StoreAdmin {
 				}
 			}			
 		}
-		
+
 	}
-	
+
 	// 음식점 수정
 	private void replaceStore(String index, String update, String content) throws ModifyException {
-		
+
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "mango3";
@@ -209,12 +215,12 @@ public class StoreAdmin {
 				}
 			}			
 		}	
-		
+
 	}
-	
+
 	// 음식점 삭제
 	private void deleteStore(String index) throws RemoveException {
-		
+
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "mango3";
@@ -245,12 +251,12 @@ public class StoreAdmin {
 				}
 			}			
 		}	
-		
+
 	}
-	
+
 	// 음식점 총 개수 조회
 	private int countStore() throws FindException {
-		
+
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "mango3";
@@ -287,12 +293,12 @@ public class StoreAdmin {
 				}
 			}			
 		}	
-		
+
 	}
-	
+
 	// 전체 음식점 목록 출력
 	private void allStore() throws FindException {
-		
+
 		Connection conn = null;
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "mango3";
@@ -300,19 +306,14 @@ public class StoreAdmin {
 
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
-		int max=countStore();
-		int maxPage=0;
-		if(max%5==0) maxPage=max/5;
-		else maxPage=max/5+1;
-		pageStore(maxPage);
-		
+
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			//System.out.println("Oracle DB 연결 성공");
 			String selectSQL = "SELECT * FROM store";
 			pstmt = conn.prepareStatement(selectSQL);
 			rs = pstmt.executeQuery();
-			
+
 			while(rs.next()) {
 				System.out.print(rs.getString("store_id")+". ");
 				System.out.print("음식점명 : "+rs.getString("store_name")+" | ");
@@ -340,11 +341,7 @@ public class StoreAdmin {
 				}
 			}			
 		}
-		
+
 	}
-	
-	private void pageStore(int maxPage) {
-		
-	}
-	
+
 }
