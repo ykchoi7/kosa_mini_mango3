@@ -8,7 +8,7 @@ public class Oracle implements DBManager {
 	public void DBLoad() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
-			System.out.println("JDBC Oracle 드라이버 로드성공");
+			//System.out.println("JDBC Oracle 드라이버 로드성공");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return;
