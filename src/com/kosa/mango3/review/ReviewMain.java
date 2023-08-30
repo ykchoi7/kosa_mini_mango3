@@ -351,7 +351,7 @@ public class ReviewMain {
 		int index = 0;
 		
 		try {
-			index = Integer.parseInt(input)%6-1;
+			index = Integer.parseInt(input)%5-1;
 		} catch (Exception e) {
 			System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 			return ;
