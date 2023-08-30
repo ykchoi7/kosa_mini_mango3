@@ -83,13 +83,14 @@ public class Mango3 {
 		System.out.println("༼ つ ◕_◕ ༽つ 로그아웃이 완료되었습니다.");
 	}
 
-	public void adminLogin() {
+	public void adminLogin() throws FindException {
 		System.out.print("관리자용 PW : ");
 		String adminPwd=sc.nextLine();
 		if(adminPwd.equals("admin")) {
 			System.out.println("관리자용 페이지로 연결합니다.");
 			StoreAdmin admin=new StoreAdmin();
 			while(true) {
+				System.out.println("\n0. 음식점 조회");
 				System.out.println("1. 음식점 추가");
 				System.out.println("2. 음식점 정보 수정");
 				System.out.println("3. 음식점 삭제");
@@ -139,7 +140,11 @@ public class Mango3 {
 				System.out.println("༼ つ ◕_◕ ༽つ 사용이 종료되었습니다.");
 				break;
 			} else if (input.equals("admin")){
-				mango3.adminLogin();
+				try {
+					mango3.adminLogin();
+				} catch (FindException e) {
+					System.out.println(e.getMessage());
+				}
 
 			} else {
 				System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
