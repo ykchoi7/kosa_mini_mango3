@@ -23,8 +23,6 @@ public class StoreDAOOracle implements StoreDAO {
 		List<StoreDTO> storeList = new ArrayList<>();
 		int pageSize = 5;
 
-
-
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -37,7 +35,7 @@ public class StoreDAOOracle implements StoreDAO {
 					+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
 					+ "WHERE s.location = ?\r\n"
 					+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type, s.address, s.tel, s.store_hour "
-					+ "ORDER BY AVG(r.grade)) a)\r\n"
+					+ "ORDER BY grade desc) a)\r\n"
 					+ "WHERE rn BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, locName);
@@ -88,8 +86,6 @@ public class StoreDAOOracle implements StoreDAO {
 		List<StoreDTO> storeList = new ArrayList<>();
 		int pageSize = 5;
 
-
-
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -102,7 +98,7 @@ public class StoreDAOOracle implements StoreDAO {
 					+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
 					+ "WHERE s.food_type = ?\r\n"
 					+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type, s.address, s.tel, s.store_hour "
-					+ "ORDER BY AVG(r.grade)) a)\r\n"
+					+ "ORDER BY grade desc) a)\r\n"
 					+ "WHERE rn BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, typeName);
@@ -154,8 +150,6 @@ public class StoreDAOOracle implements StoreDAO {
 		List<StoreDTO> storeList = new ArrayList<>();
 		int pageSize = 5;
 
-
-
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -168,7 +162,7 @@ public class StoreDAOOracle implements StoreDAO {
 					+ "FROM store s FULL OUTER JOIN review r ON s.store_id = r.store_id\r\n"
 					+ "WHERE INSTR(s.store_name, ?) > 0\r\n"
 					+ "GROUP BY s.store_id, s.store_name, s.location, s.food_type, s.address, s.tel, s.store_hour "
-					+ "ORDER BY AVG(r.grade)) a)\r\n"
+					+ "ORDER BY grade desc) a)\r\n"
 					+ "WHERE rn BETWEEN ? AND ?";
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, storeName);

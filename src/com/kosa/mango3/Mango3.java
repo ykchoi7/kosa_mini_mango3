@@ -27,6 +27,10 @@ public class Mango3 {
 		this.reviewMain=new ReviewMain();
 	}
 
+	/**
+	 * 현재 사용자의 로그인 상태 확인
+	 * @return true : 로그인 / false : 로그아웃
+	 */
 	public boolean loginSession() {
 		if(loginedCustomer==null) {
 			return false;

@@ -65,7 +65,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				+ "FROM (SELECT ROWNUM rn, a.* \r\n"
 				+ "FROM (SELECT rownum, grade, rw_content, login_id, regdate, review_id\r\n"
 				+ "FROM review\r\n"
-				+ "WHERE store_id = ? and grade=1\r\n"
+				+ "WHERE store_id = ?\r\n"
 				+ "ORDER BY regdate DESC) a )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
 		
@@ -304,7 +304,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("");
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰를 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -340,7 +340,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("");
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰를 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {
@@ -375,7 +375,7 @@ public class ReviewDAOOracle implements ReviewDAO {
 				throw new FindException("");
 			}
 		} catch (SQLException e) {
-			throw new FindException("");
+			throw new FindException("( つ｡>﹏<｡)つ 리뷰를 조회할 수 없습니다.");
 		} finally {
 			if(pstmt!=null) {
 				try {

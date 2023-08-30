@@ -93,10 +93,12 @@ public class ReviewMain {
 			
 			try {
 				tmp = reviewService.countStoreReview(storeId);
+				System.out.println(tmp);
 				if (tmp == 0) {
 					System.out.println("༼ つ ◕_◕ ༽つ 등록된 리뷰가 없습니다.");
 					return;
 				}
+//				else System.out.println("성공1");
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -105,6 +107,7 @@ public class ReviewMain {
 			
 			try {
 				reviewList = reviewService.selectByStoreNo(storeId, page);
+//				System.out.println("성공2");
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
@@ -118,6 +121,7 @@ public class ReviewMain {
 			System.out.println("-".repeat(30));
 			int idx = finalSize*(page-1)+1;
 			
+			System.out.println(idx+", "+ reviewList.size());
 			for (int i = 0; i<size; i++) {
 				storeReviewPrint(reviewList.get(i), idx+i);
 			}
@@ -126,7 +130,7 @@ public class ReviewMain {
 			if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
 
 			if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
-			else System.out.println();
+			//else System.out.println();
 			
 
 			System.out.println("0. 뒤로가기");

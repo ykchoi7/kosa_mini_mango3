@@ -135,6 +135,7 @@ public class StoreMain {
 						num = (Integer.parseInt(sdetail))-1;
 						storeInfo(storeList, num%5, loginedId);
 					} catch (Exception e) {
+//						e.printStackTrace();
 						System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 					}
 				}
@@ -191,6 +192,7 @@ public class StoreMain {
 				try {
 					storeList = storeService.serviceType(type[(Integer.parseInt(tnum))-1], page);
 				} catch (NumberFormatException | FindException e) {
+//					e.printStackTrace();
 					System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 				}				
 
@@ -213,8 +215,9 @@ public class StoreMain {
 				int num=0;
 
 				if (tdetail.equals("p")) {
-					if(page>1) page--;
-					else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
+					if (page>1) { 
+						page--;
+					} else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 				} else if (tdetail.equals("n")) {
 					if(page<max) page++;
 					else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
@@ -225,6 +228,7 @@ public class StoreMain {
 						num = (Integer.parseInt(tdetail))-1;
 						storeInfo(storeList, num%5, loginedId);
 					} catch (Exception e) {
+//						e.printStackTrace();
 						System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 					}
 				}

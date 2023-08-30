@@ -132,7 +132,11 @@ public class StoreAdmin {
 		} else System.out.println("다시 입력해주세요.");
 	}
 
-	// 음식점 추가
+	/**
+	 * 신규 음식점 추가
+	 * @param storeDTO 음식점 객체
+	 * @throws AddException DB연결에 실패한 경우 발생
+	 */
 	private void createStore(StoreDTO storeDTO) throws AddException {
 		
 		Connection conn = null;
@@ -176,7 +180,13 @@ public class StoreAdmin {
 		
 	}
 	
-	// 음식점 수정
+	/**
+	 * 음식점 상세 정보 수정
+	 * @param index 음식점 일련번호
+	 * @param update 수정할 컬럼명
+	 * @param content 수정 내용
+	 * @throws ModifyException 음식점 일련번호 혹은 컬럼명이 없거나 DB연결에 실패한 경우 발생
+	 */
 	private void replaceStore(String index, String update, String content) throws ModifyException {
 		
 		Connection conn = null;
@@ -212,7 +222,11 @@ public class StoreAdmin {
 		
 	}
 	
-	// 음식점 삭제
+	/**
+	 * 음식점 삭제
+	 * @param index 음식점 일련번호 
+	 * @throws RemoveException 음식점 일련번호가 없거나 DB연결에 실패한 경우 발생
+	 */
 	private void deleteStore(String index) throws RemoveException {
 		
 		Connection conn = null;
@@ -290,7 +304,10 @@ public class StoreAdmin {
 		
 	}
 	
-	// 전체 음식점 목록 출력
+	/**
+	 * 전체 음식점 조회
+	 * @throws FindException DB연결에 실패한 경우 발생
+	 */
 	private void allStore() throws FindException {
 		
 		Connection conn = null;
