@@ -99,16 +99,16 @@ public class StoreMain {
 
 				try {
 					storeList = storeService.serviceLoc(location[(Integer.parseInt(lnum))-1], page);
+					size = (page == maxPage) ? max%size : finalSize;
+					int idx = finalSize*(page-1)+1;
+
+					//가게 리스트 정보 출력
+					storePrint(storeList, idx);
 				} catch (NumberFormatException | FindException e) {
-					System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
-					break;
+					System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 				}				
 
-				size = (page == maxPage) ? max%size : finalSize;
-				int idx = finalSize*(page-1)+1;
-
-				//가게 리스트 정보 출력
-				storePrint(storeList, idx);
+				
 
 				//가게 상세 정보
 				System.out.println();
@@ -126,7 +126,7 @@ public class StoreMain {
 					if(page>1) page--;
 					else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 				} else if (sdetail.equals("n")) {
-					if(page<max) page++;
+					if(page<maxPage) page++;
 					else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 				} else if (sdetail.equals("0")) {
 					break;
@@ -190,15 +190,16 @@ public class StoreMain {
 
 				try {
 					storeList = storeService.serviceType(type[(Integer.parseInt(tnum))-1], page);
+					size = (page == maxPage) ? max%size : finalSize;
+					int idx = finalSize*(page-1)+1;
+
+					//가게 리스트 정보 출력
+					storePrint(storeList, idx);
 				} catch (NumberFormatException | FindException e) {
 					System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 				}				
 
-				size = (page == maxPage) ? max%size : finalSize;
-				int idx = finalSize*(page-1)+1;
-
-				//가게 리스트 정보 출력
-				storePrint(storeList, idx);
+				
 
 				//번호입력받아서 가게 상세정보 출력하기
 				System.out.println();
@@ -216,7 +217,7 @@ public class StoreMain {
 					if(page>1) page--;
 					else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 				} else if (tdetail.equals("n")) {
-					if(page<max) page++;
+					if(page<maxPage) page++;
 					else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 				} else if (tdetail.equals("0")) {
 					break;
@@ -266,14 +267,17 @@ public class StoreMain {
 
 			try {
 				storeList = storeService.serviceSearch(storeName, page);
-			} catch (FindException e) {
-				System.out.println(e.getMessage());
+				size = (page == maxPage) ? max%size : finalSize;
+				
+			} catch (Exception e) {
+//				System.out.println(e.getMessage());
+			} finally {
+				int idx = finalSize*(page-1)+1;
+
+				storePrint(storeList, idx);
 			}
 
-			size = (page == maxPage) ? max%size : finalSize;
-			int idx = finalSize*(page-1)+1;
-
-			storePrint(storeList, idx);
+			
 
 
 			//번호입력받아서 가게 상세정보 출력하기
@@ -292,7 +296,7 @@ public class StoreMain {
 				if(page>1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (detail.equals("n")) {
-				if(page<max) page++;
+				if(page<maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (detail.equals("0")) {
 				break;
