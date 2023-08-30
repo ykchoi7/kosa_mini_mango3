@@ -1,0 +1,422 @@
+-- 기존 테이블 삭제
+drop table review;
+drop table customer;
+drop table store;
+drop sequence review_seq;
+drop sequence store_seq;
+
+-- 가게 테이블 생성
+CREATE TABLE STORE (
+    store_id NUMBER,
+    store_name VARCHAR2(255) NOT NULL,
+    address VARCHAR2(255) NOT NULL,
+    tel VARCHAR2(255),
+    store_hour VARCHAR2(255),
+    location VARCHAR2(255) NOT NULL,
+    food_type VARCHAR2(255) NOT NULL,
+    CONSTRAINT store_id_pk PRIMARY KEY (store_id)
+);
+
+-- 고객 테이블 생성
+CREATE TABLE CUSTOMER (
+    login_id VARCHAR2(255),
+    pwd VARCHAR2(255) NOT NULL,
+	status NUMBER(1) DEFAULT 1 NOT NULL,
+    CONSTRAINT login_id_pk PRIMARY KEY (login_id)
+);
+
+-- 리뷰 테이블 생성
+CREATE TABLE REVIEW (
+    review_id NUMBER,
+    grade NUMBER NOT NULL,
+    rw_content VARCHAR2(255) NOT NULL,
+    store_id NUMBER,
+    login_id VARCHAR2(255),
+    regdate DATE DEFAULT SYSDATE NOT NULL,
+    CONSTRAINT review_id_pk PRIMARY KEY (review_id),
+    CONSTRAINT review_store_id_fk FOREIGN KEY (store_id) REFERENCES store(store_id),
+    CONSTRAINT review_login_id_fk FOREIGN KEY (login_id) REFERENCES customer(login_id)
+);
+
+-- 시퀀스 생성
+CREATE SEQUENCE store_seq; 
+CREATE SEQUENCE review_seq;
+
+-- 스토어정보 등록
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '위트앤미트', '서울특별시 강남구 강남대로110길 32 1F', '02-508-2396', '11:30 - 20:30', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '농민백암왕순대', '서울특별시 강남구 역삼로3길 20-4', '02-501-2772', '11:10 - 21:00', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '켄홈1991', '서울특별시 강남구 역삼로 109 SK허브젠 1F', '010-8403-3932', '17:00 - 02:00', '강남', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '하이디라오', '서울특별시 서초구 서초대로77길 54 W-TOWER 2F', '02-533-8260', '10:00 - 05:00', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '옥토스', '서울특별시 서초구 사평대로52길 11 1F', '02-599-6789', '17:00 - 01:00', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '정돈', '서울특별시 강남구 강남대로110길 19-1 1F', '02-563-0924', '11:30 - 22:00', '강남', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '일일향', '서울특별시 서초구 서초대로78길 22 홍우빌딩', '02-555-8133', '11:30 - 21:30', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '스폰티니', '서울특별시 강남구 강남대로 442 2F', '02-558-8072', '11:00 - 22:00', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '토마루해물칼국수', '서울특별시 송파구 백제고분로15길 6', '02-416-2731', '11:00 - 21:00', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '미필담', '서울특별시 마포구 성지3길 22 1F', '0507-1366-5041', '11:30 - 20:30', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '르프리크', '서울특별시 성동구 성동구 연무장5길 9-16 블루스톤타워 B103호', '02-2054-0119', '11:30 - 21:00', '성수', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '일일향', '서울특별시 송파구 석촌호수로 290', '02-421-8900', '11:30 - 21:40', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '저스티나', '서울특별시 마포구 양화진2길 31 1F', '02-332-5551', '', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '마구로쇼쿠도', '서울특별시 성동구 상원2길 1 B1', '02-468-5141', '11:00 - 15:00', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '미엔아이 천등', '서울특별시 강남구 봉은사로4길 32 1F', '02-552-0652', '11:30 - 22:00', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '청류벽', '서울특별시 서초구 서초대로74길 29 105호', '02-2055-1191', '11:30 - 22:00', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '강남명전', '서울특별시 서초구 강남대로65길 12 1F', '070-4348-3371', '11:00 - 02:30', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '강남진해장', '서울특별시 강남구 테헤란로5길 11', '02-557-2662', '00:00 - 24:00', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '서동한우', '서울특별시 서초구 서초대로74길 29 서초파라곤 2F', '02-3474-9297', '11:00 - 23:00', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '조양관', '서울특별시 서초구 서초대로74길 29 서초파라곤 B1 01호', '02-3473-8181', '11:20 - 21:30', '강남', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '반티엔야오카오위', '서울특별시 서초구 서초대로73길 12 세계빌딩 1F', '02-6953-6668', '11:00 - 22:00', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '중경마라탕', '서울특별시 강남구 강남대로78길 27 2F', '02-538-5839', '11:00 - 23:00', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '천진영감', '서울특별시 강남구 봉은사로6길 26 1F', '02-568-0355', '12:00 - 00:00', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '라공방', '서울특별시 강남구 테헤란로4길 6 센트럴 푸르지오 시티 B 113호', '02-562-0825', '11:00 - 23:00', '강남', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '파이브가이즈', '서울특별시 서초구 강남대로 435', '', '', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '왓쇼이켄', '서울특별시 강남구 테헤란로4길 46 쌍용플래티넘벨류 B1 120호', '02-508-5127', '11:00 - 20:00', '강남', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '우동명가기리야마', '서울특별시 강남구 강남대로84길 23 한라클래식 B1', '02-567-0068', '11:30 - 21:30', '강남', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '카츠8', '서울특별시 서초구 서초대로74길 11 삼선전자 서초사옥 B1', '02-3471-8887', '11:00 - 22:00', '강남', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '스시산원 반주헌', '서울특별시 강남구 테헤란로4길 6 센트럴푸르지오시티 B2 224호', '02-562-0516', '11:30 - 00:00', '강남', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '도치피자', '서울특별시 강남구 강남대로98길 27', '02-556-8001', '11:30 - 22:00', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '구구당', '서울특별시 강남구 강남대로102길 35', '02-539-1979', '11:30 - 22:00', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '버거스올마이티 ', '서울특별시 강남구 봉은사로2길 31 B102호', '02-539-2225', '11:00 - 22:00', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '힘난다버거', '서울특별시 강남구 강남대로84길 15 102-1호', '02-567-6768', '', '강남', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '비채나', '서울특별시 송파구 올림픽로 300 롯데월드타워 81F', '02-1811-1870', '10:00 - 21:00', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '만석장', '서울특별시 송파구 올림픽로 300', '02-3213-4653', '', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '봉피양', '서울특별시 송파구 올림픽로 240 롯데백화점 B1', '02-2143-7008', '10:30 - 21:30', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '도꼭지', '서울특별시 송파구 잠실로 209 KT송파타워 2F 12-13호', '02-422-0431', '11:00 - 21:00', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '서래냉면', '서울특별시 송파구 올림픽로 300 롯데월드몰 5F', '02-3213-4524', '10:30 - 24:00', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '을밀대', '서울특별시 송파구 올림픽로 240 롯데백화점 잠실점 11F', '02-2143-1880', '11:00 - 22:00', '잠실', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '도림 더 칸톤 테이블', '서울특별시 송파구 올림픽로 240 롯데호텔월드 32F', '02-411-7800', '12:00 - 22:00', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '팀호완', '서울특별시 송파구 올림픽로 240 롯데백화점 잠실점 2F', '070-4740-5542', '11:30 - 21:30', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '딤딤섬', '서울특별시 송파구 올림픽로 300 롯데월드몰 B1F 3355존', '02-3213-2846', '10:30 - 21:00', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '피에프창', '서울특별시 송파구 올림픽로 300 롯데월드몰 캐쥬얼동 5F', '02-3213-4599', '10:30 - 22:00', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '크리스탈제이드', '서울특별시 송파구 올림픽로 300 롯데백화점에비뉴엘월드타워점 6F', '02-3213-2627', '11:00 - 21:30', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '차알', '서울특별시 송파구 올림픽로 300 롯데월드타워몰 B1', '', '11:15 - 22:00', '잠실', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '세이류', '서울특별시 송파구 올림픽로35가길 9 B1 B35호', '02-418-2288', '12:00 - 21:30', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '칸다소바', '서울특별시 송파구 올림픽로 300 롯데월드몰 캐주얼동 6F', '', '', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '연어식당', '서울특별시 송파구 올림픽로35가길 9 잠실 푸르지오월드마크 상가 1F 132호', '02-415-9915', '11:30 - 24:00', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '해목', '서울특별시 송파구 올림픽로 300 롯데월드몰 6F', '02-3213-4658', '10:30 - 22:00', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '갓덴스시', '서울특별시 송파구 올림픽로 300', '02-3213-4519', '10:30 - 22:30', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '아비꼬', '서울특별시 송파구 올림픽로 300 롯데월드몰 3F', '02-3213-4349', '10:30 - 22:00', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '후라토식당', '서울특별시 송파구 잠실로 209 kt송파타워 B105호', '02-423-7090', '', '잠실', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '엘리스리틀이태리', '서울특별시 송파구 백제고분로41길 43-21 SANDONG빌딩', '010-6545-1410', '11:30 - 22:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '뉴질랜드스토리', '서울특별시 송파구 석촌호수로 268 경남레이크파크 113호', '070-7523-6265', '10:30 - 18:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '바베네', '서울특별시 강남구 강남대로136길 6', '010-6737-0997', '17:00 - 01:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '라미아파밀리아', '서울특별시 송파구 송파대로49길 31 2F', '010-4841-3941', '11:00 - 22:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '다운타우너', '서울특별시 송파구 백제고분로45길 3 1F', '070-8868-3696', '11:00 - 21:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '모터시티', '서울특별시 송파구 백제고분로45길 17-3 2F', '02-424-2323', '11:30 - 22:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '더이탈리안클럽', '서울특별시 송파구 잠실로 209 KT송파타워 2F', '0507-1330-3238', '11:30 - 21:00', '잠실', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '우이락', '서울특별시 마포구 포은로8길 22 망원시장 내', '02-336-5564', '12:00 - 22:00', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '산청엔흑돼지', '서울특별시 마포구 포은로 110', '02-322-8713', '10:00 - 24:00', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '망원떡갈비', '서울특별시 마포구 포은로8길 25', '010-4040-5533', '', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '육장', '서울특별시 마포구 월드컵로19길 74', '0507-1335-2707', '11:00 - 21:00', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '맛있는집', '서울특별시 마포구 망원로8길 30', '02-326-2134', '10:00 - 22:00', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '합정동원조황소곱창구이전문', '서울특별시 마포구 월드컵로 91', '11:30 - 23:30', '02-337-6560', '마포', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '만두란', '서울특별시 마포구 동교로 81', '', '11:00 - 20:30', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '가원', '서울특별시 마포구 월드컵로 65', '02-325-1580', '11:30 - 21:30', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '망원양꼬치', '서울특별시 마포구 월드컵로13길 17', '02-335-5050', '16:00 - 05:00', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '밍밍', '서울특별시 마포구 월드컵로23길 5', '02-790-6355', '', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '주카바 아치', '서울특별시 마포구 망원로 70', '02-332-1770', '', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '라화쿵부', '서울특별시 마포구 월드컵로13길 70 1F', '02-336-2646', '11:00 - 22:00', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '홍짜장', '서울특별시 마포구 월드컵로 99', '02-338-5646', '', '마포', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '헤키', '서울특별시 마포구 월드컵로17길 38 1F', '070-7773-9870', '12:00 - 20:30', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '멘지라멘', '서울특별시 마포구 월드컵로11길 8 1F 103호', '02-6012-1984', '11:30 - 20:30', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '미자카야', '서울특별시 마포구 포은로8길 5 1F', '0507-1362-7637', '18:00 - 00:00', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '라멘집아저씨', '서울특별시 마포구 동교로9길 44 2F', '0507-1311-1385', '11:30 - 20:00', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '파동', '서울특별시 마포구 월드컵로17길 47 B1', '0507-1353-0440', '', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '소바식당', '서울특별시 마포구 동교로9길 28 102호', '02-6013-1552', '12:00 - 22:00', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '야키토리도토리', '서울특별시 마포구 동교로9길 56', '0507-1324-4668', '18:00 - 22:00', '마포', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '소금집델리 망원', '서울특별시 마포구 월드컵로19길 14 2F', '02-336-2617', '11:00 - 21:00', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '웨스트사이드', '서울특별시 마포구 희우정로20길 36', '0507-1410-4689', '13:00 - 22:00', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '레이키친', '서울특별시 마포구 포은로 63 1F', '02-6080-6009', '11:30 - 21:30', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '제로햄', '서울특별시 망원로6길 65 1F', '070-4259-1055', '11:30 - 21:00', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '블루쿠치나', '서울특별시 마포구 월드컵로19길 18', '02-6015-5741', '11:30 - 22:00', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '리플레토레', '서울특별시 마포구 월드컵로11길 27 1F', '070-8691-3698', '12:00 - 22:00', '마포', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '송계옥', '서울특별시 성동구 아차산로11길 11 1F 101-103호', '070-7782-9292', '16:00 - 22:00', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '꿉당', '서울특별시 성동구 성수이로20길 10 경협회관 104호', '02-465-6564', '16:30 - 23:00', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '백정돈공장', '서울특별시 성동구 연무장길 38-2', '02-462-8295', '17:00 - 24:00', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '솔솥', '서울특별시 성동구 성덕정길 141', '0507-1339-2007', '', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '성수족발', '서울특별시 성동구 아차산로7길 7 동진빌딩 1F', '02-464-0425', '12:00 - 22:00', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '메종성수돈', '서울특별시 성동구 연무장7가길 5 2F', '02-465-8045', '', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '원산면옥', '서울특별시 성동구 성수이로 118 성수아카데미타워 1F', '02-467-1113', '11:00 - 22:00', '성수', '한식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '성수차이나', '서울특별시 성동구 아차산로7길 20', '02-462-3377', '', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '고투웍', '서울특별시 성동구 연무장5가길 7 112호', '070-4848-0165', '', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '명품착한짜장', '서울특별시 성동구 아차산로7길 17-1', '02-461-2395', '10:40 - 21:00', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '홍콩반점0410', '서울특별시 성동구 아차산로 96', '02-6956-3366', '', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '성운', '서울특별시 성동구 아차산로13길 33 협성빌딩 101호', '070-7543-6520', '', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '달구벌반점', '서울특별시 성동구 아차산로13길 37 2F', '070-8621-1658', '', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '일일향', '서울특별시 성동구 성수일로6길 47', '02-462-2776', '11:00 - 22:00', '성수', '중식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '호랑이초밥', '서울특별시 성동구 아차산로7길 14', '02-498-4499', '', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '텐동식당', '서울특별시 성동구 연무장5가길 20-1 1F', '02-6339-0309', '', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '소바식당', '서울특별시 성동구 연무장7가길 6', '02-6339-1552', '11:00 - 21:00', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '도도한면', '서울특별시 성동구 연무장길 41-17', '02-499-9929', '', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '탐광', '서울특별시 성동구 연무장5가길 26', '070-8869-3333', '11:30 - 21:00', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '호감도', '서울특별시 성동구 연무장9길 8-1 B1', '', '', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '가조쿠', '서울특별시 성동구 연무장길 31-2 1F', '02-466-2177', '11:00 - 20:00', '성수', '일식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '이오로비스트로', '서울특별시 성동구 연무장5길 18 1F', '02-498-0702', '11:00 - 21:30', '성수', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '라지라프', '서울특별시 성동구 연무장길 88 2F', '0507-1361-2442', '', '성수', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '스케줄', '서울특별시 성동구 아차산로 104 2F', '0507-1349-7458', '11:00 - 23:00', '성수', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '멜라', '서울특별시 성동구 연무장길 39-25', '02-469-9997', '', '성수', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '피더블유에이', '서울특별시 성동구 연무장15길 11 1F', '070-4924-4600', '17:00 - 22:00', '성수', '양식');
+INSERT INTO MANGO3.STORE(store_id, store_name, address, tel, store_hour, location, food_type) VALUES (store_seq.NEXTVAL, '비스트리오', '서울특별시 성동구 아차산로7가길 3-4 1F', '070-7777-1719', '18:00 - 00:00', '성수', '양식');
+
+-- 유저 정보 등록
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('test1', 'test1', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('test2', 'test2', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('test3', 'test3', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('test4', 'test4', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('apple', 'apple', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('banana', 'banana', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('cat', 'cat', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('dog', 'dog', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('egg', 'egg', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('fig', 'fig', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('grape', 'grape', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('honey', 'honey', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('ice', 'ice', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('jam', 'jam', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('kiwi', 'kiwi', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('lemon', 'lemon', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('mango', 'mango', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('nut', 'nut', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('orange', 'orange', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('peach', 'peach', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('queen', 'queen', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('raspberry', 'raspberry', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('strawberry', 'strawberry', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('tomato', 'tomato', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('umbrella', 'umbrella', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('vanilla', 'vanilla', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('watermelon', 'watermelon', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('xmas', 'xmas', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('yummy', 'yummy', 1);
+INSERT INTO MANGO3.CUSTOMER (LOGIN_ID, PWD, STATUS) VALUES ('zoo', 'zoo', 1);
+
+
+-- 리뷰 정보 등록
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 1, 'apple' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 1, 'banana' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 1, 'cat' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '즐거운 시간을 보냈습니다.', 1, 'dog' , '2023-07-26');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '꼭 먹어보시길 추천합니다.', 1, 'egg' , '2023-07-28');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있습니다.', 1, 'fig' , '2023-08-03');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 1, 'grape' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 1, 'honey' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 1, 'jam' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 1, 'kiwi' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 1, 'lemon' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 1, 'mango' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 1, 'nut' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 1, 'orange' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 1, 'peach' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 1, 'strawberry' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 1, 'test1' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 1, 'test2' , '2023-08-11');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '직원분이 불친절했습니다.', 1, 'test3' , '2023-08-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 1, 'test4' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 1, 'tomato' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 1, 'umbrella' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 1, 'vanilla' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 1, 'watermelon' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 1, 'xmas' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 1, 'yummy' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 1, 'zoo' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 2, 'zoo' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 2, 'yummy' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 2, 'xmas' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '즐거운 시간을 보냈습니다.', 2, 'watermelon' , '2023-07-26');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 2, 'tomato' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 2, 'test4' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 2, 'test3' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 2, 'test2' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 2, 'test1' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 2, 'strawberry' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 2, 'raspberry' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 2, 'queen' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 2, 'peach' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 2, 'orange' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 2, 'lemon' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 2, 'kiwi' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 2, 'honey' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 2, 'grape' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 2, 'fig' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 2, 'egg' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 2, 'dog' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 2, 'cat' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 2, 'banana' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 2, 'apple' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 3, 'banana' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 3, 'dog' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 3, 'test4' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있습니다.', 3, 'grape' , '2023-08-03');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 3, 'test2' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 3, 'zoo' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 3, 'honey' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 3, 'kiwi' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 3, 'strawberry' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 3, 'orange' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 3, 'queen' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 3, 'tomato' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 3, 'lemon' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 3, 'watermelon' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '한번쯤 먹을만 합니다.', 3, 'test3' , '2023-08-08');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특별히 찾아올 만큼 맛있지는 않습니다.', 3, 'peach' , '2023-06-18');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 3, 'cat' , '2023-08-11');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '직원분이 불친절했습니다.', 3, 'apple' , '2023-08-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 3, 'mango' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 3, 'raspberry' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 3, 'ice' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 3, 'yummy' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 3, 'jam' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 3, 'nut' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 3, 'yummy' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 3, 'fig' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 4, 'ice' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 4, 'test4' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 4, 'orange' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 4, 'banana' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 4, 'zoo' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 4, 'grape' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 4, 'test2' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 4, 'egg' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 4, 'cat' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 4, 'vanilla' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 4, 'lemon' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 4, 'kiwi' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '한번쯤 먹을만 합니다.', 4, 'apple' , '2023-08-08');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특별히 찾아올 만큼 맛있지는 않습니다.', 4, 'xmas' , '2023-06-18');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 4, 'fig' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 4, 'yummy' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 4, 'queen' , '2023-08-11');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '직원분이 불친절했습니다.', 4, 'dog' , '2023-08-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 4, 'raspberry' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 4, 'peach' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 4, 'tomato' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 4, 'test1' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 4, 'watermelon' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 4, 'jam' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 4, 'strawberry' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 4, 'honey' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 5, 'cat' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 5, 'nut' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 5, 'test1' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '즐거운 시간을 보냈습니다.', 5, 'jam' , '2023-07-26');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 5, 'banana' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 5, 'test2' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 5, 'lemon' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 5, 'test3' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 5, 'watermelon' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 5, 'test4' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 5, 'apple' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 5, 'queen' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 5, 'peach' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 5, 'fig' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '한번쯤 먹을만 합니다.', 5, 'dog' , '2023-08-08');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특별히 찾아올 만큼 맛있지는 않습니다.', 5, 'orange' , '2023-06-18');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 5, 'tomato' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 5, 'grape' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 5, 'xmas' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 5, 'raspberry' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 5, 'egg' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 5, 'strawberry' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 5, 'yummy' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 5, 'zoo' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 6, 'yummy' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 6, 'fig' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 6, 'test2' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '즐거운 시간을 보냈습니다.', 6, 'banana' , '2023-07-26');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '꼭 먹어보시길 추천합니다.', 6, 'mango' , '2023-07-28');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있습니다.', 6, 'test1' , '2023-08-03');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 6, 'grape' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 6, 'ice' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 6, 'kiwi' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 6, 'tomato' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 6, 'dog' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 6, 'queen' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 6, 'test3' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 6, 'umbrella' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 6, 'lemon' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 6, 'orange' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '한번쯤 먹을만 합니다.', 6, 'nut' , '2023-08-08');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특별히 찾아올 만큼 맛있지는 않습니다.', 6, 'jam' , '2023-06-18');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 6, 'raspberry' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 6, 'zoo' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 6, 'cat' , '2023-08-11');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '직원분이 불친절했습니다.', 6, 'test4' , '2023-08-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 6, 'honey' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 6, 'apple' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 6, 'peach' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 6, 'zoo' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 6, 'watermelon' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 6, 'xmas' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 6, 'vanilla' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 6, 'egg' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 7, 'apple' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 7, 'egg' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 7, 'dog' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '즐거운 시간을 보냈습니다.', 7, 'nut' , '2023-07-26');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '꼭 먹어보시길 추천합니다.', 7, 'ice' , '2023-07-28');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있습니다.', 7, 'test1' , '2023-08-03');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 7, 'strawberry' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 7, 'mango' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 7, 'zoo' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 7, 'xmas' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 7, 'peach' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 7, 'banana' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 7, 'kiwi' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 7, 'test4' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 7, 'yummy' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 7, 'cat' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '한번쯤 먹을만 합니다.', 7, 'tomato' , '2023-08-08');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특별히 찾아올 만큼 맛있지는 않습니다.', 7, 'test2' , '2023-06-18');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 7, 'queen' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 7, 'honey' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 7, 'orange' , '2023-08-11');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '직원분이 불친절했습니다.', 7, 'raspberry' , '2023-08-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 7, 'lemon' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 7, 'grape' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 7, 'umbrella' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 7, 'watermelon' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 7, 'fig' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 7, 'vanilla' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 7, 'test3' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 7, 'jam' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '오랜만에 너무 맛있게 먹었습니다.', 8, 'apple' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 8, 'banana' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '이런 집이 숨어있었다니.', 8, 'cat' , '2023-07-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '즐거운 시간을 보냈습니다.', 8, 'dog' , '2023-07-26');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '꼭 먹어보시길 추천합니다.', 8, 'egg' , '2023-07-28');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있습니다.', 8, 'fig' , '2023-08-03');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '잘먹었습니다.', 8, 'grape' , '2023-08-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '다음에 또 방문할 예정입니다.', 8, 'honey' , '2023-08-07');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '맛있게 먹었습니다.', 8, 'ice' , '2023-06-25');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 8, 'jam' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 8, 'kiwi' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 8, 'lemon' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특출나게 맛있지는 않지만 기본에 충실한 맛입니다.', 8, 'mango' , '2023-08-13');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '양이 넉넉합니다.', 8, 'nut' , '2023-08-12');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '예상하는 딱 그 맛입니다.', 8, 'orange' , '2023-06-16');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '기본에 충실한 맛입니다.', 8, 'peach' , '2023-08-06');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '한번쯤 먹을만 합니다.', 8, 'queen' , '2023-08-08');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '특별히 찾아올 만큼 맛있지는 않습니다.', 8, 'raspberry' , '2023-06-18');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '평범한 맛입니다.', 8, 'strawberry' , '2023-08-10');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 8, 'test1' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 8, 'test2' , '2023-08-11');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '직원분이 불친절했습니다.', 8, 'test3' , '2023-08-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '아쉬움이 남는 집입니다.', 8, 'test4' , '2023-06-21');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '가격에 비해 만족스럽지 않습니다.', 8, 'tomato' , '2023-07-27');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '상업적 맛이 많이 느껴집니다.', 8, 'umbrella' , '2023-08-05');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '양이 적은 것 같습니다.', 8, 'vanilla' , '2023-06-17');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '음식이 너무 늦게 나왔습니다.', 8, 'watermelon' , '2023-06-23');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '별로였습니다.', 8, 'xmas' , '2023-06-15');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 8, 'yummy' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 강합니다.', 8, 'zoo' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '서비스가 좋지 않았습니다.', 103, 'test1' , '2023-07-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '직원분이 친절했습니다.', 103, 'banana' , '2023-08-04');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다..', 103, 'apple' , '2023-06-14');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 37, 'kiwi' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '대체로 맛있었습니다.', 37, 'lemon' , '2023-07-29');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '또 올 것 같지 않습니다.', 79, 'yummy' , '2023-06-20');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '간이 너무 쎘습니다.', 79, 'zoo' , '2023-06-19');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 5, '배부르게 잘 먹었습니다.', 40, 'test2' , '2023-08-09');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '무난합니다.', 40, 'test1' , '2023-06-24');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 3, '가성비가 좋습니다.', 30, 'kiwi' , '2023-06-22');
+INSERT INTO MANGO3.REVIEW (review_id, grade, rw_content, store_id, login_id, regdate) VALUES (review_seq.NEXTVAL, 1, '추천하지 않습니다.', 30, 'jam' , '2023-08-11');
+
+commit;
