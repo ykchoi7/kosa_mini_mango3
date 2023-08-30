@@ -133,16 +133,12 @@ public class StoreMain {
 				} else {
 					try {
 						num = (Integer.parseInt(sdetail))-1;
-						//if(!(num==1 || num==2 || num==3 || num==4)) throw new Exception("오류");
 						storeInfo(storeList, num%5, loginedId);
 					} catch (Exception e) {
 						System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 					}
 				}
-
 			}
-
-
 		}
 	}
 
@@ -227,15 +223,12 @@ public class StoreMain {
 				} else {
 					try {
 						num = (Integer.parseInt(tdetail))-1;
-						//						if(!(num==1 || num==2 || num==3 || num==4)) throw new Exception("오류");
 						storeInfo(storeList, num%5, loginedId);
 					} catch (Exception e) {
 						System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
 					}
 				}
-
 			}
-
 		}
 	}
 
@@ -306,7 +299,6 @@ public class StoreMain {
 			} else {
 				try {
 					num = (Integer.parseInt(detail))-1;
-					//if(!(num==1 || num==2 || num==3 || num==4)) throw new Exception("오류");
 					storeInfo(storeList, num%5, loginedId);
 				} catch (Exception e) {
 					System.out.println("( つ｡>﹏<｡)つ 페이지를 조회할 수 없습니다.");
