@@ -198,7 +198,8 @@ public class ReviewDAOOracle implements ReviewDAO {
 				+ "FROM (SELECT ROWNUM rn, a.*\r\n"
 				+ "      FROM (SELECT r.review_id, s.store_name, r.grade, r.rw_content, TO_CHAR(r.regdate) regdate\r\n"
 				+ "            FROM review r JOIN store s ON r.store_id = s.store_id\r\n"
-				+ "            WHERE login_id = ?) a\r\n"
+				+ "            WHERE login_id = ?"
+				+ "			   ORDER BY regdate desc) a\r\n"
 				+ "     )\r\n"
 				+ "WHERE rn BETWEEN ? AND ?";
 		

@@ -141,7 +141,15 @@ public class Mango3 {
 			} else if (input.equals("2")) {
 				mango3.login();
 			} else if (input.equals("3")){
-				System.out.println("༼ つ ◕_◕ ༽つ 사용이 종료되었습니다.");
+				System.out.println("( つ｡◕﹏◕｡)つ 사용이 종료되었습니다.");
+				System.out.println("=".repeat(40));
+				System.out.println("         ____                __\r\n"
+						+ "        / __ )__  _____     / /\r\n"
+						+ "       / __  / / / / _ \\   / / \r\n"
+						+ "      / /_/ / /_/ /  __/  /_/  \r\n"
+						+ "     /_____/\\__, /\\___/  (_)   \r\n"
+						+ "           /____/              ");
+				System.out.println("=".repeat(40));
 				break;
 			} else if (input.equals("admin")){
 				try {
@@ -151,6 +159,7 @@ public class Mango3 {
 				}
 
 			} else {
+				
 				System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 			}
 
