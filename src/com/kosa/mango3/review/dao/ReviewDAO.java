@@ -10,23 +10,23 @@ import com.kosa.mango3.review.dto.ReviewDTO;
 public interface ReviewDAO {
 
 	/**
-	 * 리뷰 쓰기
-	 * @param reviewDTO
-	 * @throws AddException 
+	 * 리뷰 등록
+	 * @param reviewDTO 리뷰 객체
+	 * @throws AddException DB연결에 실패한 경우 발생
 	 */
 	void create(ReviewDTO reviewDTO) throws AddException;
 	
 	/**
-	 * 가게 상세정보 안의 해당 가게 리뷰 전체 조회
-	 * @param storeIdO
-	 * @param page
-	 * @return
-	 * @throws FindException
+	 * 음식점별 리뷰 전체 조회
+	 * @param storeIdO 음식점 일련번호
+	 * @param page 페이지
+	 * @return 리뷰 리스트
+	 * @throws FindException 음식점 일련번호가 없거나 DB연결에 실패한 경우 발생
 	 */
 	List<ReviewDTO> selectByStoreNo(long storeIdO, int page) throws FindException;
 	
 	/**
-	 * 가게 상세정보 안의 평가별 리뷰 전체 조회
+	 * 음식점의 등급별 리뷰 조회
 	 * @param storeId
 	 * @param grade
 	 * @param page
@@ -45,7 +45,7 @@ public interface ReviewDAO {
 	List<ReviewDTO> selectByCustomer(String loginId, int page) throws FindException;
 	
 	/**
-	 * 리뷰 삭제
+	 * 내 리뷰 삭제
 	 * @param reviewId
 	 * @throws RemoveException
 	 */
