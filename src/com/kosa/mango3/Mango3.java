@@ -148,7 +148,8 @@ public class Mango3 {
 						+ "       / __  / / / / _ \\   / / \r\n"
 						+ "      / /_/ / /_/ /  __/  /_/  \r\n"
 						+ "     /_____/\\__, /\\___/  (_)   \r\n"
-						+ "           /____/              ");
+						+ "           /____/              "
+						+ "\n\t\t\tMade by.도열E와I들");
 				System.out.println("=".repeat(40));
 				break;
 			} else if (input.equals("admin")){
