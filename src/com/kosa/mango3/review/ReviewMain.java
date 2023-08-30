@@ -31,7 +31,7 @@ public class ReviewMain {
 		System.out.println("2. 괜찮다(^^);");
 		System.out.println("3. 별로(-_-);");
 		System.out.print("✔️ ");
-		String input = sc.next();
+		String input = sc.nextLine();
 		int grade=0;
 		if(input.equals("1")) {
 			grade=5;
@@ -49,7 +49,7 @@ public class ReviewMain {
 		
 		System.out.println("༼ つ ◕_◕ ༽つ 리뷰 내용을 입력하세요");
 		System.out.print("✔️ ");
-		String comment = sc.next();			
+		String comment = sc.nextLine();			
 		LocalDate today = LocalDate.now();
 		
 		System.out.println("'--------------------------------------------");	
@@ -58,7 +58,7 @@ public class ReviewMain {
 		System.out.println("                               " + today);
 		System.out.println("༼ つ ◕_◕ ༽つ 리뷰를 등록하시겠습니까? (0 입력 시 리뷰 등록 취소)");
 		System.out.print("✔️ ");
-		String yn = sc.next();
+		String yn = sc.nextLine();
 		
 		if(yn.equals("0")) {
 			return;
@@ -125,6 +125,7 @@ public class ReviewMain {
 			if (page!=1) System.out.print("(p) 이전 리스트 <-- ");
 			if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
 			if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
+			else System.out.println();
 
 			System.out.println("0. 뒤로가기");
 			System.out.print("✔️ ");
@@ -157,7 +158,7 @@ public class ReviewMain {
 			System.out.println("4. '별로' 리뷰");
 			System.out.println("0. 뒤로 가기");
 			System.out.print("✔️ ");
-			String input = sc.next();
+			String input = sc.nextLine();
 			
 			switch(Integer.parseInt(input)) {
 			case 1 :
@@ -235,7 +236,7 @@ public class ReviewMain {
 			System.out.println("2. 리뷰 등록");
 			System.out.println("0. 뒤로가기");
 			System.out.print("✔️ ");
-			String input = sc.next();		
+			String input = sc.nextLine();		
 			
 			switch(input) {
 				case "1" :
