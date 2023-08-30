@@ -44,11 +44,7 @@ public class Mango3 {
 		System.out.print("PW 재확인 : ");
 		String checkPwd=sc.nextLine();
 		if(!pwd.equals(checkPwd)) {
-			System.out.println("( つ｡>﹏<｡)つ PW가 일치하지 않습니다. (0 입력 시 회원가입 취소)");
-			System.out.print("✔️ ");
-			String input=sc.nextLine();
-			if(input.equals("0")) return;
-			join();
+			System.out.println("( つ｡>﹏<｡)つ PW가 일치하지 않습니다.");
 			return;
 		}
 
@@ -57,11 +53,8 @@ public class Mango3 {
 			System.out.println("༼ つ ◕_◕ ༽つ 회원가입이 완료되었습니다.");
 		} catch (AddException e) {
 			//e.printStackTrace();
-			System.out.println(e.getMessage()+" (0 입력 시 회원가입 취소)");
-			System.out.print("✔️ ");
-			String input=sc.nextLine();
-			if(input.equals("0")) return;
-			join();
+			System.out.println(e.getMessage());
+			return;
 		}
 	}
 
