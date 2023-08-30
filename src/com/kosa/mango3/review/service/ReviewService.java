@@ -16,8 +16,8 @@ public class ReviewService {
 		this.dao = new ReviewDAOOracle();
 	}
 	
-	public void create(ReviewDTO reviewDTO, String loginId) throws AddException {
-		dao.create(reviewDTO, loginId);
+	public void create(ReviewDTO reviewDTO) throws AddException {
+		dao.create(reviewDTO);
 	}
 	
 	public List<ReviewDTO> selectByStoreNo(long storeId, int page) throws FindException {
@@ -36,13 +36,16 @@ public class ReviewService {
 		dao.delete(reviewId);
 	}
 	
-	public int countMyReview(String id) throws FindException {
-		return dao.countMyReview(id);
+	public int countStoreReview(long storeId) throws FindException {
+		return dao.countStoreReview(storeId);
 	}
 	
-	public int countGradeReview(long id, int grade) throws FindException {
-		return dao.countGradeReview(id, grade);
+	public int countGradeReview(long storeId, int grade) throws FindException {
+		return dao.countGradeReview(storeId, grade);
 	}
 	
+	public int countMyReview(String loginId) throws FindException {
+		return dao.countMyReview(loginId);
+	}
 	
 }
