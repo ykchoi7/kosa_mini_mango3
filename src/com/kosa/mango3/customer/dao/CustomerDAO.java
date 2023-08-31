@@ -8,7 +8,7 @@ import com.kosa.mango3.exception.RemoveException;
 
 public interface CustomerDAO {
 	/**
-	 * 회원가입한
+	 * 회원가입
 	 * @param id 아이디 
 	 * @param pw 비번 
 	 * @throws AddException 아이디가 중복되거나 DB연결에 실패한 경우 발생

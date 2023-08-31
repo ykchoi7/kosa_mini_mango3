@@ -8,7 +8,7 @@ import com.kosa.mango3.store.dto.StoreDTO;
 public interface StoreDAO {
 
 	/**
-	 * 지역별 맛집 조회
+	 * 지역별 음식점 조회
 	 * @param locName
 	 * @param page
 	 * @return
@@ -17,7 +17,7 @@ public interface StoreDAO {
 	List<StoreDTO> findByLocation(String locName, int page) throws FindException;
 	
 	/**
-	 * 메뉴별 맛집 조회
+	 * 메뉴별 음식점 조회
 	 * @param typeName
 	 * @param page
 	 * @return
@@ -26,7 +26,7 @@ public interface StoreDAO {
 	List<StoreDTO> findByType(String typeName, int page) throws FindException;
 	
 	/**
-	 * 맛집 검색
+	 * 음식점명 검색
 	 * @param storeName
 	 * @param page
 	 * @return
@@ -35,7 +35,7 @@ public interface StoreDAO {
 	List<StoreDTO> findByName(String storeName, int page) throws FindException;
 
 	/**
-	 * 지역별 맛집 총 갯수
+	 * 지역별 음식점 총 갯수
 	 * @param loc
 	 * @return
 	 * @throws FindException
@@ -43,7 +43,7 @@ public interface StoreDAO {
 	int countStoreLoc(String loc) throws FindException;
 	
 	/**
-	 * 메뉴별 맛집 총 갯수
+	 * 메뉴별 음식점 총 갯수
 	 * @param type
 	 * @return
 	 * @throws FindException
@@ -51,7 +51,7 @@ public interface StoreDAO {
 	int countStoreType(String type) throws FindException;
 	
 	/**
-	 * 검색된 맛집 총 갯수 
+	 * 검색된 음식점 총 갯수 
 	 * @param name
 	 * @return
 	 * @throws FindException

@@ -15,14 +15,14 @@ import com.kosa.mango3.store.dto.StoreDTO;
 
 public class ReviewMain {	
 	private ReviewService reviewService;
-	
+
 	public ReviewMain() {
 		this.reviewService = new ReviewService();
 	}
-	
+
 	public void addMenu(long storeId, String loginedId) {
 		Scanner sc = new Scanner(System.in);
-				
+
 		System.out.println("༼ つ ◕_◕ ༽つ 리뷰를 등록합니다.");
 		System.out.println("음식 후기를 골라주세요.");
 		System.out.println("1. 맛있다(^_^)b");
@@ -44,53 +44,53 @@ public class ReviewMain {
 			System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 			return;
 		}
-		
+
 		System.out.println("༼ つ ◕_◕ ༽つ 리뷰 내용을 입력하세요");
 		System.out.print("✔️ ");
 		String comment = sc.nextLine();			
 		LocalDate today = LocalDate.now();
-		
-//		System.out.println("1." + loginedId + " - " + input);
-//		System.out.println("ㄴ " + comment);
-//		System.out.println("                               " + today);
-		
+
+		//		System.out.println("1." + loginedId + " - " + input);
+		//		System.out.println("ㄴ " + comment);
+		//		System.out.println("                               " + today);
+
 		System.out.println("-".repeat(30));
 		reviewPrint(1, loginedId, input, comment, today.toString());
-		
+
 		System.out.println("༼ つ ◕_◕ ༽つ 리뷰를 등록하시겠습니까? (0 입력 시 리뷰 등록 취소)");
 		System.out.print("✔️ ");
 		String yn = sc.nextLine();
-		
+
 		if(yn.equals("0")) {
 			return;
 		}
-		
+
 		ReviewDTO reviewDTO = ReviewDTO.builder()
-							.grade(grade)
-							.comment(comment)
-							.customerDTO(CustomerDTO.builder().loginId(loginedId).build())
-							.storeDTO(StoreDTO.builder().storeId(storeId).build())
-							.build();	
-		
+				.grade(grade)
+				.comment(comment)
+				.customerDTO(CustomerDTO.builder().loginId(loginedId).build())
+				.storeDTO(StoreDTO.builder().storeId(storeId).build())
+				.build();	
+
 		try {
 			reviewService.create(reviewDTO);
+			System.out.println("༼ つ ◕_◕ ༽つ 리뷰가 등록되었습니다.");
 		} catch (AddException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	private void showReviewsByStore(long storeId) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		int page = 1;
 		int max = 0;
 		int maxPage = 0;
 		int finalSize = 5;
-		int size = 5;
 
 		while (true) {
 			int tmp = -1;
-			
+
 			try {
 				tmp = reviewService.countStoreReview(storeId);
 				if (tmp == 0) {
@@ -100,9 +100,9 @@ public class ReviewMain {
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 			List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
-			
+
 			try {
 				reviewList = reviewService.selectByStoreNo(storeId, page);
 			} catch (FindException e) {
@@ -113,12 +113,11 @@ public class ReviewMain {
 				max = tmp;
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-			size = (page == maxPage) ? max%size : finalSize; 
-			
+
 			System.out.println("-".repeat(30));
 			int idx = finalSize*(page-1)+1;
-			
-			for (int i = 0; i<size; i++) {
+
+			for (int i = 0; i<reviewList.size(); i++) {
 				storeReviewPrint(reviewList.get(i), idx+i);
 			}
 
@@ -127,7 +126,7 @@ public class ReviewMain {
 
 			if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
 			else System.out.println();
-			
+
 
 			System.out.println("0. 뒤로가기");
 			System.out.print("✔️ ");
@@ -137,7 +136,7 @@ public class ReviewMain {
 				if(page > 1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
-				if(page < max) page++;
+				if(page < maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
@@ -146,19 +145,18 @@ public class ReviewMain {
 			}
 		}
 	}
-	
+
 	private void showReviewsByGrade(long storeId, int grade) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		int page = 1;
 		int max = 0;
 		int maxPage = 0;
 		int finalSize = 5;
-		int size = 5;
 
 		while (true) {
 			int tmp = -1;
-			
+
 			try {
 				tmp = reviewService.countGradeReview(storeId, grade);
 				if (tmp == 0) {
@@ -168,33 +166,34 @@ public class ReviewMain {
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 			List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();
-			
-			try {
-				reviewList = reviewService.selectByGrade(storeId, grade, page);
-			} catch (FindException e) {
-				System.out.println(e.getMessage());
-			}
 
 			if(max != tmp) {
 				max = tmp;
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-			size = (page == maxPage) ? max%size : finalSize; 
-			
-			System.out.println("-".repeat(30));
-			int idx = finalSize*(page-1)+1;
-			
-			for (int i = 0; i<size; i++) {
-				storeReviewPrint(reviewList.get(i), idx+i);
+
+			try {
+				reviewList = reviewService.selectByGrade(storeId, grade, page);
+
+
+			} catch (FindException e) {
+				System.out.println(e.getMessage());
+			} finally {
+				System.out.println("-".repeat(30));
+				int idx = finalSize*(page-1)+1;
+
+				for (int i = 0; i<reviewList.size(); i++) {
+					storeReviewPrint(reviewList.get(i), idx+i);
+				}
 			}
 
 			if (page != 1) System.out.print("(p) 이전 리스트 <-- ");
 			if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
 			if (page < maxPage) System.out.println(" --> 다음 리스트 (n)");
 			else System.out.println();
-			
+
 			System.out.println("0. 뒤로가기");
 			System.out.print("✔️ ");
 			String input = sc.nextLine();
@@ -203,7 +202,7 @@ public class ReviewMain {
 				if(page > 1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
-				if(page < max) page++;
+				if(page < maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
@@ -212,10 +211,10 @@ public class ReviewMain {
 			}
 		}
 	}
-	
+
 	public void showReviewsMenu(long storeId, String loginedId) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		while(true) {
 			System.out.println();
 			System.out.println("༼ つ ◕_◕ ༽つ 원하시는 서비스를 입력하세요.");
@@ -226,7 +225,7 @@ public class ReviewMain {
 			System.out.println("0. 뒤로 가기");
 			System.out.print("✔️ ");
 			String input = sc.nextLine();
-			
+
 			switch(Integer.parseInt(input)) {
 			case 1 :
 				showReviewsByStore(storeId);
@@ -245,10 +244,10 @@ public class ReviewMain {
 			}
 		}
 	}
-	
+
 	public void reviewMenu(Long storeId, String loginedId) {
 		Scanner sc = new Scanner(System.in);
-				
+
 		while(true) {
 			System.out.println("༼ つ ◕_◕ ༽つ 원하시는 서비스를 입력하세요.");
 			System.out.println("1. 리뷰 조회");
@@ -256,35 +255,34 @@ public class ReviewMain {
 			System.out.println("0. 뒤로가기");
 			System.out.print("✔️ ");
 			String input = sc.nextLine();		
-			
+
 			switch(input) {
-				case "1" :
-					showReviewsMenu(storeId, loginedId);
-					break;
-				case "2" :
-					addMenu(storeId, loginedId);
-					break;
-				case "0" :
-					return;
-				default :
-					System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
-					break;
+			case "1" :
+				showReviewsMenu(storeId, loginedId);
+				break;
+			case "2" :
+				addMenu(storeId, loginedId);
+				break;
+			case "0" :
+				return;
+			default :
+				System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
+				break;
 			}	
 		}
 	}
-	
+
 	public void myReviewList(String loginId) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		int page = 1;
 		int max = 0;
 		int maxPage = 0;
 		int finalSize = 5;
-		int size = 5;
 
 		while (true) {
 			int tmp = -1;
-			
+
 			try {
 				tmp = reviewService.countMyReview(loginId);
 				if (tmp == 0) {
@@ -294,33 +292,32 @@ public class ReviewMain {
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 			List<ReviewDTO> reviewList = new ArrayList<ReviewDTO>();;
-			
+
 			try {
 				reviewList = reviewService.selectByCustomer(loginId, page);
 			} catch (FindException e) {
 				System.out.println(e.getMessage());
 			}
-			
+
 			if(max != tmp) {
 				max = tmp;
 				maxPage = max%5==0 ? max/5 : max/5+1;
 			}
-			size = (page == maxPage) ? max%size : finalSize; 
-				
+
 			System.out.println("-".repeat(30));
 			int idx = finalSize*(page-1)+1;
-			
-			for (int i = 0; i<size; i++) {
+
+			for (int i = 0; i<reviewList.size(); i++) {
 				myReviewPrint(reviewList.get(i), idx+i);
 			}
-			
+
 			if (page!=1) System.out.print("(p) 이전 리스트 <-- ");
 			if(reviewList.size()!=0) System.out.print("("+page+"/"+maxPage+")");
 			if (page<maxPage) System.out.println(" --> 다음 리스트 (n)");
 			else System.out.println();
-				
+
 			System.out.println("0. 뒤로가기");
 			System.out.println("*. 리뷰 삭제");
 			System.out.print("✔️ ");
@@ -330,7 +327,7 @@ public class ReviewMain {
 				if(page>1) page--;
 				else System.out.println("༼ つ ◕_◕ ༽つ 첫번째 페이지입니다.");
 			} else if (input.equals("n")) {
-				if(page<max) page++;
+				if(page<maxPage) page++;
 				else System.out.println("༼ つ ◕_◕ ༽つ 마지막 페이지입니다.");
 			} else if (input.equals("0")) {
 				break;
@@ -341,26 +338,28 @@ public class ReviewMain {
 			}
 		}
 	}
-	
+
 	private void myReviewDelete(List<ReviewDTO> reviewList) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		System.out.println("༼ つ ◕_◕ ༽つ 몇 번 리뷰를 삭제하시겠습니까?");
 		System.out.print("✔️ ");
 		String input = sc.nextLine();
 		int index = 0;
-		
+
 		try {
-			index = Integer.parseInt(input)%5-1;
+			int tmp=Integer.parseInt(input)%5;
+			if(tmp==0) tmp=5;
+			index = tmp-1;
 		} catch (Exception e) {
 			System.out.println("( つ｡>﹏<｡)つ 잘못 입력하였습니다.");
 			return ;
 		}
-		
+
 		System.out.println("-".repeat(30));
-		
+
 		try {
-			myReviewPrint(reviewList.get(index), Integer.parseInt(input)-1);
+			myReviewPrint(reviewList.get(index), Integer.parseInt(input));
 		} catch (Exception e) {
 			System.out.println("( つ｡>﹏<｡)つ 입력한 번호의 리뷰를 조회할 수 없습니다.");
 			return ;
@@ -380,7 +379,7 @@ public class ReviewMain {
 			System.out.println("༼ つ ◕_◕ ༽つ 리뷰 삭제가 완료되었습니다.");
 		} 
 	}
-	
+
 	private void myReviewPrint(ReviewDTO reviewDTO, int idx) {
 		String storeName = reviewDTO.getStoreDTO().getStoreName();
 		String grade = getGrade(reviewDTO.getGrade());
@@ -389,7 +388,7 @@ public class ReviewMain {
 
 		reviewPrint(idx, storeName, grade, content, date);
 	}
-	
+
 	private void storeReviewPrint(ReviewDTO reviewDTO, int idx) {
 		String loginid = reviewDTO.getCustomerDTO().getLoginId();
 		String grade = getGrade(reviewDTO.getGrade());
@@ -398,7 +397,7 @@ public class ReviewMain {
 
 		reviewPrint(idx, loginid, grade, content, date);
 	}
-	
+
 	private String getGrade(int grade) {
 		if (grade == 5) {
 			return "맛있다(^_^)b";
@@ -408,7 +407,7 @@ public class ReviewMain {
 			return "별로(-_-);";
 		}
 	}
-	
+
 	private void reviewPrint(int idx, String ...reviewInfo) {
 		System.out.printf("%d. " + reviewInfo[0] + "\t   " + reviewInfo[1] + "\n", idx);
 		System.out.println("ㄴ" + reviewInfo[2]);
