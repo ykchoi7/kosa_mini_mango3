@@ -21,6 +21,4 @@ public class ReviewDTO {
 	private String regdate;
 	private CustomerDTO customerDTO;
 	private StoreDTO storeDTO;
-
-	
 }

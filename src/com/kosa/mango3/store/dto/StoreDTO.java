@@ -26,9 +26,8 @@ public class StoreDTO {
 	private long grade;
 	private long reviewId;
 	private String rwcomment;
-	
 	private long reviewCnt;
-		
+	
 	public String toString() {
 		String result="";
 		result+=getStoreName() + " - ";
