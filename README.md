@@ -12,8 +12,9 @@
 <img src="https://github.com/ykchoi7/kosa_mini_mango3/assets/125428810/de9d9437-5b81-4510-b364-160ba65af399" width="100%"></img>
 
 ## 패키지 구조
-<img src="https://github.com/ykchoi7/kosa_mini_mango3/assets/125428810/932891e3-178c-42f3-98e4-4519d9708054" width="100%>
+<img src="https://github.com/ykchoi7/kosa_mini_mango3/assets/125428810/932891e3-178c-42f3-98e4-4519d9708054" width="100%">
 </img>
+
 
 
 
