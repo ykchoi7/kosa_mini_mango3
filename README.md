@@ -4,7 +4,7 @@
 
 ## CRUD를 구현한 Java Console 프로그램
 고객 입장에서의 가게 정보 조회, 리뷰 작성, 수정, 삭제 기능 & 관리자 입장에서의 가게 정보 수정, 삭제 기능 구현
-<br>
+<br><br>
 
 ## 📍 요구사항 정의
 <img src="https://github.com/ykchoi7/kosa_mini_mango3/assets/125428810/da5018ae-5e0b-451b-832f-64bfbdc0b319" width="100%"></img>
